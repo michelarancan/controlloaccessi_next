@@ -7,6 +7,50 @@ body {
     padding: 20px;
 }
 
+h1 {
+    color: black;
+    font-size: 2.5em;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #4969c7;
+}
+
+.menu ul li {
+    position: relative;
+    display: inline-block;
+}
+
+.menu ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: block;
+}
+
+.menu ul li .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #555;
+}
+
+.menu ul li .submenu li {
+    display: block;
+}
+
+.menu ul li:hover .submenu {
+    display: block;
+}
+
+.menu ul li .submenu li:hover {
+    background-color: #9bafeb;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
