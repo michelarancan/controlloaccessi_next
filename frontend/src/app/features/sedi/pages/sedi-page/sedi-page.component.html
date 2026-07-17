@@ -10,8 +10,7 @@
             <th>ID</th>
             <th>Sede</th>
             <th>Ufficio</th>
-            <th></th>
-            <th></th>
+            <th>Azioni</th>
         </tr>
     </thead>
     <tbody>
@@ -21,8 +20,10 @@
                 <td>{{ sede.id }}</td>
                 <td>{{ sede.sede }}</td>
                 <td>{{ sede.ufficio }}</td>
-                <td><button class="btn-modifica" (click)="modificaSede(sede)">Modifica</button></td>
-                <td><button class="btn-elimina" (click)="eliminaSede(sede.id)">Elimina</button></td>
+                <td class="button-cell">
+                    <button class="btn-modifica" (click)="modificaSede(sede)">Modifica</button>
+                    <button class="btn-elimina" (click)="eliminaSede(sede.id)">Elimina</button>
+                </td>
             </tr>
          }
     </tbody>
