@@ -14,12 +14,18 @@ import { Sede } from '../../models/sede.model';
   styleUrls: ['./sedi-page.component.css'],
 })
 export class SediComponent implements OnInit {
+
+  //---------------------------- variabili -----------------
+
   sedi: Sede[] = [];
 
   private sediService = inject(SediService);
   private cdr = inject(ChangeDetectorRef);
 
   showForm = false;
+  sedeInModifica: Sede | null = null;
+
+  //---------------------------- funzioni --------------------
 
   ngOnInit(): void {
     this.loadSedi();
@@ -46,19 +52,52 @@ export class SediComponent implements OnInit {
   chiudiForm() {
     //rendi form invisibile
     this.showForm = false;
+
+    this.sedeInModifica = null;
   }
 
-  aggiungiSede(sede: { sede: string, ufficio: string }) {
-    this.sediService.create(sede).subscribe({
+  modificaSede(sede: Sede) {
+    this.sedeInModifica = sede;
+    this.showForm = true;
+  }
+
+  salvaSede(dati: any) {
+
+    if (this.sedeInModifica) {
+      this.sediService.update(
+        this.sedeInModifica.id,
+        dati
+      )
+      .subscribe({
+        next: () => {
+          this.loadSedi();
+          this.chiudiForm();
+        }
+      });
+
+    } else {
+
+      this.sediService.create(dati)
+      .subscribe({
+        next: () => {
+          this.loadSedi();
+          this.chiudiForm();
+        }
+      });
+
+    }
+  }
+
+  eliminaSede(id: number) {
+
+    if(!confirm('Vuoi davvero eliminare questa sede?'))
+      return;
+
+    this.sediService.delete(id)
+    .subscribe({
       next: () => {
-        this.chiudiForm();
-
-        //ricarica sedi
         this.loadSedi();
-
-        //visualizza messaggio di conferma
       },
-
       error: (error) => {
         console.error(error);
       }

@@ -1,11 +1,11 @@
 <div class="form-container">
     <div class="popup-box">
-        <h2>Aggiungi una nuova sede</h2>
+        <h2>{{ sede ? 'Modifica sede' : 'Nuova sede' }}</h2>
         <form class="form">
         <label for="sede">Sede:</label><br>
-        <input type="text" id="sede" name="sede" [(ngModel)]="sede.sede" required><br><br>
+        <input type="text" id="sede" name="sede" [(ngModel)]="formData.sede" required><br><br>
         <label for="ufficio">Ufficio:</label><br><br>
-        <input type="text" id="ufficio" name="ufficio" [(ngModel)]="sede.ufficio" required><br><br>
+        <input type="text" id="ufficio" name="ufficio" [(ngModel)]="formData.ufficio" required><br><br>
 
         <div class="popup-buttons">
             <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>

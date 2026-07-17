@@ -2,7 +2,7 @@
 
 <button (click)="apriForm()" class="btn-aggiungi">Aggiungi una nuova sede</button><br><br>
 @if (showForm) {
-    <app-sede-form (salva)="aggiungiSede($event)" (annulla)="chiudiForm()"></app-sede-form>
+    <app-sede-form [sede]="sedeInModifica" (salva)="salvaSede($event)" (annulla)="chiudiForm()"></app-sede-form>
 }
 <table>
     <thead>
@@ -21,8 +21,8 @@
                 <td>{{ sede.id }}</td>
                 <td>{{ sede.sede }}</td>
                 <td>{{ sede.ufficio }}</td>
-                <td><button class="btn-modifica">Modifica</button></td>
-                <td><button class="btn-elimina">Elimina</button></td>
+                <td><button class="btn-modifica" (click)="modificaSede(sede)">Modifica</button></td>
+                <td><button class="btn-elimina" (click)="eliminaSede(sede.id)">Elimina</button></td>
             </tr>
          }
     </tbody>

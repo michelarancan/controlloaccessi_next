@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Sede } from '../../models/sede.model';
 
 @Component({
   selector: 'app-sede-form',
@@ -8,7 +9,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './sede-form.component.css',
 })
 export class SedeForm {
-  sede = {
+
+  formData = {
     sede: '',
     ufficio: ''
   };
@@ -19,9 +21,24 @@ export class SedeForm {
   @Output()
   annulla = new EventEmitter<void>();
 
+  @Input()
+  sede: Sede | null = null;
+ 
+  ngOnInit() {
+
+    if (this.sede) {
+
+      this.formData = {
+        sede: this.sede.sede,
+        ufficio: this.sede.ufficio
+      };
+
+    }
+
+  }
 
   onSalva() {
-    this.salva.emit(this.sede);
+    this.salva.emit(this.formData);
   }
 
   onAnnulla() {

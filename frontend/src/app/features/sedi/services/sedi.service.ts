@@ -22,4 +22,14 @@ export class SediService {
     return this.http.post(this.apiUrl, sede);
   }
 
+  //PUT
+  update(id: number, sede: {sede: string, ufficio: string}): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, sede);
+  }
+
+  //DELETE
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
 }
