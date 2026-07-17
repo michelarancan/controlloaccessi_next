@@ -1,9 +1,27 @@
-<h1>Sedi</h1>
+<h1>Visualizzazione anagrafe delle sedi</h1>
 
 <button (click)="apriForm()" class="btn-aggiungi">Aggiungi una nuova sede</button><br><br>
 @if (showForm) {
     <app-sede-form [sede]="sedeInModifica" (salva)="salvaSede($event)" (annulla)="chiudiForm()"></app-sede-form>
 }
+
+
+@if (showDeletePopup) {
+    <div class="form-container">
+        <div class="popup-box">
+            <h2>Conferma eliminazione</h2>
+
+            <p>Vuoi davvero eliminare questa sede?</p>
+
+            <div class="popup-buttons">
+                <button type="button" class="btn-conferma" (click)="confermaEliminazione()">Sì</button>
+                <button type="button" class="btn-annulla" (click)="chiudiPopupElimina()">No
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
 
 <div class="search-container">
     <select [(ngModel)]="campoRicerca">
@@ -19,7 +37,6 @@
 <table>
     <thead>
         <tr>
-            <th>ID</th>
             <th>Sede</th>
             <th>Ufficio</th>
             <th>Azioni</th>
@@ -29,14 +46,17 @@
         <!-- riga per ogni entry della tabella -->
          @for (sede of sedi; track sede.id) {
             <tr>
-                <td>{{ sede.id }}</td>
                 <td>{{ sede.sede }}</td>
                 <td>{{ sede.ufficio }}</td>
                 <td class="button-cell">
                     <button class="btn-modifica" (click)="modificaSede(sede)">Modifica</button>
-                    <button class="btn-elimina" (click)="eliminaSede(sede.id)">Elimina</button>
+                    <button class="btn-elimina" (click)="apriPopupElimina(sede.id)">Elimina</button>
                 </td>
             </tr>
          }
     </tbody>
 </table>
+
+@if(showToast) {
+    <div class="toast" [class.success]="toastType === 'success'" [class.error]="toastType === 'error'">{{ toastMessage }}</div>
+}

@@ -22,11 +22,22 @@ export class SediComponent implements OnInit {
   private sediService = inject(SediService);
   private cdr = inject(ChangeDetectorRef);
 
+  //form
   showForm = false;
   sedeInModifica: Sede | null = null;
 
+  //filtro
   campoRicerca = 'sede';
   testoRicerca = '';
+
+  //toast
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
+  showToast = false;
+
+  //conferma delete
+  showDeletePopup = false;
+  idDaEliminare: number | null = null;
 
   //---------------------------- funzioni --------------------
 
@@ -55,7 +66,6 @@ export class SediComponent implements OnInit {
   chiudiForm() {
     //rendi form invisibile
     this.showForm = false;
-
     this.sedeInModifica = null;
   }
 
@@ -75,7 +85,13 @@ export class SediComponent implements OnInit {
         next: () => {
           this.loadSedi();
           this.chiudiForm();
-        }
+
+          this.mostraToast('Sede modificata correttamente');
+        },   
+        error: (error) => {
+            this.toastType = 'error';
+            this.mostraToast('Errore durante l\'inserimento', 'error');
+          }
       });
 
     } else {
@@ -85,31 +101,54 @@ export class SediComponent implements OnInit {
         next: () => {
           this.loadSedi();
           this.chiudiForm();
+
+          this.mostraToast('Sede aggiunta correttamente');
+        },
+        
+        error: (error) => {
+          this.toastType = 'error';
+          this.mostraToast('Errore durante l\'inserimento', 'error');
         }
       });
-
+      
     }
   }
 
-  eliminaSede(id: number) {
+  apriPopupElimina(id: number) {
+    this.idDaEliminare = id;
+    this.showDeletePopup = true;
+  }
 
-    if(!confirm('Vuoi davvero eliminare questa sede?'))
+  confermaEliminazione() {
+    if (this.idDaEliminare === null)
       return;
 
-    this.sediService.delete(id)
-    .subscribe({
+    this.sediService.delete(this.idDaEliminare).subscribe({
       next: () => {
+
         this.loadSedi();
+
+        this.showDeletePopup = false;
+        this.idDaEliminare = null;
+
+        this.mostraToast('Sede eliminata correttamente');
       },
+
       error: (error) => {
+        this.mostraToast('Errore durante l\'eliminazione','error');
         console.error(error);
       }
     });
   }
 
+  chiudiPopupElimina() {
+    this.showDeletePopup = false;
+    this.idDaEliminare = null;
+  }
+
   cercaSedi() {
     console.log('RICERCA: ', this.testoRicerca);
-    
+
     this.sediService.search(
       this.campoRicerca, this.testoRicerca
     ).subscribe({
@@ -126,5 +165,19 @@ export class SediComponent implements OnInit {
   resettaRicerca() {
     this.testoRicerca = '';
     this.loadSedi();
+  }
+
+  mostraToast(messaggio: string, tipo: 'success' | 'error' = 'success') {
+    this.toastMessage = messaggio;
+    this.toastType = tipo;
+    this.showToast = true;
+
+    this.cdr.detectChanges();
+
+    //si chiude dopo 3 secondi
+    setTimeout(() => {
+      this.showToast = false;
+      this.cdr.detectChanges();
+    }, 3000);
   }
 }
