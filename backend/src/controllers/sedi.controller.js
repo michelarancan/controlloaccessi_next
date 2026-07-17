@@ -123,4 +123,19 @@ function remove(req, res, next) {
 
 }
 
-module.exports = { findAll, findById, create, update, remove };
+//SEARCH
+function search(req, res, next) {
+    const campo = req.query.campo;
+    const valore = req.query.valore;
+
+    service.search(campo, valore, (err, results) => {
+        if(err) {
+            return next(err);
+        }
+
+        res.status(200).json(results);
+    }
+    );
+}
+
+module.exports = { findAll, findById, create, update, remove, search };

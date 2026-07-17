@@ -4,6 +4,18 @@
 @if (showForm) {
     <app-sede-form [sede]="sedeInModifica" (salva)="salvaSede($event)" (annulla)="chiudiForm()"></app-sede-form>
 }
+
+<div class="search-container">
+    <select [(ngModel)]="campoRicerca">
+        <option value="sede">Sede</option>
+        <option value="ufficio">Ufficio</option>
+    </select>
+
+    <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaSedi()" placeholder="Cerca...">
+    <button type="button" (click)="cercaSedi()">Cerca</button>
+    <button type="button" (click)="resettaRicerca()">Reset</button>
+</div>
+
 <table>
     <thead>
         <tr>

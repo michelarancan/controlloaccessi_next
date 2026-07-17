@@ -25,6 +25,9 @@ export class SediComponent implements OnInit {
   showForm = false;
   sedeInModifica: Sede | null = null;
 
+  campoRicerca = 'sede';
+  testoRicerca = '';
+
   //---------------------------- funzioni --------------------
 
   ngOnInit(): void {
@@ -102,5 +105,26 @@ export class SediComponent implements OnInit {
         console.error(error);
       }
     });
+  }
+
+  cercaSedi() {
+    console.log('RICERCA: ', this.testoRicerca);
+    
+    this.sediService.search(
+      this.campoRicerca, this.testoRicerca
+    ).subscribe({
+      next: (data) => {
+        this.sedi = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  resettaRicerca() {
+    this.testoRicerca = '';
+    this.loadSedi();
   }
 }

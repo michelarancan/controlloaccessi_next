@@ -14,11 +14,14 @@ function findById(id, callback) {
 
 //POST
 function create(data, callback) {
-    //cmapi non nulli
+    //campi non nulli
     if(!data.sede || !data.ufficio) {
-        return callback(
-            new Error('Sede e ufficio sono obbligatori')
-        );
+        const error = new Error('Sede e ufficio sono obbligatori');
+
+        error.status = 400;
+        error.code = 'INVALID_PARAMS_FIELD';
+
+        return callback(error);
     }
 
     repository.create(data, callback);
@@ -28,9 +31,12 @@ function create(data, callback) {
 function update(id, data, callback) {
     //campi non nulli
     if(!data.sede || !data.ufficio) {
-        return callback(
-            new Error('Sede e ufficio sono obbligatori')
-        );
+        const error = new Error('Sede e ufficio sono obbligatori');
+
+        error.status = 400;
+        error.code = 'INVALID_PARAMS_FIELD';
+
+        return callback(error);
     }
 
     repository.update(id, data, callback);
@@ -41,4 +47,21 @@ function remove(id, callback) {
     repository.remove(id, callback);
 }
 
-module.exports = { findAll, findById, create, update, remove };
+//SEARCH
+function search(campo, valore, callback) {
+    const campiValidi = ['sede', 'ufficio'];
+
+    if(!campiValidi.includes(campo)) {
+        
+        const error = new Error('Campo di ricerca non valido');
+
+        error.status = 400;
+        error.code = 'INVALID_SEARCH_FIELD';
+
+        return callback(error);
+    }
+
+    repository.search(campo, valore, callback);
+}
+
+module.exports = { findAll, findById, create, update, remove, search };

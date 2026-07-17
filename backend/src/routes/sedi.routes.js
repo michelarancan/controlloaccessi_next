@@ -23,8 +23,49 @@ const controller = require('../controllers/sedi.controller');
  *               error:
  *                 code: SEDE_NOT_FOUND
  *                 message: Sede non trovata
+ *       500:
+ *         description: Errore interno del server
  */
 router.get('/', controller.findAll);
+
+/**
+ * @swagger
+ * /api/sedi/search:
+ *   get:
+ *     summary: Cerca sede
+ *     tags:
+ *       - Sedi
+ *     parameters:
+ *       - in: query
+ *         name: campo
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - sede
+ *             - ufficio
+ *         description: Campo su cui effettuare la ricerca
+ *       - in: query
+ *         name: valore
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Valore da cercare
+ *     responses:
+ *       200:
+ *         description: Elenco sedi che corrispondono ai parametri
+ *       400:
+ *         description: Campo di ricerca non valido
+ *         content:
+ *           application/json:
+ *             example:
+ *               error:
+ *                 code: INVALID_SEARCH_FIELD
+ *                 message: Campo di ricerca non valido
+ *       500:
+ *         description: Errore interno del server
+ */
+router.get('/search', controller.search);
 
 /**
  * @swagger
@@ -48,6 +89,8 @@ router.get('/', controller.findAll);
  *               error:
  *                 code: SEDE_NOT_FOUND
  *                 message: Sede non trovata
+ *       500:
+ *         description: Errore interno del server
  */
 router.get('/:id', controller.findById);
 
@@ -76,6 +119,16 @@ router.get('/:id', controller.findById);
  *     responses:
  *       201:
  *         description: Sede creata correttamente
+ *       400:
+ *         description: Sede e ufficio sono obbligatori
+ *         content:
+ *           application/json:
+ *             example:
+ *             error:
+ *                code: INVALID_PARAMS_FIELD
+ *                message: Sede e ufficio sono obbligatori
+ *       500:
+ *         description: Errore interno del server
  */
 router.post('/', controller.create);
 
@@ -104,10 +157,17 @@ router.post('/', controller.create);
  *             required:
  *               - sede
  *               - ufficio
-
  *     responses:
  *       200:
  *         description: Sede modificata correttamente
+ *       400:
+ *         description: Sede e ufficio sono obbligatori
+ *         content:
+ *           application/json:
+ *             example:
+ *             error:
+ *                code: INVALID_PARAMS_FIELD
+ *                message: Sede e ufficio sono obbligatori
  *       404:
  *         description: Sede non trovata
  *         content:
@@ -116,6 +176,8 @@ router.post('/', controller.create);
  *               error:
  *                 code: SEDE_NOT_FOUND
  *                 message: Sede non trovata
+ *       500:
+ *         description: Errore interno del server
  */
 router.put('/:id', controller.update);
 
@@ -141,6 +203,8 @@ router.put('/:id', controller.update);
  *               error:
  *                 code: SEDE_NOT_FOUND
  *                 message: Sede non trovata
+ *       500:
+ *         description: Errore interno del server
  */
 router.delete('/:id', controller.remove);
 

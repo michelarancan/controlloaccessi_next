@@ -32,4 +32,9 @@ export class SediService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  //SEARCH
+  search(campo: string, valore: string): Observable<Sede[]> {
+    return this.http.get<Sede[]>(`${this.apiUrl}/search?campo=${campo}&valore=${valore}`);
+  }
+
 }
