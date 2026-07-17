@@ -45,10 +45,13 @@ Thumbs.db
 
 
 #altro
-backend/node_modules
+../backend/node_modules
 frontend/node_modules
 
-backend/.env
+../backend/.env
 
 frontend/.angular
+frontend/.claude
+frontend/.gemini
+frontend/.vscode
 frontend/dist
