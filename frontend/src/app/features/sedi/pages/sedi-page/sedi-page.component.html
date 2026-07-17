@@ -1,6 +1,9 @@
 <h1>Visualizzazione anagrafe delle sedi</h1>
 
-<button (click)="apriForm()" class="btn-aggiungi">Aggiungi una nuova sede</button><br><br>
+<button (click)="apriForm()" class="btn-aggiungi">
+    <span class="plus-icon">+</span>
+    <span>Aggiungi una nuova sede</span>
+</button><br><br>
 @if (showForm) {
     <app-sede-form [sede]="sedeInModifica" (salva)="salvaSede($event)" (annulla)="chiudiForm()"></app-sede-form>
 }

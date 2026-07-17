@@ -64,6 +64,13 @@ button:hover {
     gap: 10px;
 }
 
+.btn-aggiungi {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
 .btn-elimina {
     background-color: #dc3545;
     border-color: #dc3545;
@@ -156,11 +163,15 @@ input[type=text] {
     z-index: 9999;
 }
 
-
 .success {
     background-color: #9ae7ac;
 }
 
 .error {
     background-color: #e1929a;
+}
+
+.plus-icon {
+    font-size: 1.5rem;
+    font-weight: bold;
 }
