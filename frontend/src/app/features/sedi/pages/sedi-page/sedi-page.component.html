@@ -1,0 +1,29 @@
+<h1>Sedi</h1>
+
+<button (click)="apriForm()" class="btn-aggiungi">Aggiungi una nuova sede</button><br><br>
+@if (showForm) {
+    <app-sede-form (salva)="aggiungiSede($event)" (annulla)="chiudiForm()"></app-sede-form>
+}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Sede</th>
+            <th>Ufficio</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- riga per ogni entry della tabella -->
+         @for (sede of sedi; track sede.id) {
+            <tr>
+                <td>{{ sede.id }}</td>
+                <td>{{ sede.sede }}</td>
+                <td>{{ sede.ufficio }}</td>
+                <td><button class="btn-modifica">Modifica</button></td>
+                <td><button class="btn-elimina">Elimina</button></td>
+            </tr>
+         }
+    </tbody>
+</table>
