@@ -69,33 +69,6 @@ router.get('/search', controller.search);
 
 /**
  * @swagger
- * /api/sedi/{id}:
- *   get:
- *     summary: Restituisce la sede con l'ID specificato
- *     tags:
- *       - Sedi
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *     responses:
- *       200:
- *         description: Singola sede
- *       404:
- *         description: Sede non trovata
- *         content:
- *           application/json:
- *             example:
- *               error:
- *                 code: SEDE_NOT_FOUND
- *                 message: Sede non trovata
- *       500:
- *         description: Errore interno del server
- */
-router.get('/:id', controller.findById);
-
-/**
- * @swagger
  * /api/sedi:
  *   post:
  *     summary: Crea una nuova sede

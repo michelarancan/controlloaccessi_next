@@ -8,12 +8,6 @@ function findAll(idSede, callback) {
     connection.query(query, [idSede], callback);
 }
 
-//GET by id
-function findById(id, callback) {
-    const query = `SELECT * FROM operatori WHERE id = ? && is_active = true`;
-    connection.query(query, [id], callback);
-}
-
 //POST
 function create(idSede, data, callback) {
     const query = `INSERT INTO operatori(nome, cognome, sede) VALUES (?, ?, ?)`;
@@ -38,4 +32,4 @@ function search(idSede, campo, valore, callback) {
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 
-module.exports = { findAll, findById, create, update, remove, search };
+module.exports = { findAll, create, update, remove, search };

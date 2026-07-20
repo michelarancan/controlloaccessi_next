@@ -16,33 +16,6 @@ function findAll(req, res, next) {
     });
 }
 
-//GET by id
-function findById(req, res, next) {
-
-    const id = req.params.id;
-
-    service.findById(id, (err, results) => {
-
-        if (err) {
-            return next(err);
-        }
-
-        //se non ritorna nulla
-        if (results.length === 0) {
-            const error = new Error('Operatore non trovato');
-
-            error.status = 404;
-            error.code = 'OPERATORE_NOT_FOUND';
-
-            return next(error);
-        }
-
-        res.status(200).json(results[0]);
-
-    });
-
-}
-
 //POST 
 function create(req, res, next) {
 
@@ -144,4 +117,4 @@ function search(req, res, next) {
     );
 }
 
-module.exports = { findAll, findById, create, update, remove, search };
+module.exports = { findAll, create, update, remove, search };

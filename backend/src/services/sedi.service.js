@@ -7,11 +7,6 @@ function findAll(callback) {
     repository.findAll(callback);
 }
 
-//GET by id
-function findById(id, callback) {
-    repository.findById(id, callback);
-}
-
 //POST
 function create(data, callback) {
     //campi non nulli
@@ -100,4 +95,4 @@ function search(campo, valore, callback) {
     repository.search(campo, valore, callback);
 }
 
-module.exports = { findAll, findById, create, update, remove, search };
+module.exports = { findAll, create, update, remove, search };

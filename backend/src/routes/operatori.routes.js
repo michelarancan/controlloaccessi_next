@@ -81,33 +81,6 @@ router.get('/sedi/:idS/search', controller.search);
 
 /**
  * @swagger
- * /api/operatori/{id}:
- *   get:
- *     summary: Restituisce l'operatore con l'ID specificato
- *     tags:
- *       - Operatori
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *     responses:
- *       200:
- *         description: Singolo operatore
- *       404:
- *         description: Operatore non trovato
- *         content:
- *           application/json:
- *             example:
- *               error:
- *                 code: OPERATORE_NOT_FOUND
- *                 message: Operatore non trovato
- *       500:
- *         description: Errore interno del server
- */
-router.get('/:id', controller.findById);
-
-/**
- * @swagger
  * /api/operatori/sedi/{idS}:
  *   post:
  *     summary: Crea un nuovo operatore
