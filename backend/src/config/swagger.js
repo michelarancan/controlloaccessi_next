@@ -13,7 +13,8 @@ const options = {
     },
     apis: [
         //qui vanno gli altri file routes.js di altre api
-        path.join(__dirname, '../routes/sedi.routes.js')
+        path.join(__dirname, '../routes/sedi.routes.js'),
+        path.join(__dirname, '../routes/operatori.routes.js')
     ]
 
 };

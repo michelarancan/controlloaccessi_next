@@ -7,6 +7,7 @@ const swaggerSpec = require('./config/swagger');
 const testConnection = require('./config/database');
 
 const sediRoutes = require('./routes/sedi.routes');
+const operatoriRoutes = require('./routes/operatori.routes');
 //altre rotte
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/sedi', sediRoutes);
+app.use('/api/operatori', operatoriRoutes);
 //altri
 
 app.use(errorHandler);
