@@ -89,9 +89,11 @@ export class SediComponent implements OnInit {
           this.mostraToast('Sede modificata correttamente');
         },   
         error: (error) => {
-            this.toastType = 'error';
-            this.mostraToast('Errore durante l\'inserimento', 'error');
-          }
+          const message = error?.error?.error?.message || 'Errore sconosciuto';
+
+          this.toastType = 'error';
+          this.mostraToast(message, 'error');
+        }
       });
 
     } else {
@@ -106,8 +108,10 @@ export class SediComponent implements OnInit {
         },
         
         error: (error) => {
+          const message = error?.error?.error?.message || 'Errore sconosciuto';
+
           this.toastType = 'error';
-          this.mostraToast('Errore durante l\'inserimento', 'error');
+          this.mostraToast(message, 'error');
         }
       });
       
@@ -135,8 +139,10 @@ export class SediComponent implements OnInit {
       },
 
       error: (error) => {
-        this.mostraToast('Errore durante l\'eliminazione','error');
-        console.error(error);
+        const message = error?.error?.error?.message || 'Errore sconosciuto';
+
+        this.toastType = 'error';
+        this.mostraToast(message, 'error');
       }
     });
   }
