@@ -233,3 +233,21 @@ input[type=text] {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.div-aggiungi {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.sede-selector {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sede-selector select {
+    margin-bottom: 0;
+}

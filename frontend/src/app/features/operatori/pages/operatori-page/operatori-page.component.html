@@ -1,0 +1,83 @@
+<h1>Visualizzazione addetti alla vigilanza</h1>
+
+<div class="div-aggiungi">
+    <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi operatore">
+        <span class="plus-icon">+</span>
+        <span>Aggiungi un nuovo operatore</span>
+    </button>
+    <div class="sede-selector">
+        <label>Sede:</label>
+        <select [(ngModel)]="idSede" (ngModelChange)="loadOperatori()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+    </div>
+</div><br>
+
+@if (showForm) {
+    <app-operatore-form [operatore]="operatoreInModifica" (salva)="salvaOperatore($event)" (annulla)="chiudiForm()"></app-operatore-form>
+}
+
+
+@if (showDeletePopup) {
+    <div class="form-container">
+        <div class="popup-box">
+            <h2>Conferma eliminazione</h2>
+
+            <p>Vuoi davvero eliminare questo operatore?</p>
+
+            <div class="popup-buttons">
+                <button type="button" class="btn-conferma" (click)="confermaEliminazione()" title="Conferma">Sì</button>
+                <button type="button" class="btn-annulla" (click)="chiudiPopupElimina()" title="Annulla">No</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="search-container">
+    <select [(ngModel)]="campoRicerca">
+        <option value="nome">Nome</option>
+        <option value="cognome">Cognome</option>
+    </select>
+
+    <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaOperatori()" placeholder="Cerca...">
+    <button type="button" (click)="cercaOperatori()" title="Cerca operatore">Cerca</button>
+    <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- riga per ogni entry della tabella -->
+         @for (operatore of operatori; track operatore.id) {
+            <tr>
+                <td>{{ operatore.nome }}</td>
+                <td>{{ operatore.cognome }}</td>
+                <td class="button-cell">
+                    <button class="btn-modifica" (click)="modificaOperatore(operatore)" title="Modifica operatore">Modifica</button>
+                    <button class="btn-elimina" (click)="apriPopupElimina(operatore.id)" title="Elimina operatore">Elimina</button>
+                </td>
+            </tr>
+         }
+         
+        @if (operatori.length === 0) {
+        <tr>
+            <td colspan="3" class="no-results">
+            Nessun operatore trovato
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+@if(showToast) {
+    <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
+}
