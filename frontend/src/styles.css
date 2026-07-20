@@ -113,6 +113,13 @@ button:hover {
     align-items: center;
     gap: 8px;
     font-weight: bold;
+    background-color: #47ce66;
+    border-color:#47ce66;
+}
+
+.btn-aggiungi:hover {
+    color: #47ce66;
+    border-color: #47ce66;
 }
 
 .btn-elimina {
