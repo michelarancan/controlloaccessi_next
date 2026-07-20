@@ -12,7 +12,7 @@ CREATE TABLE utenti (
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- RUOLI
@@ -28,7 +28,7 @@ CREATE TABLE ruoli (
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- PERMESSI
@@ -44,7 +44,7 @@ CREATE TABLE permessi (
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- UTENTI_RUOLI
@@ -61,10 +61,10 @@ CREATE TABLE utenti_ruoli (
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
-    FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE CASCADE,
-    FOREIGN KEY (ruolo_id) REFERENCES ruoli(id) ON DELETE CASCADE,
+    FOREIGN KEY (utente_id) REFERENCES utenti(id),
+    FOREIGN KEY (ruolo_id) REFERENCES ruoli(id),
     UNIQUE (utente_id, ruolo_id)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- RUOLI_PERMESSI
@@ -81,10 +81,10 @@ CREATE TABLE ruoli_permessi (
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
-    FOREIGN KEY (ruolo_id) REFERENCES ruoli(id) ON DELETE CASCADE,
-    FOREIGN KEY (permesso_id) REFERENCES permessi(id) ON DELETE CASCADE,
+    FOREIGN KEY (ruolo_id) REFERENCES ruoli(id),
+    FOREIGN KEY (permesso_id) REFERENCES permessi(id),
     UNIQUE (ruolo_id, permesso_id)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -103,7 +103,7 @@ CREATE TABLE sedi (
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- OPERATORI
@@ -122,4 +122,4 @@ CREATE TABLE operatori (
     is_active boolean NOT NULL DEFAULT TRUE,
     UNIQUE (nome,cognome),
     FOREIGN KEY (sede) REFERENCES sedi(id)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

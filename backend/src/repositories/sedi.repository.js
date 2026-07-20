@@ -28,7 +28,7 @@ function remove(id, callback) {
 
 //SEARCH
 function search(campo, valore, callback) {
-    const query = `SELECT id, sede, ufficio FROM sedi WHERE ${campo} LIKE ?`;
+    const query = `SELECT id, sede, ufficio FROM sedi WHERE ${campo} LIKE ? AND is_active = true`;
     connection.query(query, [`%${valore}%`], callback);
 }
 

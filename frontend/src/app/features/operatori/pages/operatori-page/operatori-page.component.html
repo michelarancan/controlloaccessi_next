@@ -49,8 +49,8 @@
 <table>
     <thead>
         <tr>
-            <th>Nome</th>
             <th>Cognome</th>
+            <th>Nome</th>
             <th>Azioni</th>
         </tr>
     </thead>
@@ -58,8 +58,8 @@
         <!-- riga per ogni entry della tabella -->
          @for (operatore of operatori; track operatore.id) {
             <tr>
-                <td>{{ operatore.nome }}</td>
                 <td>{{ operatore.cognome }}</td>
+                <td>{{ operatore.nome }}</td>
                 <td class="button-cell">
                     <button class="btn-modifica" (click)="modificaOperatore(operatore)" title="Modifica operatore">Modifica</button>
                     <button class="btn-elimina" (click)="apriPopupElimina(operatore.id)" title="Elimina operatore">Elimina</button>

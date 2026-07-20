@@ -4,7 +4,7 @@ const connection = require('../db/connection');
 
 //GET all di una sede
 function findAll(idSede, callback) {
-    const query = `SELECT id, nome, cognome, is_active as attivo FROM operatori WHERE sede = ? && is_active = true`;
+    const query = `SELECT id, nome, cognome FROM operatori WHERE sede = ? AND is_active = true ORDER BY cognome, nome`;
     connection.query(query, [idSede], callback);
 }
 
@@ -28,7 +28,7 @@ function remove(id, callback) {
 
 //SEARCH
 function search(idSede, campo, valore, callback) {
-    const query = `SELECT id, nome, cognome FROM operatori WHERE sede = ? && ${campo} LIKE ?`;
+    const query = `SELECT id, nome, cognome FROM operatori WHERE sede = ? AND ${campo} LIKE ? AND is_active = true ORDER BY cognome, nome`;
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 
