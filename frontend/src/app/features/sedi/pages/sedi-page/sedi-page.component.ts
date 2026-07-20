@@ -6,10 +6,12 @@ import { SediService } from '../../services/sedi.service';
 import { SedeForm } from '../../components/sede-form/sede-form.component';
 import { Sede } from '../../models/sede.model';
 
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+
 @Component({
   selector: 'app-sedi-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, SedeForm],
+  imports: [CommonModule, FormsModule, SedeForm, ToastComponent],
   templateUrl: './sedi-page.component.html',
   styleUrls: ['./sedi-page.component.css'],
 })

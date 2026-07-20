@@ -1,6 +1,6 @@
 <h1>Visualizzazione anagrafe delle sedi</h1>
 
-<button (click)="apriForm()" class="btn-aggiungi">
+<button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi sede">
     <span class="plus-icon">+</span>
     <span>Aggiungi una nuova sede</span>
 </button><br><br>
@@ -17,8 +17,8 @@
             <p>Vuoi davvero eliminare questa sede?</p>
 
             <div class="popup-buttons">
-                <button type="button" class="btn-conferma" (click)="confermaEliminazione()">Sì</button>
-                <button type="button" class="btn-annulla" (click)="chiudiPopupElimina()">No
+                <button type="button" class="btn-conferma" (click)="confermaEliminazione()" title="Conferma">Sì</button>
+                <button type="button" class="btn-annulla" (click)="chiudiPopupElimina()" title="Annulla">No
                 </button>
             </div>
         </div>
@@ -33,8 +33,8 @@
     </select>
 
     <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaSedi()" placeholder="Cerca...">
-    <button type="button" (click)="cercaSedi()">Cerca</button>
-    <button type="button" (click)="resettaRicerca()">Reset</button>
+    <button type="button" (click)="cercaSedi()" title="Cerca sede">Cerca</button>
+    <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
 </div>
 
 <table>
@@ -52,14 +52,23 @@
                 <td>{{ sede.sede }}</td>
                 <td>{{ sede.ufficio }}</td>
                 <td class="button-cell">
-                    <button class="btn-modifica" (click)="modificaSede(sede)">Modifica</button>
-                    <button class="btn-elimina" (click)="apriPopupElimina(sede.id)">Elimina</button>
+                    <button class="btn-modifica" (click)="modificaSede(sede)" title="Modifica sede">Modifica</button>
+                    <button class="btn-elimina" (click)="apriPopupElimina(sede.id)" title="Elimina sede">Elimina</button>
                 </td>
             </tr>
          }
+         
+        @if (sedi.length === 0) {
+        <tr>
+            <td colspan="3" class="no-results">
+            Nessuna sede trovata
+            </td>
+        </tr>
+        }
+
     </tbody>
 </table>
 
 @if(showToast) {
-    <div class="toast" [class.success]="toastType === 'success'" [class.error]="toastType === 'error'">{{ toastMessage }}</div>
+    <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
 }
