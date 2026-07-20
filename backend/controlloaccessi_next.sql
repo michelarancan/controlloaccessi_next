@@ -61,7 +61,7 @@ CREATE TABLE utenti_ruoli (
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
-    FOREIGN KEY (utente_id) REFERENCES utenti(id),
+    FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE CASCADE,
     FOREIGN KEY (ruolo_id) REFERENCES ruoli(id),
     UNIQUE (utente_id, ruolo_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -120,6 +120,49 @@ CREATE TABLE operatori (
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
+
     UNIQUE (nome,cognome),
     FOREIGN KEY (sede) REFERENCES sedi(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- DIVISIONI
+
+DROP TABLE IF EXISTS divisioni;
+CREATE TABLE divisioni (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    sede int unsigned NOT NULL,
+    nome varchar(100) NOT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    UNIQUE (sede,nome),
+    FOREIGN KEY (sede) REFERENCES sedi(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- PERSONE_INTERNE
+
+DROP TABLE IF EXISTS persone_interne;
+CREATE TABLE persone_interne (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    nome varchar(100) NOT NULL,
+    cognome varchar(100) NOT NULL DEFAULT '',
+    telefono varchar(30) NOT NULL,
+    email varchar(100) DEFAULT NULL,
+    divisione int unsigned DEFAULT NOT NULL,      -- divisione ha sede quindi ricavo sede attraverso this
+    is_di_riferimento boolean DEFAULT false,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    CONSTRAINT chk_email CHECK (email IS NULL OR email LIKE '%@%.%'),
+    FOREIGN KEY (divisione) REFERENCES divisioni(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

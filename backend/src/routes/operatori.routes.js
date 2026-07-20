@@ -154,7 +154,7 @@ router.post('/sedi/:idS', controller.create);
  *               - nome
  *               - cognome
  *     responses:
- *       200:
+ *       204:
  *         description: Operatore modificato correttamente
  *       400:
  *         description: Nome e cognome sono obbligatori
@@ -189,7 +189,7 @@ router.put('/:id', controller.update);
  *         name: id
  *         required: true
  *     responses:
- *       200:
+ *       204:
  *         description: Operatore eliminato correttamente
  *       404:
  *         description: Operatore non trovato

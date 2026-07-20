@@ -1,6 +1,6 @@
 const repository = require('../repositories/operatori.repository');
 
-//qui controllo business logic (tipo campo non nullo)
+//qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
 //GET all
 function findAll(idSede, callback) {

@@ -131,7 +131,7 @@ router.post('/', controller.create);
  *               - sede
  *               - ufficio
  *     responses:
- *       200:
+ *       204:
  *         description: Sede modificata correttamente
  *       400:
  *         description: Sede e ufficio sono obbligatori
@@ -166,7 +166,7 @@ router.put('/:id', controller.update);
  *         name: id
  *         required: true
  *     responses:
- *       200:
+ *       204:
  *         description: Sede eliminata correttamente
  *       404:
  *         description: Sede non trovata
