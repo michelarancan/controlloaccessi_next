@@ -8,7 +8,7 @@ function findAll(idSede, callback) {
     repository.findAll(idSede, callback);
 }
 
-//GET all
+//GET all by divisione
 function findAllByDivisione(idDivisione, callback) {
     repository.findAllByDivisione(idDivisione, callback);
 }

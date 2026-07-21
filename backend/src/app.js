@@ -8,6 +8,7 @@ const testConnection = require('./config/database');
 
 const sediRoutes = require('./routes/sedi.routes');
 const operatoriRoutes = require('./routes/operatori.routes');
+const personeInterneRoutes = require('./routes/persone-interne.routes');
 //altre rotte
 
 const app = express();
@@ -19,6 +20,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/sedi', sediRoutes);
 app.use('/api/operatori', operatoriRoutes);
+app.use('/api/persone-interne', personeInterneRoutes);
 //altri
 
 app.use(errorHandler);

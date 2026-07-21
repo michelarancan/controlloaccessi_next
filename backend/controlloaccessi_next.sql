@@ -163,6 +163,5 @@ CREATE TABLE persone_interne (
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
-    CONSTRAINT chk_email CHECK (email IS NULL OR email LIKE '%@%.%'),
     FOREIGN KEY (divisione) REFERENCES divisioni(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
