@@ -4,13 +4,13 @@ const connection = require('../db/connection');
 
 //GET all di una sede
 function findAll(idSede, callback) {
-    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, d.nome AS divisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.is_active = true AND d.sede = ? ORDER BY p.cognome, p.nome`;
+    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, p.divisione, d.nome AS nomeDivisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.is_active = true AND d.sede = ? ORDER BY p.cognome, p.nome`;
     connection.query(query, [idSede], callback);
 }
 
 //GET all di una divisione
 function findAllByDivisione(idDivisione, callback) {
-    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, d.nome AS divisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.is_active = true AND p.divisione = ? ORDER BY p.cognome, p.nome`;
+    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, p.divisione, d.nome AS nomeDivisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.is_active = true AND p.divisione = ? ORDER BY p.cognome, p.nome`;
     connection.query(query, [idDivisione], callback);
 }
 
@@ -40,13 +40,13 @@ function remove(id, callback) {
 
 //SEARCH
 function search(idSede, campo, valore, callback) {
-    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, d.nome AS divisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE d.sede = ? AND p.${campo} LIKE ? AND p.is_active = true ORDER BY p.cognome, p.nome`;
+    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, p.divisione, d.nome AS nomeDivisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE d.sede = ? AND p.${campo} LIKE ? AND p.is_active = true ORDER BY p.cognome, p.nome`;
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 
 //SEARCH by divisione
 function searchByDivisione(idDivisione, campo, valore, callback) {
-    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, d.nome AS divisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.divisione = ? AND p.${campo} LIKE ? AND p.is_active = true ORDER BY p.cognome, p.nome`;
+    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, p.divisione, d.nome AS nomeDivisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.divisione = ? AND p.${campo} LIKE ? AND p.is_active = true ORDER BY p.cognome, p.nome`;
     connection.query(query, [idDivisione, `%${valore}%`], callback);
 }
 

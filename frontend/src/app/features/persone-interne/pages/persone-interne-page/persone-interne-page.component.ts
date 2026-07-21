@@ -67,6 +67,7 @@ export class PersoneInterneComponent implements OnInit {
 
       this.personeInterneService.getAll(this.idSede).subscribe({
         next: (data) => {
+          console.log(data);
           this.personeInterne = data;
           this.cdr.detectChanges(); //applica changes
 
