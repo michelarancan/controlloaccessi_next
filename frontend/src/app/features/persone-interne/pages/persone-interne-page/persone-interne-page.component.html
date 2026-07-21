@@ -1,0 +1,102 @@
+<h1>Visualizzazione persone interne</h1>
+
+<div class="div-aggiungi">
+    <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi persona interna">
+        <span class="plus-icon">+</span>
+        <span>Aggiungi una nuova persona interna</span>
+    </button>
+    <div class="sede-selector">
+        <label>Sede:</label>
+        <select [(ngModel)]="idSede" (ngModelChange)="loadPersoneInterne()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+
+        <label>Divisione:</label>
+        <select [(ngModel)]="idDivisione" (ngModelChange)="loadPersoneInterne()">
+            <option [ngValue]="0" default>-- Tutte le divisioni --</option>
+            @for (divisione of divisioni; track divisione.id) {
+                <option [ngValue]="divisione.id">{{ divisione.nome }}</option>
+            }
+        </select>
+    </div>
+</div><br>
+
+@if (showForm) {
+    <app-persona-interna-form [personaInterna]="personaInternaInModifica" [idSede]="idSede" (salva)="salvaPersonaInterna($event)" (annulla)="chiudiForm()"></app-persona-interna-form>
+}
+
+
+@if (showDeletePopup) {
+    <div class="form-container">
+        <div class="popup-box">
+            <h2>Conferma eliminazione</h2>
+
+            <p>Vuoi davvero eliminare questa persona interna?</p>
+
+            <div class="popup-buttons">
+                <button type="button" class="btn-conferma" (click)="confermaEliminazione()" title="Conferma">Sì</button>
+                <button type="button" class="btn-annulla" (click)="chiudiPopupElimina()" title="Annulla">No</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="search-container">
+    <select [(ngModel)]="campoRicerca">
+        <option value="nome">Nome</option>
+        <option value="cognome">Cognome</option>
+        <option value="telefono">Telefono</option>
+        <option value="email">Email</option>
+    </select>
+
+    <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaPersoneInterne()" placeholder="Cerca...">
+    <button type="button" (click)="cercaPersoneInterne()" title="Cerca persona interna">Cerca</button>
+    <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Cognome</th>
+            <th>Nome</th>
+            <th>Numero di telefono</th>
+            <th>Email</th>
+            <th>Divisione</th>
+            <th>È di riferimento?</th>
+            <th>Azioni</th>
+        </tr>
+    
+    </thead>
+    <tbody>
+        <!-- riga per ogni entry della tabella -->
+         @for (personaInterna of personeInterne; track personaInterna.id) {
+            <tr>
+                <td>{{ personaInterna.cognome }}</td>
+                <td>{{ personaInterna.nome }}</td>
+                <td>{{ personaInterna.telefono }}</td>
+                <td>{{ personaInterna.email }}</td>
+                <td>{{ personaInterna.divisione }}</td>
+                <td>{{ (personaInterna.is_di_riferimento) ? 'Sì' : 'No' }}</td>
+                <td class="button-cell">
+                    <button class="btn-modifica" (click)="modificaPersonaInterna(personaInterna)" title="Modifica persona interna">Modifica</button>
+                    <button class="btn-elimina" (click)="apriPopupElimina(personaInterna.id)" title="Elimina persona interna">Elimina</button>
+                </td>
+            </tr>
+         }
+         
+        @if (personeInterne.length === 0) {
+        <tr>
+            <td colspan="7" class="no-results">
+            Nessuna persona interna trovata
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+@if(showToast) {
+    <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
+}

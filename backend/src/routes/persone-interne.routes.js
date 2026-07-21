@@ -112,6 +112,53 @@ router.get('/sedi/:idS/search', controller.search);
 
 /**
  * @swagger
+ * /api/persone-interne/divisioni/{idD}/search:
+ *   get:
+ *     summary: Cerca persona interna in una divisione
+ *     tags:
+ *       - Persone interne
+ *     parameters:
+ *       - in: path
+ *         name: idD
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID della divisione
+ *       - in: query
+ *         name: campo
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - nome
+ *             - cognome
+ *             - telefono
+ *             - email
+ *         description: Campo su cui effettuare la ricerca
+ *       - in: query
+ *         name: valore
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Valore da cercare
+ *     responses:
+ *       200:
+ *         description: Elenco persone interne che corrispondono ai parametri
+ *       400:
+ *         description: Campo di ricerca non valido
+ *         content:
+ *           application/json:
+ *             example:
+ *               error:
+ *                 code: INVALID_SEARCH_FIELD
+ *                 message: Campo di ricerca non valido
+ *       500:
+ *         description: Errore interno del server
+ */
+router.get('/divisioni/:idD/search', controller.searchByDivisione);
+
+/**
+ * @swagger
  * /api/persone-interne/sedi/{idS}:
  *   post:
  *     summary: Crea una nuova persona interna

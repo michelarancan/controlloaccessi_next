@@ -44,4 +44,10 @@ function search(idSede, campo, valore, callback) {
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 
-module.exports = { findAll, findAllByDivisione, findById, create, update, remove, search };
+//SEARCH by divisione
+function searchByDivisione(idDivisione, campo, valore, callback) {
+    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, d.nome AS divisione, p.is_di_riferimento FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.divisione = ? AND p.${campo} LIKE ? AND p.is_active = true ORDER BY p.cognome, p.nome`;
+    connection.query(query, [idDivisione, `%${valore}%`], callback);
+}
+
+module.exports = { findAll, findAllByDivisione, findById, create, update, remove, search, searchByDivisione };

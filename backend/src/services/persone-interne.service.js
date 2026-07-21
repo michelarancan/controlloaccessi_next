@@ -187,4 +187,21 @@ function search(idSede, campo, valore, callback) {
     repository.search(idSede, campo, valore, callback);
 }
 
-module.exports = { findAll, findAllByDivisione, create, update, remove, search };
+//SEARCH by divisione
+function searchByDivisione(idDivisione, campo, valore, callback) {
+    const campiValidi = ['nome', 'cognome', 'telefono', 'email'];
+
+    if(!campiValidi.includes(campo)) {
+        
+        const error = new Error('Campo di ricerca non valido');
+
+        error.status = 400;
+        error.code = 'INVALID_SEARCH_FIELD';
+
+        return callback(error);
+    }
+
+    repository.searchByDivisione(idDivisione, campo, valore, callback);
+}
+
+module.exports = { findAll, findAllByDivisione, create, update, remove, search, searchByDivisione };

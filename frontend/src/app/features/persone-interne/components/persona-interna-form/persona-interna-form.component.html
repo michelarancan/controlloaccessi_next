@@ -1,0 +1,30 @@
+<div class="form-container">
+    <div class="popup-box">
+        <h2>{{ personaInterna ? 'Modifica persona interna' : 'Nuova persona interna' }}</h2>
+        <form class="form">
+        <label for="nome">Nome:</label><br>
+        <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required><br><br>
+        <label for="cognome">Cognome:</label><br><br>
+        <input type="text" id="cognome" name="cognome" [(ngModel)]="formData.cognome" required><br><br>
+        <label for="telefono">Numero di telefono:</label><br><br>
+        <input type="text" id="telefono" name="telefono" [(ngModel)]="formData.telefono" required><br><br>
+        <label for="email">E-mail:</label><br><br>
+        <input type="text" id="email" name="email" [(ngModel)]="formData.email"><br><br>
+        <label for="divisione">Divisione:</label><br><br>
+        <select id="divisione" name="divisione" [(ngModel)]="formData.divisione">
+            @for (divisione of divisioni; track divisione.id) {
+                <option [ngValue]="divisione.id">{{ divisione.nome }}</option>
+            }
+        </select><br><br>
+        <div class="checkbox-container">
+            <label for="is_di_riferimento">È una persona di riferimento?</label><br><br>
+            <input type="checkbox" id="is_di_riferimento" name="is_di_riferimento" [(ngModel)]="formData.is_di_riferimento">
+        </div>
+        
+        <div class="popup-buttons">
+            <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>
+            <button type="button" class="btn-annulla" (click)="onAnnulla()">Annulla</button>
+        </div>
+        </form>
+    </div>
+</div>

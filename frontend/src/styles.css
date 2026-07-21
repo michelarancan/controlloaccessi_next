@@ -251,3 +251,9 @@ input[type=text] {
 .sede-selector select {
     margin-bottom: 0;
 }
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

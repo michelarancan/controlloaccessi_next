@@ -132,4 +132,21 @@ function search(req, res, next) {
     );
 }
 
-module.exports = { findAll, findAllByDivisione, create, update, remove, search };
+//SEARCH by divisione
+function searchByDivisione(req, res, next) {
+
+    const idDivisione = req.params.idD;
+    const campo = req.query.campo;
+    const valore = req.query.valore;
+
+    service.searchByDivisione(idDivisione, campo, valore, (err, results) => {
+        if(err) {
+            return next(err);
+        }
+
+        res.status(200).json(results);
+    }
+    );
+}
+
+module.exports = { findAll, findAllByDivisione, create, update, remove, search, searchByDivisione };
