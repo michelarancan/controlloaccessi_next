@@ -7,7 +7,7 @@
     </button>
     <div class="sede-selector">
         <label>Sede:</label>
-        <select [(ngModel)]="idSede" (ngModelChange)="loadPersoneInterne()">
+        <select [(ngModel)]="idSede" (ngModelChange)="cambiaSede()">
             @for (sede of sedi; track sede.id) {
                 <option [ngValue]="sede.id">{{ sede.sede }}</option>
             }

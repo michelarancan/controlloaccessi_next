@@ -173,6 +173,8 @@ input[type=text] {
     justify-content: center;
     align-items: center;
 
+    overflow: auto;
+
     z-index: 1000;
 }
 
@@ -184,6 +186,8 @@ input[type=text] {
     border-radius: 10px;
 
     min-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }

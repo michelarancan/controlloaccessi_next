@@ -107,6 +107,7 @@ export class PersoneInterneComponent implements OnInit {
     this.divisioniService.getAll(this.idSede).subscribe({
       next: (data) => {
         this.divisioni = data;
+        this.idDivisione = 0;
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -241,6 +242,12 @@ export class PersoneInterneComponent implements OnInit {
 
   resettaRicerca() {
     this.testoRicerca = '';
+    this.loadPersoneInterne();
+  }
+
+  cambiaSede() {
+    this.idDivisione = 0;
+    this.loadDivisioni();
     this.loadPersoneInterne();
   }
 
