@@ -173,7 +173,7 @@ DROP TABLE IF EXISTS ingressi_autorizzati_interni;
 CREATE TABLE ingressi_autorizzati_interni (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     persona int unsigned NOT NULL,
-    data_scadenza datetime DEFAULT NULL,
+    data_scadenza date DEFAULT NULL,
 
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,

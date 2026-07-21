@@ -1,0 +1,22 @@
+<div class="form-container">
+    <div class="popup-box">
+        <h2>{{ personaAutorizzataInterna ? 'Modifica persona autorizzata interna' : 'Nuova persona autorizzata interna' }}</h2>
+        <form class="form">
+        <label for="persona">Persona interna:</label><br><br>
+        <select id="persona" name="persona" [(ngModel)]="formData.persona" [disabled]="personaAutorizzataInterna !== null">
+            @for (persona of personeInterne; track persona.id) {
+                <option [ngValue]="persona.id">
+                    {{ persona.cognome }} {{ persona.nome }}
+                </option>
+            }
+        </select><br><br>
+        <label for="dataScadenza">Data di scadenza:</label><br><br>
+        <input type="date" id="dataScadenza" name="dataScadenza" [(ngModel)]="formData.dataScadenza" required><br><br>
+
+        <div class="popup-buttons">
+            <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>
+            <button type="button" class="btn-annulla" (click)="onAnnulla()">Annulla</button>
+        </div>
+        </form>
+    </div>
+</div>

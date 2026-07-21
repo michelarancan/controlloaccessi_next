@@ -4,7 +4,7 @@ const connection = require('../db/connection');
 
 //GET all di una sede
 function findAll(idSede, callback) {
-    const query = `SELECT a.id, p.id AS persona, p.nome, p.cognome, a.data_scadenza FROM persone_interne p JOIN ingressi_autorizzati_interni a ON p.id  = a.persona JOIN divisioni d ON p.divisione = d.id WHERE d.sede = ? AND a.is_active = true ORDER BY p.cognome, p.nome`;
+    const query = `SELECT a.id, p.id AS idPersona, p.nome, p.cognome, a.data_scadenza as dataScadenza FROM persone_interne p JOIN ingressi_autorizzati_interni a ON p.id  = a.persona JOIN divisioni d ON p.divisione = d.id WHERE d.sede = ? AND a.is_active = true ORDER BY p.cognome, p.nome`;
     connection.query(query, [idSede], callback);
 }
 
@@ -28,7 +28,7 @@ function remove(id, callback) {
 
 //SEARCH
 function search(idSede, campo, valore, callback) {
-    const query = `SELECT a.id, p.id AS persona, p.nome, p.cognome, a.data_scadenza FROM persone_interne p JOIN ingressi_autorizzati_interni a ON p.id  = a.persona JOIN divisioni d ON p.divisione = d.id WHERE d.sede = ? AND p.${campo} LIKE ? AND a.is_active = true ORDER BY p.cognome, p.nome`;
+    const query = `SELECT a.id, p.id AS idPersona, p.nome, p.cognome, a.data_scadenza AS dataScadenza FROM persone_interne p JOIN ingressi_autorizzati_interni a ON p.id  = a.persona JOIN divisioni d ON p.divisione = d.id WHERE d.sede = ? AND p.${campo} LIKE ? AND a.is_active = true ORDER BY p.cognome, p.nome`;
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 

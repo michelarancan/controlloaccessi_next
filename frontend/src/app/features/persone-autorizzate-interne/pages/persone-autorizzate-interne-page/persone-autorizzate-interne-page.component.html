@@ -1,0 +1,85 @@
+<h1>Visualizzazione persone autorizzate interne</h1>
+
+<div class="div-aggiungi">
+    <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi persona autorizzata interna">
+        <span class="plus-icon">+</span>
+        <span>Aggiungi una nuova persona autorizzata interna</span>
+    </button>
+    <div class="sede-selector">
+        <label>Sede:</label>
+        <select [(ngModel)]="idSede" (ngModelChange)="loadPersoneAutorizzateInterne()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+    </div>
+</div><br>
+
+@if (showForm) {
+    <app-persona-autorizzata-interna-form [personaAutorizzataInterna]="personaAutorizzataInternaInModifica" [personeInterne]="personeInterne" (salva)="salvaPersonaAutorizzataInterna($event)" (annulla)="chiudiForm()"></app-persona-autorizzata-interna-form>
+}
+
+
+@if (showDeletePopup) {
+    <div class="form-container">
+        <div class="popup-box">
+            <h2>Conferma eliminazione</h2>
+
+            <p>Vuoi davvero eliminare questa persona autorizzata interna?</p>
+
+            <div class="popup-buttons">
+                <button type="button" class="btn-conferma" (click)="confermaEliminazione()" title="Conferma">Sì</button>
+                <button type="button" class="btn-annulla" (click)="chiudiPopupElimina()" title="Annulla">No</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="search-container">
+    <select [(ngModel)]="campoRicerca">
+        <option value="nome">Nome</option>
+        <option value="cognome">Cognome</option>
+    </select>
+
+    <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaPersoneAutorizzateInterne()" placeholder="Cerca...">
+    <button type="button" (click)="cercaPersoneAutorizzateInterne()" title="Cerca persona autorizzata interna">Cerca</button>
+    <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Cognome</th>
+            <th>Nome</th>
+            <th>Data di scadenza</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- riga per ogni entry della tabella -->
+         @for (personaAutorizzataInterna of personeAutorizzateInterne; track personaAutorizzataInterna.id) {
+            <tr>
+                <td>{{ personaAutorizzataInterna.cognome }}</td>
+                <td>{{ personaAutorizzataInterna.nome }}</td>
+                <td>{{ personaAutorizzataInterna.dataScadenza | date:'dd/MM/yyyy' }}</td>
+                <td class="button-cell">
+                    <button class="btn-modifica" (click)="modificaPersonaAutorizzataInterna(personaAutorizzataInterna)" title="Modifica persona autorizzata interna">Modifica</button>
+                    <button class="btn-elimina" (click)="apriPopupElimina(personaAutorizzataInterna.id)" title="Elimina persona autorizzata interna">Elimina</button>
+                </td>
+            </tr>
+         }
+         
+        @if (personeAutorizzateInterne.length === 0) {
+        <tr>
+            <td colspan="3" class="no-results">
+            Nessuna persona autorizzata interna trovata
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+@if(showToast) {
+    <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
+}

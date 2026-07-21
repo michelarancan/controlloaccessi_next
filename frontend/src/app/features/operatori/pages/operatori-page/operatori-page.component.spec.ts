@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SediComponent } from './operatori-page.component';
+import { OperatoriComponent } from './operatori-page.component';
 
-describe('SediComponent', () => {
-  let component: SediComponent;
-  let fixture: ComponentFixture<SediComponent>;
+describe('Operatori', () => {
+  let component: OperatoriComponent;
+  let fixture: ComponentFixture<OperatoriComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SediComponent],
+      imports: [OperatoriComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SediComponent);
+    fixture = TestBed.createComponent(OperatoriComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

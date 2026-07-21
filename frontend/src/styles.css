@@ -156,6 +156,14 @@ input[type=text] {
   box-sizing: border-box;
 }
 
+input[type=date] {
+  width: 100%;
+  padding: 12px;
+  margin: 0px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 .form-container {
     border: 1px solid #d6d9e6;
     border-radius: 8px;
