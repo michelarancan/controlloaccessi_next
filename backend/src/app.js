@@ -10,6 +10,7 @@ const sediRoutes = require('./routes/sedi.routes');
 const operatoriRoutes = require('./routes/operatori.routes');
 const personeInterneRoutes = require('./routes/persone-interne.routes');
 const divisioniRoutes = require('./routes/divisioni.routes');
+const personeAutorizzateInterne = require('./routes/persone-autorizzate-interne.routes');
 //altre rotte
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/api/sedi', sediRoutes);
 app.use('/api/operatori', operatoriRoutes);
 app.use('/api/persone-interne', personeInterneRoutes);
 app.use('/api/divisioni', divisioniRoutes);
+app.use('/api/persone-autorizzate-interne', personeAutorizzateInterne);
 //altri
 
 app.use(errorHandler);

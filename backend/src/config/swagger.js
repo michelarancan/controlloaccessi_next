@@ -7,7 +7,7 @@ const options = {
         openapi: '3.0.0',
         info: {
             title: 'Controllo Accessi API',
-            version: '1.3.0',
+            version: '1.4.0',
             description: 'Documentazione API'
         }
     },
@@ -16,7 +16,8 @@ const options = {
         path.join(__dirname, '../routes/sedi.routes.js'),
         path.join(__dirname, '../routes/operatori.routes.js'),
         path.join(__dirname, '../routes/persone-interne.routes.js'),
-        path.join(__dirname, '../routes/divisioni.routes.js')
+        path.join(__dirname, '../routes/divisioni.routes.js'),
+        path.join(__dirname, '../routes/persone-autorizzate-interne.routes.js')
     ]
 
 };

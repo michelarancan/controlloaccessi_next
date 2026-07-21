@@ -1,10 +1,13 @@
-const service = require('../services/sedi.service');
+const service = require('../services/persone-autorizzate-interne.service');
 
 //qui gestisco requests HTTP e mando response HTTP
 
 //GET all
 function findAll(req, res, next) {
-    service.findAll((err, results) => {
+
+    const idSede = req.params.idS;
+
+    service.findAll(idSede, (err, results) => {
         if(err) {
             return next(err);
         }
@@ -16,10 +19,11 @@ function findAll(req, res, next) {
 //POST 
 function create(req, res, next) {
 
+    const idPersona = req.params.idP;
     //recupera json
-    const sede = req.body;
+    const personaAutorizzataInterna = req.body;
 
-    service.create(sede, (err, results) => {
+    service.create(idPersona, personaAutorizzataInterna, (err, results) => {
 
         if (err) {
             return next(err);
@@ -27,7 +31,7 @@ function create(req, res, next) {
 
         res.status(201).json({
             success: true,
-            message: 'Sede creata con successo',
+            message: 'Persona autorizzata interna creata con successo',
             id: results.insertId
         });
 
@@ -39,9 +43,9 @@ function create(req, res, next) {
 function update(req, res, next) {
 
     const id = req.params.id;
-    const sede = req.body;
+    const personaAutorizzataInterna = req.body;
 
-    service.update(id, sede, (err, results) => {
+    service.update(id, personaAutorizzataInterna, (err, results) => {
 
         if (err) {
             return next(err);
@@ -49,17 +53,17 @@ function update(req, res, next) {
 
         //se query ritorna 'affected 0 rows in total'
         if (results.affectedRows === 0) {
-            const error = new Error('Sede non trovata');
+            const error = new Error('Persona autorizzata interna non trovata');
 
             error.status = 404;
-            error.code = 'SEDE_NOT_FOUND';
+            error.code = 'PERSONA_AUTORIZZATA_INTERNA_NOT_FOUND';
 
             return next(error);
         }
 
         res.status(200).json({
             success: true,
-            message: 'Sede aggiornata con successo'
+            message: 'Persona autorizzata interna aggiornata con successo'
         });
 
     });
@@ -79,17 +83,17 @@ function remove(req, res, next) {
 
         //se query ritorna 'affected 0 rows in total'
         if (result.affectedRows === 0) {
-            const error = new Error('Sede non trovata');
+            const error = new Error('Persona autorizzata interna non trovata');
 
             error.status = 404;
-            error.code = 'SEDE_NOT_FOUND';
+            error.code = 'PERSONA_AUTORIZZATA_INTERNA_NOT_FOUND';
 
             return next(error);
         }
 
         res.status(200).json({
             success: true,
-            message: 'Sede eliminata con successo'
+            message: 'Persona autorizzata interna eliminata con successo'
         });
 
     });
@@ -98,10 +102,12 @@ function remove(req, res, next) {
 
 //SEARCH
 function search(req, res, next) {
+
+    const idSede = req.params.idS;
     const campo = req.query.campo;
     const valore = req.query.valore;
 
-    service.search(campo, valore, (err, results) => {
+    service.search(idSede, campo, valore, (err, results) => {
         if(err) {
             return next(err);
         }

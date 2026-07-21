@@ -257,7 +257,7 @@ router.post('/sedi/:idS', controller.create);
  *               - divisione
  *               - is_di_riferimento
  *     responses:
- *       204:
+ *       200:
  *         description: Persona interna modificata correttamente
  *       400:
  *         description: Nome, cognome, telefono, divisione e riferimento sono obbligatori
@@ -292,7 +292,7 @@ router.put('/sedi/:idS/:id', controller.update);
  *         name: id
  *         required: true
  *     responses:
- *       204:
+ *       200:
  *         description: Persona interna eliminata correttamente
  *       404:
  *         description: Persona interna non trovata

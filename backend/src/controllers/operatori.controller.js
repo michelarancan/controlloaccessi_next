@@ -61,7 +61,7 @@ function update(req, res, next) {
             return next(error);
         }
 
-        res.status(204).json({
+        res.status(200).json({
             success: true,
             message: 'Operatore aggiornato con successo'
         });
@@ -91,7 +91,7 @@ function remove(req, res, next) {
             return next(error);
         }
 
-        res.status(204).json({
+        res.status(200).json({
             success: true,
             message: 'Operatore eliminato con successo'
         });

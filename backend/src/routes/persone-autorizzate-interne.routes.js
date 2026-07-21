@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const controller = require('../controllers/operatori.controller');
+const controller = require('../controllers/persone-autorizzate-interne.controller');
 
 //qui gestisco le rotte
 
 /**
  * @swagger
- * /api/operatori/sedi/{idS}:
+ * /api/persone-autorizzate-interne/sedi/{idS}:
  *   get:
- *     summary: Restituisce tutti gli operatori di una certa sede
+ *     summary: Restituisce tutte le persone autorizzate interne di una certa sede
  *     tags:
- *       - Operatori
+ *       - Persone autorizzate interne
  *     parameters:
  *       - in: path
  *         name: idS
@@ -20,15 +20,7 @@ const controller = require('../controllers/operatori.controller');
  *           type: integer
  *     responses:
  *       200:
- *         description: Elenco operatori di una certa sede
- *       404:
- *         description: Nessun operatore trovato
- *         content:
- *           application/json:
- *             example:
- *               error:
- *                 code: OPERATORE_NOT_FOUND
- *                 message: Operatore non trovato
+ *         description: Elenco persone autorizzate interne di una certa sede
  *       500:
  *         description: Errore interno del server
  */
@@ -36,11 +28,11 @@ router.get('/sedi/:idS', controller.findAll);
 
 /**
  * @swagger
- * /api/operatori/sedi/{idS}/search:
+ * /api/persone-autorizzate-interne/sedi/{idS}/search:
  *   get:
- *     summary: Cerca operatore
+ *     summary: Cerca persona autorizzata interna
  *     tags:
- *       - Operatori
+ *       - Persone autorizzate interne
  *     parameters:
  *       - in: path
  *         name: idS
@@ -65,7 +57,7 @@ router.get('/sedi/:idS', controller.findAll);
  *         description: Valore da cercare
  *     responses:
  *       200:
- *         description: Elenco operatori che corrispondono ai parametri
+ *         description: Elenco persone autorizzate interne che corrispondono ai parametri
  *       400:
  *         description: Campo di ricerca non valido
  *         content:
@@ -81,14 +73,14 @@ router.get('/sedi/:idS/search', controller.search);
 
 /**
  * @swagger
- * /api/operatori/sedi/{idS}:
+ * /api/persone-autorizzate-interne/persone-interne/{idP}:
  *   post:
- *     summary: Crea un nuovo operatore
+ *     summary: Crea una nuova persona autorizzata interna
  *     tags:
- *       - Operatori
+ *       - Persone autorizzate interne
  *     parameters:
  *       - in: path
- *         name: idS
+ *         name: idP
  *         required: true
  *     requestBody:
  *       required: true
@@ -97,44 +89,42 @@ router.get('/sedi/:idS/search', controller.search);
  *           schema:
  *             type: object
  *             properties:
- *               nome:
+ *               dataScadenza:
  *                 type: string
- *               cognome:
- *                 type: string
+ *                 format: date-time
  *             required:
- *               - nome
- *               - cognome
+ *               - dataScadenza
  *     responses:
  *       201:
- *         description: Operatore creato correttamente
+ *         description: Persona autorizzata interna creata correttamente
  *       400:
- *         description: Nome e cognome sono obbligatori
+ *         description: Data scadenza è obbligatoria
  *         content:
  *           application/json:
  *             example:
  *             error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Nome e cognome sono obbligatori
+ *                message: Data scadenza è obbligatoria
  *       404:
- *         description: Sede non trovata
+ *         description: Persona interna non trovata
  *         content:
  *           application/json:
  *             example:
  *               error:
- *                 code: SEDE_NOT_FOUND
- *                 message: Sede non trovata
+ *                 code: PERSONA_INTERNA_NOT_FOUND
+ *                 message: Persona interna non trovata
  *       500:
  *         description: Errore interno del server
  */
-router.post('/sedi/:idS', controller.create);
+router.post('/persone-interne/:idP', controller.create);
 
 /**
  * @swagger
- * /api/operatori/{id}:
+ * /api/persone-autorizzate-interne/{id}:
  *   put:
- *     summary: Modifica un operatore
+ *     summary: Modifica una persona autorizzata interna
  *     tags:
- *       - Operatori
+ *       - Persone autorizzate interne
  *     parameters:
  *       - in: path
  *         name: id
@@ -146,32 +136,30 @@ router.post('/sedi/:idS', controller.create);
  *           schema:
  *             type: object
  *             properties:
- *               nome:
+ *               dataScadenza:
  *                 type: string
- *               cognome:
- *                 type: string
+ *                 format: date-time
  *             required:
- *               - nome
- *               - cognome
+ *               - dataScadenza
  *     responses:
  *       200:
- *         description: Operatore modificato correttamente
+ *         description: Persona autorizzata interna modificata correttamente
  *       400:
- *         description: Nome e cognome sono obbligatori
+ *         description: Data scadenza è obbligatoria
  *         content:
  *           application/json:
  *             example:
  *             error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Nome e cognome sono obbligatori
+ *                message: Data scadenza è obbligatoria
  *       404:
- *         description: Operatore non trovato
+ *         description: Persona autorizzata interna non trovata
  *         content:
  *           application/json:
  *             example:
  *               error:
- *                 code: OPERATORE_NOT_FOUND
- *                 message: Operatore non trovato
+ *                 code: PERSONA_AUTORIZZATA_INTERNA_NOT_FOUND
+ *                 message: Persona autorizzata interna non trovata
  *       500:
  *         description: Errore interno del server
  */
@@ -179,26 +167,26 @@ router.put('/:id', controller.update);
 
 /**
  * @swagger
- * /api/operatori/{id}:
+ * /api/persone-autorizzate-interne/{id}:
  *   delete:
- *     summary: Elimina un operatore
+ *     summary: Elimina una persona autorizzata interna
  *     tags:
- *       - Operatori
+ *       - Persone autorizzate interne
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *     responses:
  *       200:
- *         description: Operatore eliminato correttamente
+ *         description: Persona autorizzata interna eliminata correttamente
  *       404:
- *         description: Operatore non trovato
+ *         description: Persona autorizzata interna non trovata
  *         content:
  *           application/json:
  *             example:
  *               error:
- *                 code: OPERATORE_NOT_FOUND
- *                 message: Operatore non trovato
+ *                 code: PERSONA_AUTORIZZATA_INTERNA_NOT_FOUND
+ *                 message: Persona autorizzata interna non trovata
  *       500:
  *         description: Errore interno del server
  */
