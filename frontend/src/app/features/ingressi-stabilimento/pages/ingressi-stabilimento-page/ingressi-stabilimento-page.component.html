@@ -1,0 +1,88 @@
+<h1>Elenco Ingressi/Uscite</h1>
+
+<div class="div-aggiungi">
+    <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi ingresso">
+        <span class="plus-icon">+</span>
+        <span>Aggiungi un ingresso</span>
+    </button>
+    <div class="sede-selector">
+        <label>Sede:</label>
+        <select [(ngModel)]="idSede" (ngModelChange)="loadIngressi()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+    </div>
+</div><br>
+
+@if (showForm) {
+    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()"></app-ingresso-stabilimento-form>
+}
+
+<div class="search-container">
+    <select [(ngModel)]="campoRicerca">
+        <option value="nome">Nome</option>
+        <option value="cognome">Cognome</option>
+        <option value="badge">Badge</option>
+        <option value="targa">Targa</option>
+        <option value="categoria">Categoria</option>
+        <option value="personaRiferimento">Persona di riferimento</option>
+        <option value="azienda">Azienda</option>
+        <option value="divisione">Divisione</option>
+    </select>
+
+    <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaIngressi()" placeholder="Cerca...">
+    <button type="button" (click)="cercaIngressi()" title="Cerca ingresso">Cerca</button>
+    <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Cognome</th>
+            <th>Nome</th>
+            <th>Badge</th>
+            <th>Targa</th>
+            <th>Data di ingresso</th>
+            <th>Data di uscita</th>
+            <th>Categoria</th>
+            <th>Persona di riferimento</th>
+            <th>Azienda</th>
+            <th>Divisione di destinazione</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- riga per ogni entry della tabella -->
+         @for (ingresso of ingressi; track ingresso.id) {
+            <tr>
+                <td>{{ ingresso.cognome }}</td>
+                <td>{{ ingresso.nome }}</td>
+                <td>{{ ingresso.badge }}</td>
+                <td>{{ ingresso.targa }}</td>
+                <td>{{ ingresso.dataIngresso }}</td>
+                <td>{{ ingresso.dataUscita }}</td>
+                <td>{{ ingresso.categoria }}</td>
+                <td>{{ ingresso.personaRiferimento }}</td>
+                <td>{{ ingresso.azienda }}</td>
+                <td>{{ ingresso.divisione }}</td>
+                <td class="button-cell">
+                    <button class="btn-modifica" (click)="registraUscita(ingresso.id)" title="Registra l'uscita" [disabled]="!!ingresso.dataUscita">Registra l'uscita</button> <!-- disabilitato se già uscito-->
+                </td>
+            </tr>
+         }
+         
+        @if (ingressi.length === 0) {
+        <tr>
+            <td colspan="11" class="no-results">
+            Nessun ingresso trovato
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+@if(showToast) {
+    <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
+}

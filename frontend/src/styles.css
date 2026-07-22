@@ -102,7 +102,7 @@ option {
     cursor: pointer;
 }
 
-button:hover {
+button:not(:disabled):hover {
     background-color: white;
     color: #4969c7;
 
@@ -124,7 +124,7 @@ button:hover {
     border-color:#47ce66;
 }
 
-.btn-aggiungi:hover {
+.btn-aggiungi:not(:disabled):hover {
     color: #47ce66;
     border-color: #47ce66;
 }
@@ -134,7 +134,7 @@ button:hover {
     border-color: #dc3545;
 }
 
-.btn-elimina:hover {
+.btn-elimina:not(:disabled):hover {
     color: #dc3545;
     border-color: #dc3545;
 }
@@ -144,7 +144,7 @@ button:hover {
     border-color: #dc3545;
 }
 
-.btn-annulla:hover {
+.btn-annulla:not(:disabled):hover {
     color: #dc3545;
     border-color: #dc3545;
 }
@@ -162,6 +162,11 @@ input[type=date] {
   margin: 0px 0;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .form-container {

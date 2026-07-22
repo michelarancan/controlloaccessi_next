@@ -1,0 +1,38 @@
+<div class="form-container">
+    <div class="popup-box">
+        <h2>Aggiungi ingresso</h2>
+        <form class="form">
+        <label for="nome">Nome:</label><br><br>
+        <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required><br><br>
+        <label for="cognome">Cognome:</label><br><br>
+        <input type="text" id="cognome" name="cognome" [(ngModel)]="formData.cognome" required><br><br>
+        <label for="badge">Badge:</label><br><br>
+        <select id="badge" name="badge" [(ngModel)]="formData.badge">
+            <!-- options -->
+        </select><br><br>
+        <label for="targa">Targa:</label><br><br>
+        <input type="text" id="targa" name="targa" [(ngModel)]="formData.targa" required><br><br>
+        <label for="categoria">Categoria:</label><br><br>
+        <select id="categoria" name="categoria" [(ngModel)]="formData.categoria">
+            <!-- options -->
+        </select><br><br>
+        <label for="personaRiferimento">Persona di riferimento:</label><br><br>
+        <select id="personaRiferimento" name="personaRiferimento" [(ngModel)]="formData.personaRiferimento">
+            <!-- options -->
+        </select><br><br>
+        <label for="azienda">Azienda:</label><br><br>
+        <select id="azienda" name="azienda" [(ngModel)]="formData.azienda">
+            <!-- options -->
+        </select><br><br>
+        <label for="divisione">Divisione:</label><br><br>
+        <select id="divisione" name="divisione" [(ngModel)]="formData.divisione">
+            <!-- options -->
+        </select><br><br>
+
+        <div class="popup-buttons">
+            <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>
+            <button type="button" class="btn-annulla" (click)="onAnnulla()">Annulla</button>
+        </div>
+        </form>
+    </div>
+</div>
