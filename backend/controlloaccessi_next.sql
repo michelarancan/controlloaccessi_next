@@ -247,7 +247,6 @@ CREATE TABLE ingressi_autorizzati_esterni (
     cognome varchar(100) NOT NULL,      -- persona esterna
     nome varchar(100) NOT NULL,
     azienda int unsigned NOT NULL,    -- azienda di provenienza di questa persona
-    targa varchar(20) DEFAULT NULL,
     data_scadenza datetime DEFAULT NULL,
     persona_riferimento int unsigned NOT NULL,  -- persona interna di riferimento
 
@@ -261,4 +260,69 @@ CREATE TABLE ingressi_autorizzati_esterni (
     FOREIGN KEY (sede) REFERENCES sedi(id),
     FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(id),
     FOREIGN KEY (azienda) REFERENCES aziende(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- CATEGORIE
+
+DROP TABLE IF EXISTS categorie;
+CREATE TABLE categorie (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    codice varchar(30) NOT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- BADGE
+
+DROP TABLE IF EXISTS badge;
+CREATE TABLE badge (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    sede int unsigned NOT NULL,
+    codice char(10) NOT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    UNIQUE (sede,codice),
+    FOREIGN KEY (sede) REFERENCES sedi(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- INGRESSI_STABILIMENTO
+
+DROP TABLE IF EXISTS ingressi_stabilimento;
+CREATE TABLE ingressi_stabilimento (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    nome varchar(100) NOT NULL,
+    cognome varchar(100) NOT NULL,
+    badge int unsigned NOT NULL,
+    targa varchar(30) DEFAULT NULL,
+    data_ingresso datetime NOT NULL,
+    data_uscita datetime DEFAULT NULL,
+    categoria int unsigned NOT NULL,
+    persona_riferimento int unsigned NOT NULL,  -- sono sempre esterni?
+    azienda int unsigned NOT NULL,      -- azienda di provenienza
+    divisione_destinazione int unsigned NOT NULL,   -- divisione interna dove vanno
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    UNIQUE (nome,cognome,data_ingresso),
+    FOREIGN KEY (badge) REFERENCES badge(id),
+    FOREIGN KEY (categoria) REFERENCES categorie(id),
+    FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(id),
+    FOREIGN KEY (azienda) REFERENCES aziende(id),
+    FOREIGN KEY (divisione_destinazione) REFERENCES divisioni(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -6,6 +6,9 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 const testConnection = require('./config/database');
 
+const mockAuth = require('./middleware/mock-auth');
+
+//const authRoutes = require('./routes/auth.routes');
 const sediRoutes = require('./routes/sedi.routes');
 const operatoriRoutes = require('./routes/operatori.routes');
 const personeInterneRoutes = require('./routes/persone-interne.routes');
@@ -20,6 +23,9 @@ app.use(cors());
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use(mockAuth);
+
+//app.use('/api/auth', authRoutes);
 app.use('/api/sedi', sediRoutes);
 app.use('/api/operatori', operatoriRoutes);
 app.use('/api/persone-interne', personeInterneRoutes);

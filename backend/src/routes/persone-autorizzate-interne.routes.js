@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const requirePermission = require('../middleware/require-permission');
 const controller = require('../controllers/persone-autorizzate-interne.controller');
 
 //qui gestisco le rotte
@@ -24,7 +25,7 @@ const controller = require('../controllers/persone-autorizzate-interne.controlle
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS', controller.findAll);
+router.get('/sedi/:idS', requirePermission('PERSONE_AUTORIZZATE_INTERNE_READ'), controller.findAll);
 
 /**
  * @swagger
@@ -69,7 +70,7 @@ router.get('/sedi/:idS', controller.findAll);
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS/search', controller.search);
+router.get('/sedi/:idS/search', requirePermission('PERSONE_AUTORIZZATE_INTERNE_READ'), controller.search);
 
 /**
  * @swagger
@@ -116,7 +117,7 @@ router.get('/sedi/:idS/search', controller.search);
  *       500:
  *         description: Errore interno del server
  */
-router.post('/persone-interne/:idP', controller.create);
+router.post('/persone-interne/:idP', requirePermission('PERSONE_AUTORIZZATE_INTERNE_WRITE'), controller.create);
 
 /**
  * @swagger
@@ -163,7 +164,7 @@ router.post('/persone-interne/:idP', controller.create);
  *       500:
  *         description: Errore interno del server
  */
-router.put('/:id', controller.update);
+router.put('/:id', requirePermission('PERSONE_AUTORIZZATE_INTERNE_WRITE'), controller.update);
 
 /**
  * @swagger
@@ -190,6 +191,6 @@ router.put('/:id', controller.update);
  *       500:
  *         description: Errore interno del server
  */
-router.delete('/:id', controller.remove);
+router.delete('/:id', requirePermission('PERSONE_AUTORIZZATE_INTERNE_WRITE'), controller.remove);
 
 module.exports = router;
