@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const permissions = require('../config/permessi');
 const requirePermission = require('../middleware/require-permission');
 const controller = require('../controllers/divisioni.controller');
 
@@ -33,6 +34,6 @@ const controller = require('../controllers/divisioni.controller');
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS', requirePermission('DIVISIONI_READ'), controller.findAll);
+router.get('/sedi/:idS', requirePermission(permissions.DIVISIONI_READ), controller.findAll);
 
 module.exports = router;

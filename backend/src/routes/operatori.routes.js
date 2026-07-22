@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const permissions = require('../config/permessi');
 const requirePermission = require('../middleware/require-permission');
 const controller = require('../controllers/operatori.controller');
 
@@ -33,7 +34,7 @@ const controller = require('../controllers/operatori.controller');
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS', requirePermission('OPERATORI_READ'), controller.findAll);
+router.get('/sedi/:idS', requirePermission(permissions.OPERATORI_READ), controller.findAll);
 
 /**
  * @swagger
@@ -78,7 +79,7 @@ router.get('/sedi/:idS', requirePermission('OPERATORI_READ'), controller.findAll
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS/search', requirePermission('OPERATORI_READ'), controller.search);
+router.get('/sedi/:idS/search', requirePermission(permissions.OPERATORI_READ), controller.search);
 
 /**
  * @swagger
@@ -127,7 +128,7 @@ router.get('/sedi/:idS/search', requirePermission('OPERATORI_READ'), controller.
  *       500:
  *         description: Errore interno del server
  */
-router.post('/sedi/:idS', requirePermission('OPERATORI_WRITE'), controller.create);
+router.post('/sedi/:idS', requirePermission(permissions.OPERATORI_WRITE), controller.create);
 
 /**
  * @swagger
@@ -176,7 +177,7 @@ router.post('/sedi/:idS', requirePermission('OPERATORI_WRITE'), controller.creat
  *       500:
  *         description: Errore interno del server
  */
-router.put('/:id', requirePermission('OPERATORI_WRITE'), controller.update);
+router.put('/:id', requirePermission(permissions.OPERATORI_WRITE), controller.update);
 
 /**
  * @swagger
@@ -203,6 +204,6 @@ router.put('/:id', requirePermission('OPERATORI_WRITE'), controller.update);
  *       500:
  *         description: Errore interno del server
  */
-router.delete('/:id', requirePermission('OPERATORI_WRITE'), controller.remove);
+router.delete('/:id', requirePermission(permissions.OPERATORI_WRITE), controller.remove);
 
 module.exports = router;

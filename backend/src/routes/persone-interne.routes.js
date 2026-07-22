@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const permissions = require('../config/permessi');
 const requirePermission = require('../middleware/require-permission');
 const controller = require('../controllers/persone-interne.controller');
 
@@ -33,7 +34,7 @@ const controller = require('../controllers/persone-interne.controller');
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS', requirePermission('PERSONE_INTERNE_READ'), controller.findAll);
+router.get('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAll);
 
 /**
  * @swagger
@@ -62,7 +63,7 @@ router.get('/sedi/:idS', requirePermission('PERSONE_INTERNE_READ'), controller.f
  *       500:
  *         description: Errore interno del server
  */
-router.get('/divisioni/:idD', requirePermission('PERSONE_INTERNE_READ'), controller.findAllByDivisione);
+router.get('/divisioni/:idD', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAllByDivisione);
 
 /**
  * @swagger
@@ -109,7 +110,7 @@ router.get('/divisioni/:idD', requirePermission('PERSONE_INTERNE_READ'), control
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS/search', requirePermission('PERSONE_INTERNE_READ'), controller.search);
+router.get('/sedi/:idS/search', requirePermission(permissions.PERSONE_INTERNE_READ), controller.search);
 
 /**
  * @swagger
@@ -156,7 +157,7 @@ router.get('/sedi/:idS/search', requirePermission('PERSONE_INTERNE_READ'), contr
  *       500:
  *         description: Errore interno del server
  */
-router.get('/divisioni/:idD/search', requirePermission('PERSONE_INTERNE_READ'), controller.searchByDivisione);
+router.get('/divisioni/:idD/search', requirePermission(permissions.PERSONE_INTERNE_READ), controller.searchByDivisione);
 
 /**
  * @swagger
@@ -216,7 +217,7 @@ router.get('/divisioni/:idD/search', requirePermission('PERSONE_INTERNE_READ'), 
  *       500:
  *         description: Errore interno del server
  */
-router.post('/sedi/:idS', requirePermission('PERSONE_INTERNE_WRITE'), controller.create);
+router.post('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.create);
 
 /**
  * @swagger
@@ -279,7 +280,7 @@ router.post('/sedi/:idS', requirePermission('PERSONE_INTERNE_WRITE'), controller
  *       500:
  *         description: Errore interno del server
  */
-router.put('/sedi/:idS/:id', requirePermission('PERSONE_INTERNE_WRITE'), controller.update);
+router.put('/sedi/:idS/:id', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.update);
 
 /**
  * @swagger
@@ -306,6 +307,6 @@ router.put('/sedi/:idS/:id', requirePermission('PERSONE_INTERNE_WRITE'), control
  *       500:
  *         description: Errore interno del server
  */
-router.delete('/:id', requirePermission('PERSONE_INTERNE_WRITE'), controller.remove);
+router.delete('/:id', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.remove);
 
 module.exports = router;
