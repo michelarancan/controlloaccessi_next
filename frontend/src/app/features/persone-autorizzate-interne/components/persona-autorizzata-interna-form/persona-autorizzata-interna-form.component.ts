@@ -34,7 +34,7 @@ export class PersonaAutorizzataInternaForm{
 
       this.formData = {
         persona: this.personaAutorizzataInterna.idPersona,
-        dataScadenza: this.personaAutorizzataInterna.dataScadenza.substring(0, 10)
+        dataScadenza: this.personaAutorizzataInterna.dataScadenza
       };
 
     }
