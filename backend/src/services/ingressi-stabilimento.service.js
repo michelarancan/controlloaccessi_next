@@ -8,6 +8,11 @@ function findAll(idSede, callback) {
     repository.findAll(idSede, callback);
 }
 
+//GET all by data
+function findAllByData(idSede, data, callback) {
+    repository.findAllByData(idSede, data, callback);
+}
+
 //POST
 function create(data, callback) {
     //campi non nulli
@@ -150,4 +155,33 @@ function search(idSede, campo, valore, callback) {
     repository.search(idSede, campoSql, valore, callback);
 }
 
-module.exports = { findAll, create, registerExit, search };
+//SEARCH by data
+function searchByData(idSede, data, campo, valore, callback) {
+    const campiValidi = {    
+        nome: 'i.nome',
+        cognome: 'i.cognome',
+        badge: 'b.codice',
+        targa: 'i.targa',
+        categoria: 'c.codice',
+        azienda: 'a.ragione_sociale',
+        divisione: 'd.nome',
+
+        personaRiferimento: "CONCAT(p.cognome, ' ', p.nome)"
+    };
+
+    const campoSql = campiValidi[campo];
+
+    if(!campoSql) {
+        
+        const error = new Error('Campo di ricerca non valido');
+
+        error.status = 400;
+        error.code = 'INVALID_SEARCH_FIELD';
+
+        return callback(error);
+    }
+
+    repository.searchByData(idSede, data, campoSql, valore, callback);
+}
+
+module.exports = { findAll, findAllByData, create, registerExit, search, searchByData };
