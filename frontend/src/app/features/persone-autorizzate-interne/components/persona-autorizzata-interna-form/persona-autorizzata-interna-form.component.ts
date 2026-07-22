@@ -9,7 +9,7 @@ import { PersonaInterna } from '../../../persone-interne/models/persona-interna.
   templateUrl: './persona-autorizzata-interna-form.component.html',
   styleUrl: './persona-autorizzata-interna-form.component.css',
 })
-export class PersonaAutorizzataInternaForm {
+export class PersonaAutorizzataInternaForm{
 
   formData = {
     persona: 0,
@@ -34,7 +34,7 @@ export class PersonaAutorizzataInternaForm {
 
       this.formData = {
         persona: this.personaAutorizzataInterna.idPersona,
-        dataScadenza: this.personaAutorizzataInterna.dataScadenza
+        dataScadenza: this.personaAutorizzataInterna.dataScadenza.substring(0, 10)
       };
 
     }

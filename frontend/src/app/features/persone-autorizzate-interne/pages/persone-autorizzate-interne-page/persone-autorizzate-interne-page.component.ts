@@ -97,6 +97,10 @@ export class PersoneAutorizzateInterneComponent implements OnInit {
     });
   }
 
+  onSedeChanged(): void {
+    this.loadPersoneAutorizzateInterne();
+    this.loadPersoneInterne();
+  }
 
   apriForm() {
     //rendi form visibile
