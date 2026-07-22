@@ -8,6 +8,18 @@ function findAll(idSede, callback) {
     connection.query(query, [idSede], callback);
 }
 
+//GET by data
+function findAllByData(idSede, data, callback) {
+    const query = `SELECT i.id, i.nome, i.cognome, b.codice as badge, i.targa, DATE_FORMAT(i.data_ingresso, '%H:%i:%s %d/%m/%Y') as dataIngresso, DATE_FORMAT(i.data_uscita, '%H:%i:%s %d/%m/%Y') AS dataUscita, c.codice AS categoria, CONCAT(p.cognome, ' ', p.nome) AS personaRiferimento, a.ragione_sociale as azienda, d.nome as divisione FROM ingressi_stabilimento i JOIN badge b ON i.badge = b.id JOIN categorie c ON i.categoria = c.id JOIN persone_interne p ON i.persona_riferimento = p.id JOIN aziende a ON i.azienda = a.id JOIN divisioni d ON i.divisione_destinazione = d.id WHERE d.sede = ? AND i.data_ingresso >= ? AND i.data_ingresso < DATE_ADD(?, INTERVAL 1 DAY) AND i.is_active = true ORDER BY i.data_ingresso DESC`;
+    connection.query(query, [idSede, data.inizioPeriodo, data.finePeriodo], callback);
+}
+
+//badge già usato
+function badgeAlreadyTaken(badge, callback) {
+    const query = `SELECT badge from ingressi_stabilimento WHERE badge = ? AND is_active = true AND data_uscita IS NULL`;
+    connection.query(query, [badge], callback);
+}
+
 //POST
 function create(data, callback) {
     const query = `INSERT INTO ingressi_stabilimento(nome, cognome, badge, targa, data_ingresso, categoria, persona_riferimento, azienda, divisione_destinazione) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?)`;
@@ -26,4 +38,10 @@ function search(idSede, campo, valore, callback) {
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 
-module.exports = { findAll, create, registerExit, search };
+//SEARCH PER DATA
+function searchByData(idSede, data, campo, valore, callback) {
+    const query = `SELECT i.id, i.nome, i.cognome, b.codice as badge, i.targa, DATE_FORMAT(i.data_ingresso, '%H:%i:%s %d/%m/%Y') as dataIngresso, DATE_FORMAT(i.data_uscita, '%H:%i:%s %d/%m/%Y') AS dataUscita, c.codice AS categoria, CONCAT(p.cognome, ' ', p.nome) AS personaRiferimento, a.ragione_sociale as azienda, d.nome as divisione FROM ingressi_stabilimento i JOIN badge b ON i.badge = b.id JOIN categorie c ON i.categoria = c.id JOIN persone_interne p ON i.persona_riferimento = p.id JOIN aziende a ON i.azienda = a.id JOIN divisioni d ON i.divisione_destinazione = d.id WHERE d.sede = ? AND i.data_ingresso >= ? AND i.data_ingresso < DATE_ADD(?, INTERVAL 1 DAY) AND ${campo} LIKE ? AND i.is_active = true ORDER BY i.data_ingresso DESC`;
+    connection.query(query, [idSede, data.inizioPeriodo, data.finePeriodo, `%${valore}%`], callback);
+}
+
+module.exports = { findAll, findAllByData, create, registerExit, search, searchByData, badgeAlreadyTaken };

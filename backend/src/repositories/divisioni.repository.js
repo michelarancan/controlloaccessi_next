@@ -14,4 +14,10 @@ function findAll(idSede, callback) {
     connection.query(query, [idSede], callback);
 }
 
-module.exports = { existsInSede, findAll };
+//GET sede by id
+function findSedeById(id, callback) {
+    const query = `SELECT sede FROM divisioni WHERE id = ? AND is_active = true`;
+    connection.query(query, [id], callback);
+}
+
+module.exports = { existsInSede, findAll, findSedeById };
