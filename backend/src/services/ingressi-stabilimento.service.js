@@ -15,40 +15,21 @@ function findAllByData(idSede, data, callback) {
 
 //POST
 function create(data, callback) {
-    //campi non nulli
-    if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
-        const error = new Error('Nome e cognome sono obbligatori');
-
-        error.status = 400;
-        error.code = 'INVALID_PARAMS_FIELD';
-
-        return callback(error);
-    }
-
-    //lunghezza campi
-    if(data.nome.length > 100) {
-        const error = new Error('Il nome non può superare i 100 caratteri');
-
-        error.status = 400;
-        error.code = 'FIELD_TOO_LONG';
-
-        return callback(error);
-    }
-
-    if(data.cognome.length > 100) {
-        const error = new Error('Il cognome non può superare i 100 caratteri');
-
-        error.status = 400;
-        error.code = 'FIELD_TOO_LONG';
-
-        return callback(error);
-    }
-
     if(data.targa && data.targa.length > 30) {
         const error = new Error('La targa non può superare i 30 caratteri');
 
         error.status = 400;
         error.code = 'FIELD_TOO_LONG';
+
+        return callback(error);
+    }
+
+    //campi non nulli
+    if (!data.persona || !data.badge || !data.categoria || !data.divisione) {
+        const error = new Error('Persona, badge, categoria e divisione sono obbligatori');
+
+        error.status = 400;
+        error.code = 'INVALID_PARAMS_FIELD';
 
         return callback(error);
     }
@@ -69,17 +50,6 @@ function create(data, callback) {
             return callback(error);
         }
 
-        
-        if (!data.badge || !data.categoria || !data.personaRiferimento || !data.azienda || !data.divisione) {
-            const error = new Error('Badge, categoria, persona di riferimento, azienda e divisione sono obbligatori');
-
-            error.status = 400;
-            error.code = 'INVALID_PARAMS_FIELD';
-
-            return callback(error);
-        }
-
-
         //badge non ce l'ha qualcuno ancora dentro
         repository.badgeAlreadyTaken(data.badge, (err, badgeTakenResults) => {
             if (err) {
@@ -98,7 +68,37 @@ function create(data, callback) {
                 return callback(error);
             }
 
-            repository.create(data, callback);
+            //controllo che se è esterna ha personaRiferimento
+            repository.isEsterna(data.persona, (err, esternaResults) => {
+
+                if (err) {
+                    return callback(err);
+                }
+
+                if(esternaResults.length > 0 && !data.personaRiferimento) {
+                    const error = new Error(
+                        'La persona di riferimento è obbligatoria per gli ingressi esterni'
+                    );
+
+                    error.status = 400;
+                    error.code = 'INVALID_PARAMS_FIELD';
+
+                    return callback(error);
+                }
+
+                if(esternaResults.length === 0 && data.personaRiferimento) {
+                    const error = new Error(
+                        'La persona di riferimento non deve esserci per gli ingressi interni'
+                    );
+
+                    error.status = 400;
+                    error.code = 'INVALID_PARAMS_FIELD';
+
+                    return callback(error);
+                }
+
+                repository.create(data, callback);
+            });
         });
     });
 }
@@ -129,15 +129,15 @@ function registerExit(id, callback) {
 //SEARCH
 function search(idSede, campo, valore, callback) {
     const campiValidi = {    
-        nome: 'i.nome',
-        cognome: 'i.cognome',
+        nome: 'per.nome',
+        cognome: 'per.cognome',
         badge: 'b.codice',
         targa: 'i.targa',
         categoria: 'c.codice',
         azienda: 'a.ragione_sociale',
         divisione: 'd.nome',
 
-        personaRiferimento: "CONCAT(p.cognome, ' ', p.nome)"
+        personaRiferimento: "CONCAT(pr.cognome, ' ', pr.nome)"
     };
 
     const campoSql = campiValidi[campo];
@@ -158,15 +158,15 @@ function search(idSede, campo, valore, callback) {
 //SEARCH by data
 function searchByData(idSede, data, campo, valore, callback) {
     const campiValidi = {    
-        nome: 'i.nome',
-        cognome: 'i.cognome',
+        nome: 'per.nome',
+        cognome: 'per.cognome',
         badge: 'b.codice',
         targa: 'i.targa',
         categoria: 'c.codice',
         azienda: 'a.ragione_sociale',
         divisione: 'd.nome',
 
-        personaRiferimento: "CONCAT(p.cognome, ' ', p.nome)"
+        personaRiferimento: "CONCAT(pr.cognome, ' ', pr.nome)"
     };
 
     const campoSql = campiValidi[campo];

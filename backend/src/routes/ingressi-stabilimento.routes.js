@@ -46,13 +46,13 @@ router.get('/sedi/:idS', requirePermission(permissions.INGRESSI_READ), controlle
  *         required: true
  *         schema:
  *           type: string
- *           format: date-time
+ *           format: date
  *       - in: query
  *         name: finePeriodo
  *         required: true
  *         schema:
  *           type: string
- *           format: date-time
+ *           format: date
  *     responses:
  *       200:
  *         description: Elenco ingressi in una certa sede in un certo periodo
@@ -152,13 +152,13 @@ router.get('/sedi/:idS/search', requirePermission(permissions.INGRESSI_READ), co
  *         required: true
  *         schema:
  *           type: string
- *           format: date-time
+ *           format: date
  *       - in: query
  *         name: finePeriodo
  *         required: true
  *         schema:
  *           type: string
- *           format: date-time
+ *           format: date
  *     responses:
  *       200:
  *         description: Elenco ingressi che corrispondono ai parametri
@@ -189,10 +189,8 @@ router.get('/sedi/:idS/search/periodo', requirePermission(permissions.INGRESSI_R
  *           schema:
  *             type: object
  *             properties:
- *               nome:
- *                 type: string
- *               cognome:
- *                 type: string
+ *               persona:
+ *                 type: integer
  *               badge:
  *                 type: integer
  *               targa:
@@ -201,29 +199,24 @@ router.get('/sedi/:idS/search/periodo', requirePermission(permissions.INGRESSI_R
  *                 type: integer
  *               personaRiferimento:
  *                 type: integer
- *               azienda:
- *                 type: integer
  *               divisione:
  *                 type: integer
  *             required:
- *               - nome
- *               - cognome
+ *               - persona
  *               - badge
  *               - categoria
- *               - personaRiferimento
- *               - azienda
  *               - divisione
  *     responses:
  *       201:
  *         description: Ingresso aggiunto correttamente
  *       400:
- *         description: Nome, cognome, badge, categoria, persona di riferimento, azienda e divisione di destinazione sono obbligatori
+ *         description: Persona, badge, categoria e divisione di destinazione sono obbligatori
  *         content:
  *           application/json:
  *             example:
  *               error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Nome, cognome, badge, categoria, persona di riferimento, azienda e divisione di destinazione sono obbligatori
+ *                message: Persona, badge, categoria e divisione di destinazione sono obbligatori
  *       500:
  *         description: Errore interno del server
  */
