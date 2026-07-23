@@ -26,7 +26,7 @@ export const routes: Routes = [
         component: OperatoriComponent
     },
     {
-        path: 'persone-interne',
+        path: 'persone',
         component: PersoneInterneComponent
     },
     {

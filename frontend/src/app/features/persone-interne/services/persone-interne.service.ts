@@ -10,26 +10,26 @@ export class PersoneInterneService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/api/persone-interne';
+  private apiUrl = 'http://localhost:3000/api/persone';
 
   //GET all
   getAll(idS: number): Observable<PersonaInterna[]> {
-    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/sedi/${idS}`);
+    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/interne/sedi/${idS}`);
   }
 
   //GET all by divisione
   getAllByDivisione(idD: number): Observable<PersonaInterna[]> {
-    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/divisioni/${idD}`);
+    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/interne/divisioni/${idD}`);
   }
 
   //POST
   create(idS: number, personaInterna: Omit<PersonaInterna, 'id'>): Observable<any> {
-    return this.http.post(`${this.apiUrl}/sedi/${idS}`, personaInterna);
+    return this.http.post(`${this.apiUrl}/interne/sedi/${idS}`, personaInterna);
   }
 
   //PUT
   update(idS: number, id: number, personaInterna: {nome: string, cognome: string, telefono: string, email: string, divisione: number, is_di_riferimento: boolean}): Observable<any> {
-    return this.http.put(`${this.apiUrl}/sedi/${idS}/${id}`, personaInterna);
+    return this.http.put(`${this.apiUrl}/interne/${id}/sedi/${idS}`, personaInterna);
   }
 
   //DELETE
@@ -39,12 +39,12 @@ export class PersoneInterneService {
 
   //SEARCH
   search(idS: number, campo: string, valore: string): Observable<PersonaInterna[]> {
-    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/sedi/${idS}/search?campo=${campo}&valore=${valore}`);
+    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/interne/sedi/${idS}/search?campo=${campo}&valore=${valore}`);
   }
 
   //SEARCH by divisione
   searchByDivisione(idD: number, campo: string, valore: string): Observable<PersonaInterna[]> {
-    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/divisioni/${idD}/search?campo=${campo}&valore=${valore}`);
+    return this.http.get<PersonaInterna[]>(`${this.apiUrl}/interne/divisioni/${idD}/search?campo=${campo}&valore=${valore}`);
   }
 
 }

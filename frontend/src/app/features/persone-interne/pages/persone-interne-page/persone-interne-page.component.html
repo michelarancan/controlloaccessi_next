@@ -64,7 +64,6 @@
             <th>Numero di telefono</th>
             <th>Email</th>
             <th>Divisione</th>
-            <th>È di riferimento?</th>
             <th>Azioni</th>
         </tr>
     
@@ -78,7 +77,7 @@
                 <td>{{ personaInterna.telefono }}</td>
                 <td>{{ personaInterna.email }}</td>
                 <td>{{ personaInterna.nomeDivisione }}</td>
-                <td>{{ (personaInterna.is_di_riferimento) ? 'Sì' : 'No' }}</td>
+
                 <td class="button-cell">
                     <button class="btn-modifica" (click)="modificaPersonaInterna(personaInterna)" title="Modifica persona interna">Modifica</button>
                     <button class="btn-elimina" (click)="apriPopupElimina(personaInterna.id)" title="Elimina persona interna">Elimina</button>
@@ -88,7 +87,7 @@
          
         @if (personeInterne.length === 0) {
         <tr>
-            <td colspan="7" class="no-results">
+            <td colspan="6" class="no-results">
             Nessuna persona interna trovata
             </td>
         </tr>

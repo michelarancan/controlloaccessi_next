@@ -16,11 +16,7 @@
                 <option [ngValue]="divisione.id">{{ divisione.nome }}</option>
             }
         </select><br><br>
-        <div class="checkbox-container">
-            <label for="is_di_riferimento">È una persona di riferimento?</label><br><br>
-            <input type="checkbox" id="is_di_riferimento" name="is_di_riferimento" [(ngModel)]="formData.is_di_riferimento">
-        </div>
-        
+                
         <div class="popup-buttons">
             <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>
             <button type="button" class="btn-annulla" (click)="onAnnulla()">Annulla</button>

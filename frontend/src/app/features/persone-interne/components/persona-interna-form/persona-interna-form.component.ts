@@ -21,14 +21,13 @@ export class PersonaInternaForm {
     cognome: '',
     telefono: '',
     email: '',
-    divisione: 0,
-    is_di_riferimento: false
+    divisione: 0
   };
 
   divisioni: Divisione[] = [];
 
   @Output()
-  salva = new EventEmitter<{ nome: string; cognome: string; telefono: string; email: string; divisione: number; is_di_riferimento: boolean }>();
+  salva = new EventEmitter<{ nome: string; cognome: string; telefono: string; email: string; divisione: number }>();
 
   @Output()
   annulla = new EventEmitter<void>();
@@ -49,8 +48,7 @@ export class PersonaInternaForm {
         cognome: this.personaInterna.cognome,
         telefono: this.personaInterna.telefono,
         email: this.personaInterna.email,
-        divisione: this.personaInterna.divisione,
-        is_di_riferimento: this.personaInterna.is_di_riferimento
+        divisione: this.personaInterna.divisione
       };
     }
 
