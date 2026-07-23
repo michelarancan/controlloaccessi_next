@@ -9,6 +9,7 @@ import { IngressoStabilimento } from '../../models/ingresso-stabilimento.model';
 import { Sede } from '../../../sedi/models/sede.model';
 
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { Badge } from '../../../badge/models/badge.model';
 
 @Component({
   selector: 'app-ingressi-stabilimento-page',
@@ -24,6 +25,8 @@ export class IngressiStabilimentoComponent implements OnInit {
   ingressi: IngressoStabilimento[] = [];
   sedi: Sede[] = [];
   idSede = 1; //default
+
+  badges:  Badge[] = [];
 
   private ingressiStabilimentoService = inject(IngressiStabilimentoService);
   private sediService = inject(SediService);
@@ -47,6 +50,7 @@ export class IngressiStabilimentoComponent implements OnInit {
   ngOnInit(): void {
     this.loadIngressi();
     this.loadSedi();
+    this.loadBadges();
   }
 
   loadIngressi(): void {
@@ -72,6 +76,10 @@ export class IngressiStabilimentoComponent implements OnInit {
         console.error(error);
       }
     })
+  }
+
+  loadBadges() {
+    
   }
 
   apriForm() {

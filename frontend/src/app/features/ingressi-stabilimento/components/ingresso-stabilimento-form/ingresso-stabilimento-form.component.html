@@ -8,7 +8,11 @@
         <input type="text" id="cognome" name="cognome" [(ngModel)]="formData.cognome" required><br><br>
         <label for="badge">Badge:</label><br><br>
         <select id="badge" name="badge" [(ngModel)]="formData.badge">
-            <!-- options -->
+            @for (badge of badges; track badge.id) {
+                <option [ngValue]="badge.id">
+                    {{ badge.codice }}
+                </option>
+            }
         </select><br><br>
         <label for="targa">Targa:</label><br><br>
         <input type="text" id="targa" name="targa" [(ngModel)]="formData.targa" required><br><br>

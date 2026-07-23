@@ -16,7 +16,7 @@
 </div><br>
 
 @if (showForm) {
-    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()"></app-ingresso-stabilimento-form>
+    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [badges]="badges"></app-ingresso-stabilimento-form>
 }
 
 <div class="search-container">

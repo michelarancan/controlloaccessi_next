@@ -15,6 +15,9 @@ const personeInterneRoutes = require('./routes/persone-interne.routes');
 const divisioniRoutes = require('./routes/divisioni.routes');
 const personeAutorizzateInterneRoutes = require('./routes/persone-autorizzate-interne.routes');
 const ingressiStabilimentoRoutes = require('./routes/ingressi-stabilimento.routes');
+const badgeRoutes = require('./routes/badge.routes');
+const categorieRoutes = require('./routes/categorie.routes');
+const aziendeRoutes = require('./routes/aziende.routes');
 //altre rotte
 
 const app = express();
@@ -33,6 +36,9 @@ app.use('/api/persone-interne', personeInterneRoutes);
 app.use('/api/divisioni', divisioniRoutes);
 app.use('/api/persone-autorizzate-interne', personeAutorizzateInterneRoutes);
 app.use('/api/ingressi-stabilimento', ingressiStabilimentoRoutes);
+app.use('/api/badge', badgeRoutes);
+app.use('/api/categorie', categorieRoutes);
+app.use('/api/aziende', aziendeRoutes);
 //altri
 
 app.use(errorHandler);

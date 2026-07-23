@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IngressoStabilimento } from '../../models/ingresso-stabilimento.model';
+import { Badge } from '../../../badge/models/badge.model';
 
 @Component({
   selector: 'app-ingresso-stabilimento-form',
@@ -20,6 +21,9 @@ export class IngressoStabilimentoForm {
     azienda: 0,
     divisione: 0
   };
+
+  @Input()
+  badges: Badge[] = [];
 
   @Output()
   salva = new EventEmitter<{ nome: string; cognome: string, badge: number, targa: string, categoria: number, personaRiferimento: number, azienda: number, divisione: number }>();
