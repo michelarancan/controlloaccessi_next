@@ -60,6 +60,11 @@ export class IngressiStabilimentoComponent implements OnInit {
   //form
   showForm = false;
 
+  //periodo
+  mostraFiltroPeriodo = false;
+  inizioPeriodo = '';
+  finePeriodo = '';
+
   //filtro
   campoRicerca = 'nome';
   testoRicerca = '';
@@ -81,13 +86,20 @@ export class IngressiStabilimentoComponent implements OnInit {
     this.loadDivisioni();
   }
 
-  reloadComponents(): void {
+  onSedeChange(): void {
     this.loadIngressi();
     this.loadBadges();
     this.loadAziende();
     this.loadCategorie();
     this.loadPersoneInterne();
     this.loadDivisioni();
+
+    this.testoRicerca = '';
+
+    this.mostraFiltroPeriodo = false;
+
+    this.inizioPeriodo = '';
+    this.finePeriodo = '';
   }
 
   loadIngressi(): void {
@@ -185,6 +197,51 @@ export class IngressiStabilimentoComponent implements OnInit {
     this.showForm = false;
   }
 
+  applicaFiltroPeriodo() {
+    if (this.testoRicerca.trim()) {
+      //se sto cercando qualcosa
+      this.ingressiStabilimentoService.searchByData(
+        this.idSede,
+        this.campoRicerca,
+        this.testoRicerca,
+        this.inizioPeriodo,
+        this.finePeriodo
+      ).subscribe({
+        next: (data) => {
+          this.ingressi = data;
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    } else {
+
+      this.ingressiStabilimentoService.getAllByData(
+        this.idSede,
+        this.inizioPeriodo,
+        this.finePeriodo
+      ).subscribe({
+        next: (data) => {
+          this.ingressi = data;
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
+    }
+  }
+
+  onCambioFiltroPeriodo() {
+    if (!this.mostraFiltroPeriodo) {
+
+      this.inizioPeriodo = '';
+      this.finePeriodo = '';
+
+      this.loadIngressi();
+    }
+
+  }
+
   salvaIngresso(dati: any) {
     this.ingressiStabilimentoService.create(dati)
     .subscribe({
@@ -220,17 +277,28 @@ export class IngressiStabilimentoComponent implements OnInit {
   }
 
   cercaIngressi() {
-    this.ingressiStabilimentoService.search(
-      this.idSede, this.campoRicerca, this.testoRicerca
-    ).subscribe({
-      next: (data) => {
-        this.ingressi = data;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
+    if (this.mostraFiltroPeriodo) {
+      this.ingressiStabilimentoService.searchByData(
+        this.idSede,
+        this.campoRicerca,
+        this.testoRicerca,
+        this.inizioPeriodo,
+        this.finePeriodo
+      ).subscribe({
+        next: (data) => this.ingressi = data,
+        error: (error) => console.error(error)
+      });
+
+    } else {
+      this.ingressiStabilimentoService.search(
+        this.idSede,
+        this.campoRicerca,
+        this.testoRicerca
+      ).subscribe({
+        next: (data) => this.ingressi = data,
+        error: (error) => console.error(error)
+      });
+    }
   }
 
   resettaRicerca() {

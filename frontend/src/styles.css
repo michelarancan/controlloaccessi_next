@@ -19,6 +19,13 @@ h1 {
     padding: 20px;
 }
 
+.periodo-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
 .menu ul {
     list-style: none;
     padding: 0;
@@ -220,7 +227,8 @@ button:disabled {
 
 .search-container button,
 .search-container select,
-.search-container input {
+.search-container input,
+.periodo-container button {
     margin-bottom: 0;
 }
 

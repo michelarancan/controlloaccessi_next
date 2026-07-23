@@ -7,7 +7,7 @@
     </button>
     <div class="sede-selector">
         <label>Sede:</label>
-        <select [(ngModel)]="idSede" (ngModelChange)="reloadComponents()">
+        <select [(ngModel)]="idSede" (ngModelChange)="onSedeChange()">
             @for (sede of sedi; track sede.id) {
                 <option [ngValue]="sede.id">{{ sede.sede }}</option>
             }
@@ -20,6 +20,7 @@
 }
 
 <div class="search-container">
+
     <select [(ngModel)]="campoRicerca">
         <option value="nome">Nome</option>
         <option value="cognome">Cognome</option>
@@ -35,6 +36,22 @@
     <button type="button" (click)="cercaIngressi()" title="Cerca ingresso">Cerca</button>
     <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
 </div>
+
+<label>Filtra per periodo di ingresso: </label>
+<input type="checkbox" [(ngModel)]="mostraFiltroPeriodo" (change)="onCambioFiltroPeriodo()"><br><br>
+
+@if (mostraFiltroPeriodo) {
+    <div class="periodo-container">
+        <label>Dal:</label>
+        <input type="date" [(ngModel)]="inizioPeriodo">
+
+        <label>Al:</label>
+        <input type="date" [(ngModel)]="finePeriodo">
+
+        <button (click)="applicaFiltroPeriodo()">Applica</button>
+    </div>
+
+}
 
 <table>
     <thead>
