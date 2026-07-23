@@ -1,20 +1,20 @@
-const repository = require('../repositories/persone-interne.repository');
+const repository = require('../repositories/persone.repository');
 const divisioniRepository = require('../repositories/divisioni.repository');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
-//GET all
-function findAll(idSede, callback) {
-    repository.findAll(idSede, callback);
+//GET all interne
+function findAllInterne(idSede, callback) {
+    repository.findAllInterne(idSede, callback);
 }
 
-//GET all by divisione
-function findAllByDivisione(idDivisione, callback) {
-    repository.findAllByDivisione(idDivisione, callback);
+//GET all interne by divisione
+function findAllInterneByDivisione(idDivisione, callback) {
+    repository.findAllInterneByDivisione(idDivisione, callback);
 }
 
 //POST
-function create(idSede, data, callback) {
+function createInterna(idSede, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -85,12 +85,12 @@ function create(idSede, data, callback) {
             return callback(error);
         }
 
-        repository.create(data, callback);
+        repository.createInterna(data, callback);
     });
 }
 
 //PUT
-function update(id, idSede, data, callback) {
+function updateInterna(id, idSede, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -161,7 +161,7 @@ function update(id, idSede, data, callback) {
             return callback(error);
         }
 
-        repository.update(id, data, callback);
+        repository.updateInterna(id, data, callback);
     });    
 }
 
@@ -171,10 +171,18 @@ function remove(id, callback) {
 }
 
 //SEARCH
-function search(idSede, campo, valore, callback) {
-    const campiValidi = ['nome', 'cognome', 'telefono', 'email'];
+function searchInterna(idSede, campo, valore, callback) {
+    
+    const campiValidi = {
+        nome: 'per.nome',
+        cognome: 'per.cognome',
+        telefono: 'per.telefono',
+        email: 'per.email'
+    };
 
-    if(!campiValidi.includes(campo)) {
+    const campoSql = campiValidi[campo];    
+
+    if(!campoSql) {
         
         const error = new Error('Campo di ricerca non valido');
 
@@ -184,14 +192,21 @@ function search(idSede, campo, valore, callback) {
         return callback(error);
     }
 
-    repository.search(idSede, campo, valore, callback);
+    repository.searchInterna(idSede, campoSql, valore, callback);
 }
 
 //SEARCH by divisione
-function searchByDivisione(idDivisione, campo, valore, callback) {
-    const campiValidi = ['nome', 'cognome', 'telefono', 'email'];
+function searchInternaByDivisione(idDivisione, campo, valore, callback) {
+    const campiValidi = {
+        nome: 'per.nome',
+        cognome: 'per.cognome',
+        telefono: 'per.telefono',
+        email: 'per.email'
+    };
 
-    if(!campiValidi.includes(campo)) {
+    const campoSql = campiValidi[campo];    
+
+    if(!campoSql) {
         
         const error = new Error('Campo di ricerca non valido');
 
@@ -201,7 +216,7 @@ function searchByDivisione(idDivisione, campo, valore, callback) {
         return callback(error);
     }
 
-    repository.searchByDivisione(idDivisione, campo, valore, callback);
+    repository.searchInternaByDivisione(idDivisione, campoSql, valore, callback);
 }
 
-module.exports = { findAll, findAllByDivisione, create, update, remove, search, searchByDivisione };
+module.exports = { findAllInterne, findAllInterneByDivisione, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };

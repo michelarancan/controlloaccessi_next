@@ -222,12 +222,6 @@ CREATE TABLE persone_interne (
     persona int unsigned PRIMARY KEY,
     divisione int unsigned NOT NULL,      -- divisione ha sede quindi ricavo sede attraverso this
 
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE,
-
     FOREIGN KEY (persona) REFERENCES persone(id),
     FOREIGN KEY (divisione) REFERENCES divisioni(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -239,12 +233,6 @@ DROP TABLE IF EXISTS persone_esterne;
 CREATE TABLE persone_esterne (
     persona int unsigned PRIMARY KEY,
     azienda int unsigned NOT NULL,
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (persona) REFERENCES persone(id),
     FOREIGN KEY (azienda) REFERENCES aziende(id)

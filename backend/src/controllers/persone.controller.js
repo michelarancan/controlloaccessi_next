@@ -1,13 +1,13 @@
-const service = require('../services/persone-interne.service');
+const service = require('../services/persone.service');
 
 //qui gestisco requests HTTP e mando response HTTP
 
 //GET all by sede
-function findAll(req, res, next) {
+function findAllInterne(req, res, next) {
 
     const idSede = req.params.idS;
 
-    service.findAll(idSede, (err, results) => {
+    service.findAllInterne(idSede, (err, results) => {
         if(err) {
             return next(err);
         }
@@ -17,11 +17,11 @@ function findAll(req, res, next) {
 }
 
 //GET all by divisione
-function findAllByDivisione(req, res, next) {
+function findAllInterneByDivisione(req, res, next) {
 
     const idDivisione = req.params.idD;
 
-    service.findAllByDivisione(idDivisione, (err, results) => {
+    service.findAllInterneByDivisione(idDivisione, (err, results) => {
         if(err) {
             return next(err);
         }
@@ -31,13 +31,13 @@ function findAllByDivisione(req, res, next) {
 }
 
 //POST 
-function create(req, res, next) {
+function createInterna(req, res, next) {
 
     const idSede = req.params.idS;
     //recupera json
     const personaInterna = req.body;
 
-    service.create(idSede, personaInterna, (err, results) => {
+    service.createInterna(idSede, personaInterna, (err, results) => {
 
         if (err) {
             return next(err);
@@ -54,13 +54,13 @@ function create(req, res, next) {
 }
 
 //PUT
-function update(req, res, next) {
+function updateInterna(req, res, next) {
 
     const id = req.params.id;
     const idSede = req.params.idS;
     const personaInterna = req.body;
 
-    service.update(id, idSede, personaInterna, (err, results) => {
+    service.updateInterna(id, idSede, personaInterna, (err, results) => {
 
         if (err) {
             return next(err);
@@ -116,13 +116,13 @@ function remove(req, res, next) {
 }
 
 //SEARCH
-function search(req, res, next) {
+function searchInterna(req, res, next) {
 
     const idSede = req.params.idS;
     const campo = req.query.campo;
     const valore = req.query.valore;
 
-    service.search(idSede, campo, valore, (err, results) => {
+    service.searchInterna(idSede, campo, valore, (err, results) => {
         if(err) {
             return next(err);
         }
@@ -133,13 +133,13 @@ function search(req, res, next) {
 }
 
 //SEARCH by divisione
-function searchByDivisione(req, res, next) {
+function searchInternaByDivisione(req, res, next) {
 
     const idDivisione = req.params.idD;
     const campo = req.query.campo;
     const valore = req.query.valore;
 
-    service.searchByDivisione(idDivisione, campo, valore, (err, results) => {
+    service.searchInternaByDivisione(idDivisione, campo, valore, (err, results) => {
         if(err) {
             return next(err);
         }
@@ -149,4 +149,4 @@ function searchByDivisione(req, res, next) {
     );
 }
 
-module.exports = { findAll, findAllByDivisione, create, update, remove, search, searchByDivisione };
+module.exports = { findAllInterne, findAllInterneByDivisione, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };

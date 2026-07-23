@@ -3,13 +3,13 @@ const router = express.Router();
 
 const permissions = require('../config/permessi');
 const requirePermission = require('../middleware/require-permission');
-const controller = require('../controllers/persone-interne.controller');
+const controller = require('../controllers/persone.controller');
 
 //qui gestisco le rotte
 
 /**
  * @swagger
- * /api/persone-interne/sedi/{idS}:
+ * /api/persone/interne/sedi/{idS}:
  *   get:
  *     summary: Restituisce tutte le persone interne di una certa sede
  *     tags:
@@ -23,22 +23,14 @@ const controller = require('../controllers/persone-interne.controller');
  *     responses:
  *       200:
  *         description: Elenco persone interne di una certa sede
- *       404:
- *         description: Nessuna persona interna trovata
- *         content:
- *           application/json:
- *             example:
- *               error:
- *                 code: PERSONA_INTERNA_NOT_FOUND
- *                 message: Persona interna non trovata
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAll);
+router.get('/interne/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAllInterne);
 
 /**
  * @swagger
- * /api/persone-interne/divisioni/{idD}:
+ * /api/persone/interne/divisioni/{idD}:
  *   get:
  *     summary: Restituisce tutte le persone interne di una certa divisione
  *     tags:
@@ -52,22 +44,14 @@ router.get('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_READ), co
  *     responses:
  *       200:
  *         description: Elenco persone interne di una certa divisione
- *       404:
- *         description: Nessuna persona interna trovata
- *         content:
- *           application/json:
- *             example:
- *               error:
- *                 code: PERSONA_INTERNA_NOT_FOUND
- *                 message: Persona interna non trovata
  *       500:
  *         description: Errore interno del server
  */
-router.get('/divisioni/:idD', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAllByDivisione);
+router.get('/interne/divisioni/:idD', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAllInterneByDivisione);
 
 /**
  * @swagger
- * /api/persone-interne/sedi/{idS}/search:
+ * /api/persone/interne/sedi/{idS}/search:
  *   get:
  *     summary: Cerca persona interna
  *     tags:
@@ -110,11 +94,11 @@ router.get('/divisioni/:idD', requirePermission(permissions.PERSONE_INTERNE_READ
  *       500:
  *         description: Errore interno del server
  */
-router.get('/sedi/:idS/search', requirePermission(permissions.PERSONE_INTERNE_READ), controller.search);
+router.get('/interne/sedi/:idS/search', requirePermission(permissions.PERSONE_INTERNE_READ), controller.searchInterna);
 
 /**
  * @swagger
- * /api/persone-interne/divisioni/{idD}/search:
+ * /api/persone/interne/divisioni/{idD}/search:
  *   get:
  *     summary: Cerca persona interna in una divisione
  *     tags:
@@ -157,11 +141,11 @@ router.get('/sedi/:idS/search', requirePermission(permissions.PERSONE_INTERNE_RE
  *       500:
  *         description: Errore interno del server
  */
-router.get('/divisioni/:idD/search', requirePermission(permissions.PERSONE_INTERNE_READ), controller.searchByDivisione);
+router.get('/interne/divisioni/:idD/search', requirePermission(permissions.PERSONE_INTERNE_READ), controller.searchInternaByDivisione);
 
 /**
  * @swagger
- * /api/persone-interne/sedi/{idS}:
+ * /api/persone/interne/sedi/{idS}:
  *   post:
  *     summary: Crea una nuova persona interna
  *     tags:
@@ -187,25 +171,22 @@ router.get('/divisioni/:idD/search', requirePermission(permissions.PERSONE_INTER
  *                 type: string
  *               divisione:
  *                 type: integer
- *               is_di_riferimento:
- *                 type: boolean
  *             required:
  *               - nome
  *               - cognome
  *               - telefono
  *               - divisione
- *               - is_di_riferimento
  *     responses:
  *       201:
  *         description: Persona interna creata correttamente
  *       400:
- *         description: Nome, cognome, telefono, divisione e riferimento sono obbligatori
+ *         description: Nome, cognome, telefono e divisione sono obbligatori
  *         content:
  *           application/json:
  *             example:
  *             error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Nome, cognome, telefono, divisione e riferimento sono obbligatori
+ *                message: Nome, cognome, telefono e divisione sono obbligatori
  *       404:
  *         description: Sede non trovata
  *         content:
@@ -217,11 +198,11 @@ router.get('/divisioni/:idD/search', requirePermission(permissions.PERSONE_INTER
  *       500:
  *         description: Errore interno del server
  */
-router.post('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.create);
+router.post('/interne/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.createInterna);
 
 /**
  * @swagger
- * /api/persone-interne/sedi/{idS}/{id}:
+ * /api/persone/interne/{id}/sedi/{idS}:
  *   put:
  *     summary: Modifica una persona interna
  *     tags:
@@ -250,25 +231,22 @@ router.post('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_WRITE), 
  *                 type: string
  *               divisione:
  *                 type: integer
- *               is_di_riferimento:
- *                 type: boolean
  *             required:
  *               - nome
  *               - cognome
  *               - telefono
  *               - divisione
- *               - is_di_riferimento
  *     responses:
  *       200:
  *         description: Persona interna modificata correttamente
  *       400:
- *         description: Nome, cognome, telefono, divisione e riferimento sono obbligatori
+ *         description: Nome, cognome, telefono e divisione sono obbligatori
  *         content:
  *           application/json:
  *             example:
  *             error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Nome, cognome, telefono, divisione e riferimento sono obbligatori
+ *                message: Nome, cognome, telefono e divisione sono obbligatori
  *       404:
  *         description: Persona interna o sede non trovata
  *         content:
@@ -280,30 +258,30 @@ router.post('/sedi/:idS', requirePermission(permissions.PERSONE_INTERNE_WRITE), 
  *       500:
  *         description: Errore interno del server
  */
-router.put('/sedi/:idS/:id', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.update);
+router.put('/interne/:id/sedi/:idS/', requirePermission(permissions.PERSONE_INTERNE_WRITE), controller.updateInterna);
 
 /**
  * @swagger
- * /api/persone-interne/{id}:
+ * /api/persone/{id}:
  *   delete:
- *     summary: Elimina una persona interna
+ *     summary: Elimina una persona
  *     tags:
- *       - Persone interne
+ *       - Persone
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *     responses:
  *       200:
- *         description: Persona interna eliminata correttamente
+ *         description: Persona eliminata correttamente
  *       404:
- *         description: Persona interna non trovata
+ *         description: Persona non trovata
  *         content:
  *           application/json:
  *             example:
  *               error:
- *                 code: PERSONA_INTERNA_NOT_FOUND
- *                 message: Persona interna non trovata
+ *                 code: PERSONA_NOT_FOUND
+ *                 message: Persona non trovata
  *       500:
  *         description: Errore interno del server
  */
