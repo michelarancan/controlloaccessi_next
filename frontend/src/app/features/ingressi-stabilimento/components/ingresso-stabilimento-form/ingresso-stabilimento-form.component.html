@@ -18,19 +18,35 @@
         <input type="text" id="targa" name="targa" [(ngModel)]="formData.targa" required><br><br>
         <label for="categoria">Categoria:</label><br><br>
         <select id="categoria" name="categoria" [(ngModel)]="formData.categoria">
-            <!-- options -->
+            @for (categoria of categorie; track categoria.id) {
+                <option [ngValue]="categoria.id">
+                    {{ categoria.codice }}
+                </option>
+            }
         </select><br><br>
         <label for="personaRiferimento">Persona di riferimento:</label><br><br>
         <select id="personaRiferimento" name="personaRiferimento" [(ngModel)]="formData.personaRiferimento">
-            <!-- options -->
+            @for (personaInterna of personeInterne; track personaInterna.id) {
+                <option [ngValue]="personaInterna.id">
+                    {{ personaInterna.cognome }} {{ personaInterna.nome }}
+                </option>
+            }
         </select><br><br>
         <label for="azienda">Azienda:</label><br><br>
         <select id="azienda" name="azienda" [(ngModel)]="formData.azienda">
-            <!-- options -->
+            @for (azienda of aziende; track azienda.id) {
+                <option [ngValue]="azienda.id">
+                    {{ azienda.ragioneSociale }}
+                </option>
+            }
         </select><br><br>
         <label for="divisione">Divisione:</label><br><br>
         <select id="divisione" name="divisione" [(ngModel)]="formData.divisione">
-            <!-- options -->
+            @for (divisione of divisioni; track divisione.id) {
+                <option [ngValue]="divisione.id">
+                    {{ divisione.nome }}
+                </option>
+            }
         </select><br><br>
 
         <div class="popup-buttons">

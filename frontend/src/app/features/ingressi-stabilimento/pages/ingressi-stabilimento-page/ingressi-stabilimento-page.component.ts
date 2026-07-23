@@ -3,13 +3,28 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IngressiStabilimentoService } from '../../services/ingressi-stabilimento.service';
-import { SediService } from '../../../sedi/services/sedi.service';
 import { IngressoStabilimentoForm } from '../../components/ingresso-stabilimento-form/ingresso-stabilimento-form.component';
 import { IngressoStabilimento } from '../../models/ingresso-stabilimento.model';
+
 import { Sede } from '../../../sedi/models/sede.model';
+import { SediService } from '../../../sedi/services/sedi.service';
+
+import { Badge } from '../../../badge/models/badge.model';
+import { BadgeService } from '../../../badge/services/badge.service';
+
+import { Azienda } from '../../../aziende/models/azienda.model';
+import { AziendeService } from '../../../aziende/services/aziende.service';
+
+import { Categoria } from '../../../categorie/models/categoria.model';
+import { CategorieService } from '../../../categorie/services/categorie.service';
+
+import { PersonaInterna } from '../../../persone-interne/models/persona-interna.model';
+import { PersoneInterneService } from '../../../persone-interne/services/persone-interne.service';
+
+import { Divisione } from '../../../divisioni/models/divisione.model';
+import { DivisioniService } from '../../../divisioni/services/divisioni.service';
 
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
-import { Badge } from '../../../badge/models/badge.model';
 
 @Component({
   selector: 'app-ingressi-stabilimento-page',
@@ -27,9 +42,18 @@ export class IngressiStabilimentoComponent implements OnInit {
   idSede = 1; //default
 
   badges:  Badge[] = [];
+  aziende: Azienda[] = [];
+  categorie: Categoria[] = [];
+  personeInterne: PersonaInterna[] = [];
+  divisioni: Divisione[] = [];
 
   private ingressiStabilimentoService = inject(IngressiStabilimentoService);
   private sediService = inject(SediService);
+  private badgeService = inject(BadgeService);
+  private aziendeService = inject(AziendeService);
+  private categorieService = inject(CategorieService);
+  private personeInterneService = inject(PersoneInterneService);
+  private divisioniService = inject(DivisioniService);
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -51,6 +75,19 @@ export class IngressiStabilimentoComponent implements OnInit {
     this.loadIngressi();
     this.loadSedi();
     this.loadBadges();
+    this.loadAziende();
+    this.loadCategorie();
+    this.loadPersoneInterne();
+    this.loadDivisioni();
+  }
+
+  reloadComponents(): void {
+    this.loadIngressi();
+    this.loadBadges();
+    this.loadAziende();
+    this.loadCategorie();
+    this.loadPersoneInterne();
+    this.loadDivisioni();
   }
 
   loadIngressi(): void {
@@ -78,8 +115,64 @@ export class IngressiStabilimentoComponent implements OnInit {
     })
   }
 
-  loadBadges() {
-    
+  loadBadges(): void {
+    this.badgeService.getAll(this.idSede).subscribe({
+      next: (data) => {
+        this.badges = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  loadAziende(): void {
+    this.aziendeService.getAll().subscribe({
+      next: (data) => {
+        this.aziende = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  loadCategorie(): void {
+    this.categorieService.getAll().subscribe({
+      next: (data) => {
+        this.categorie = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  loadPersoneInterne(): void {
+    this.personeInterneService.getAll(this.idSede).subscribe({
+      next: (data) => {
+        this.personeInterne = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  loadDivisioni(): void {
+    this.divisioniService.getAll(this.idSede).subscribe({
+      next: (data) => {
+        this.divisioni = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 
   apriForm() {

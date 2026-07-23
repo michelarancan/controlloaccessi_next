@@ -4,7 +4,7 @@ const connection = require('../db/connection');
 
 //GET all
 function findAll(callback) {
-    const query = `SELECT id, ragione_sociale FROM aziende`;
+    const query = `SELECT id, ragione_sociale as ragioneSociale FROM aziende`;
     connection.query(query, callback);
 }
 

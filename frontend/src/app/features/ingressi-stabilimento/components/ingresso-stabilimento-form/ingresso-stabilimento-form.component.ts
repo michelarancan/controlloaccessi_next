@@ -2,6 +2,10 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IngressoStabilimento } from '../../models/ingresso-stabilimento.model';
 import { Badge } from '../../../badge/models/badge.model';
+import { Azienda } from '../../../aziende/models/azienda.model';
+import { Categoria } from '../../../categorie/models/categoria.model';
+import { PersonaInterna } from '../../../persone-interne/models/persona-interna.model';
+import { Divisione } from '../../../divisioni/models/divisione.model';
 
 @Component({
   selector: 'app-ingresso-stabilimento-form',
@@ -24,6 +28,18 @@ export class IngressoStabilimentoForm {
 
   @Input()
   badges: Badge[] = [];
+
+  @Input()
+  aziende: Azienda[] = [];
+
+  @Input()
+  categorie: Categoria[] = [];
+
+  @Input()
+  personeInterne: PersonaInterna[] = [];
+
+  @Input()
+  divisioni: Divisione[] = [];
 
   @Output()
   salva = new EventEmitter<{ nome: string; cognome: string, badge: number, targa: string, categoria: number, personaRiferimento: number, azienda: number, divisione: number }>();

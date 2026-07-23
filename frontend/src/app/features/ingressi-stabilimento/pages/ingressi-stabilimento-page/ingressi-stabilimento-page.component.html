@@ -7,7 +7,7 @@
     </button>
     <div class="sede-selector">
         <label>Sede:</label>
-        <select [(ngModel)]="idSede" (ngModelChange)="loadIngressi()">
+        <select [(ngModel)]="idSede" (ngModelChange)="reloadComponents()">
             @for (sede of sedi; track sede.id) {
                 <option [ngValue]="sede.id">{{ sede.sede }}</option>
             }
@@ -16,7 +16,7 @@
 </div><br>
 
 @if (showForm) {
-    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [badges]="badges"></app-ingresso-stabilimento-form>
+    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [badges]="badges" [aziende]="aziende" [categorie]="categorie" [personeInterne]="personeInterne" [divisioni]="divisioni"></app-ingresso-stabilimento-form>
 }
 
 <div class="search-container">
