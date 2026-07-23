@@ -1,0 +1,11 @@
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.sedi-select {
+    display: flex;
+    gap: 20px;
+}

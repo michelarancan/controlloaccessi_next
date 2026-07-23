@@ -1,0 +1,107 @@
+<h1>Dashboard</h1>
+
+<div class="filter-container">
+    <p>Data:</p>
+
+    <div class="sedi-select">
+        <p>Sede:</p>
+        <select [(ngModel)]="idSede" (ngModelChange)="onSedeChange()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="dashboard">
+    <div>
+        <p>Presenti in stabilimento</p>
+
+        <table>
+            <thead>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Divisone</th>
+                <th>Ora ingresso</th>
+            </thead>
+            <tbody>
+                <!-- TOGLI sta riga-->
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <!-- for -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <div>
+        <p>Esterni presenti in stabilimento</p>
+
+        <table>
+            <thead>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Azienda</th>
+                <th>Ora ingresso</th>
+            </thead>
+            <tbody>
+                <!-- TOGLI sta riga-->
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <!-- for -->
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p>Badge non consegnati</p>
+
+        <table>
+            <thead>
+                <th>Codice</th>
+                <th>Ora prestito</th>
+                <th>Nominativo prestito</th>
+            </thead>
+            <tbody>
+                <!-- TOGLI sta riga-->
+                <tr><td></td><td></td><td></td></tr>
+                <!-- for -->
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p>Chiavi non consegnate</p>
+
+        <table>
+            <thead>
+                <th>Codice</th>
+                <th>Ora prestito</th>
+                <th>Nominativo prestito</th>
+            </thead>
+            <tbody>
+                <!-- TOGLI sta riga-->
+                <tr><td></td><td></td><td></td></tr>
+                <!-- for -->
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p>Accessi in stabilimento (per fascia oraria)</p>
+
+        <table>
+            <thead>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Azienda/Divisione</th>
+                <th>Ora ingresso</th>
+                <th>Ora uscita</th>
+            </thead>
+            <tbody>
+                <!-- TOGLI sta riga-->
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <!-- for -->
+            </tbody>
+        </table>
+    </div>
+
+</div>

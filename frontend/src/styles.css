@@ -212,6 +212,18 @@ button:disabled {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    border: 1px solid #d6d9e6;
+    border-radius: 8px;
+
+    padding: 20px;
+    gap:20px;
+}
+
 .popup-buttons {
     display: flex;
     justify-content: flex-end;

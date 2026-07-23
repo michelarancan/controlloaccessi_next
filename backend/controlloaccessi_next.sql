@@ -145,47 +145,6 @@ CREATE TABLE divisioni (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- PERSONE_INTERNE
-
-DROP TABLE IF EXISTS persone_interne;
-CREATE TABLE persone_interne (
-    id int unsigned PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(100) NOT NULL,
-    cognome varchar(100) NOT NULL DEFAULT '',
-    telefono varchar(30) NOT NULL,
-    email varchar(100) DEFAULT NULL,
-    divisione int unsigned DEFAULT NOT NULL,      -- divisione ha sede quindi ricavo sede attraverso this
-    is_di_riferimento boolean DEFAULT false,
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE,
-
-    FOREIGN KEY (divisione) REFERENCES divisioni(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
--- INGRESSI_AUTORIZZATI_INTERNI
-
-DROP TABLE IF EXISTS ingressi_autorizzati_interni;
-CREATE TABLE ingressi_autorizzati_interni (
-    id int unsigned PRIMARY KEY AUTO_INCREMENT,
-    persona int unsigned NOT NULL,
-    data_scadenza date DEFAULT NULL,
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE,
-
-    FOREIGN KEY (persona) REFERENCES persone_interne(id),
-    UNIQUE (persona)    -- una sola riga per persona
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
 -- AZIENDE
 
 DROP TABLE IF EXISTS aziende;
@@ -238,17 +197,30 @@ CREATE TABLE aziende_tipi (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- INGRESSI_AUTORIZZATI_ESTERNI
+-- PERSONE
 
-DROP TABLE IF EXISTS ingressi_autorizzati_esterni;
-CREATE TABLE ingressi_autorizzati_esterni (
+DROP TABLE IF EXISTS persone;
+CREATE TABLE persone (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
-    sede int unsigned NOT NULL,         -- sede di ingresso
-    cognome varchar(100) NOT NULL,      -- persona esterna
     nome varchar(100) NOT NULL,
-    azienda int unsigned NOT NULL,    -- azienda di provenienza di questa persona
-    data_scadenza datetime DEFAULT NULL,
-    persona_riferimento int unsigned NOT NULL,  -- persona interna di riferimento
+    cognome varchar(100) NOT NULL DEFAULT '',
+    telefono varchar(30) NOT NULL,
+    email varchar(100) DEFAULT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- PERSONE_INTERNE
+
+DROP TABLE IF EXISTS persone_interne;
+CREATE TABLE persone_interne (
+    persona int unsigned PRIMARY KEY,
+    divisione int unsigned NOT NULL,      -- divisione ha sede quindi ricavo sede attraverso this
 
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
@@ -256,10 +228,48 @@ CREATE TABLE ingressi_autorizzati_esterni (
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
-    UNIQUE (sede, cognome, nome, azienda, data_scadenza),
-    FOREIGN KEY (sede) REFERENCES sedi(id),
-    FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(id),
+    FOREIGN KEY (persona) REFERENCES persone(id),
+    FOREIGN KEY (divisione) REFERENCES divisioni(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- PERSONE_ESTERNE
+
+DROP TABLE IF EXISTS persone_esterne;
+CREATE TABLE persone_esterne (
+    persona int unsigned PRIMARY KEY,
+    azienda int unsigned NOT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (persona) REFERENCES persone(id),
     FOREIGN KEY (azienda) REFERENCES aziende(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- AUTORIZZAZIONI
+
+DROP TABLE IF EXISTS autorizzazioni;
+CREATE TABLE autorizzazioni (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    persona int unsigned NOT NULL,
+    sede int unsigned NOT NULL,
+    data_inizio date NOT NULL DEFAULT CURRENT_DATE,
+    data_scadenza date DEFAULT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (persona) REFERENCES persone(id),
+    FOREIGN KEY (sede) REFERENCES sedi(id),
+    UNIQUE (persona)    -- una sola riga per persona
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -302,15 +312,13 @@ CREATE TABLE badge (
 DROP TABLE IF EXISTS ingressi_stabilimento;
 CREATE TABLE ingressi_stabilimento (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(100) NOT NULL,
-    cognome varchar(100) NOT NULL,
+    persona int unsigned NOT NULL,
     badge int unsigned NOT NULL,
     targa varchar(30) DEFAULT NULL,
     data_ingresso datetime NOT NULL,
     data_uscita datetime DEFAULT NULL,
     categoria int unsigned NOT NULL,
-    persona_riferimento int unsigned NOT NULL,  -- sono sempre esterni?
-    azienda int unsigned NOT NULL,      -- azienda di provenienza
+    persona_riferimento int unsigned DEFAULT NULL,
     divisione_destinazione int unsigned NOT NULL,   -- divisione interna dove vanno
 
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -319,10 +327,10 @@ CREATE TABLE ingressi_stabilimento (
     updated_by int unsigned NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
-    UNIQUE (nome,cognome,data_ingresso),
+    UNIQUE (persona,data_ingresso),
+    FOREIGN KEY (persona) REFERENCES persone(id),
     FOREIGN KEY (badge) REFERENCES badge(id),
     FOREIGN KEY (categoria) REFERENCES categorie(id),
-    FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(id),
-    FOREIGN KEY (azienda) REFERENCES aziende(id),
+    FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(persona),
     FOREIGN KEY (divisione_destinazione) REFERENCES divisioni(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

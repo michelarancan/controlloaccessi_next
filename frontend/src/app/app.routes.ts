@@ -5,12 +5,18 @@ import { PersoneInterneComponent } from './features/persone-interne/pages/person
 import { PersoneAutorizzateInterneComponent } from './features/persone-autorizzate-interne/pages/persone-autorizzate-interne-page/persone-autorizzate-interne-page.component';
 import { IngressiStabilimentoComponent } from './features/ingressi-stabilimento/pages/ingressi-stabilimento-page/ingressi-stabilimento-page.component';
 
-export const routes: Routes = [/*
+import { DashboardComponent } from './features/dashboard/pages/dashboard-page/dashboard-page.component';
+
+export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'sedi',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
-    },*/
+    },
+    {
+        path: 'dashboard',
+        component: DashboardComponent
+    },
     {
         path: 'sedi',
         component: SediComponent
