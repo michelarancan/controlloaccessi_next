@@ -1,4 +1,23 @@
-<h1>Registro Accessi</h1>
+<h1>Elenco Ingressi/Uscite</h1>
+
+<div class="div-aggiungi">
+    <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi ingresso">
+        <span class="plus-icon">+</span>
+        <span>Aggiungi un ingresso</span>
+    </button>
+    <div class="sede-selector">
+        <label>Sede:</label>
+        <select [(ngModel)]="idSede" (ngModelChange)="onSedeChange()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+    </div>
+</div><br>
+
+@if (showForm) {
+    <app-ingresso-uscite-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [persone]="persone" [badges]="badges" [categorie]="categorie" [personeInterne]="personeInterne" [divisioni]="divisioni"></app-ingresso-uscite-form>
+}
 
 <div class="search-container">
 
@@ -46,6 +65,7 @@
             <th>Categoria</th>
             <th>Persona di riferimento</th>
             <th>Divisione di destinazione</th>
+            <th>Azioni</th>
         </tr>
     </thead>
     <tbody>
@@ -61,6 +81,9 @@
                 <td>{{ ingresso.categoria }}</td>
                 <td>{{ ingresso.personaRiferimento }}</td>
                 <td>{{ ingresso.divisione }}</td>
+                <td class="button-cell">
+                    <button class="btn-modifica" (click)="registraUscita(ingresso.id)" title="Registra l'uscita" [disabled]="!!ingresso.dataUscita">Registra l'uscita</button> <!-- disabilitato se già uscito-->
+                </td>
             </tr>
          }
          

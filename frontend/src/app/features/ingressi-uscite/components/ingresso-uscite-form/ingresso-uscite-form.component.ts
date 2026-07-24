@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IngressoStabilimento } from '../../models/ingresso-stabilimento.model';
+import { IngressoStabilimento } from '../../../ingressi-stabilimento/models/ingresso-stabilimento.model';
 import { Badge } from '../../../badge/models/badge.model';
 import { Categoria } from '../../../categorie/models/categoria.model';
 import { PersonaInterna } from '../../../persone-interne/models/persona-interna.model';
@@ -8,10 +8,10 @@ import { Divisione } from '../../../divisioni/models/divisione.model';
 import { Persona } from '../../../persone/models/persona.model';
 
 @Component({
-  selector: 'app-ingresso-stabilimento-form',
+  selector: 'app-ingresso-uscite-form',
   imports: [FormsModule],
-  templateUrl: './ingresso-stabilimento-form.component.html',
-  styleUrl: './ingresso-stabilimento-form.component.css',
+  templateUrl: './ingresso-uscite-form.component.html',
+  styleUrl: './ingresso-uscite-form.component.css',
 })
 export class IngressoStabilimentoForm {
 

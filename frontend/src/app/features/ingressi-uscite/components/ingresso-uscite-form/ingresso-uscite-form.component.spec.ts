@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IngressoStabilimentoForm } from './ingresso-stabilimento-form.component';
+import { IngressoStabilimentoForm } from './ingresso-uscite-form.component';
 
 describe('IngressoStabilimentoForm', () => {
   let component: IngressoStabilimentoForm;

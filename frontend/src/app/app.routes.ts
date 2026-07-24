@@ -4,6 +4,7 @@ import { OperatoriComponent } from './features/operatori/pages/operatori-page/op
 import { PersoneInterneComponent } from './features/persone-interne/pages/persone-interne-page/persone-interne-page.component';
 import { PersoneAutorizzateInterneComponent } from './features/persone-autorizzate-interne/pages/persone-autorizzate-interne-page/persone-autorizzate-interne-page.component';
 import { IngressiStabilimentoComponent } from './features/ingressi-stabilimento/pages/ingressi-stabilimento-page/ingressi-stabilimento-page.component';
+import { IngressiUsciteComponent } from './features/ingressi-uscite/pages/ingressi-uscite-page/ingressi-uscite-page.component';
 
 import { DashboardComponent } from './features/dashboard/pages/dashboard-page/dashboard-page.component';
 
@@ -36,5 +37,9 @@ export const routes: Routes = [
     {
         path: 'ingressi-stabilimento',
         component: IngressiStabilimentoComponent
+    }, 
+    {
+        path: 'ingressi-uscite',
+        component: IngressiUsciteComponent
     }
 ];
