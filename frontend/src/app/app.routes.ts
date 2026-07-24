@@ -31,7 +31,7 @@ export const routes: Routes = [
         component: PersoneInterneComponent
     },
     {
-        path: 'persone-autorizzate-interne',
+        path: 'autorizzazioni/interne',
         component: PersoneAutorizzateInterneComponent
     },
     {

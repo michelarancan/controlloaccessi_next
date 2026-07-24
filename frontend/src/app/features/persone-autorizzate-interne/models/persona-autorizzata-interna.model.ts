@@ -3,5 +3,6 @@ export interface PersonaAutorizzataInterna {
     idPersona: number,
     nome: string;
     cognome: string;
+    dataInizio: string;
     dataScadenza: string;
 }

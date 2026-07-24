@@ -10,7 +10,7 @@ export class PersoneAutorizzateInterneService {
 
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:3000/api/persone-autorizzate-interne';
+  private apiUrl = 'http://localhost:3000/api/autorizzazioni/interne';
 
   //GET all
   getAll(idS: number): Observable<PersonaAutorizzataInterna[]> {
@@ -18,8 +18,8 @@ export class PersoneAutorizzateInterneService {
   }
 
   //POST
-  create(idP: number, personaAutorizzataInterna: Omit<PersonaAutorizzataInterna, 'id'>): Observable<any> {
-    return this.http.post(`${this.apiUrl}/persone-interne/${idP}`, personaAutorizzataInterna);
+  create(idP: number, idS: number, personaAutorizzataInterna: Omit<PersonaAutorizzataInterna, 'id'>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${idP}/sedi/${idS}`, personaAutorizzataInterna);
   }
 
   //PUT

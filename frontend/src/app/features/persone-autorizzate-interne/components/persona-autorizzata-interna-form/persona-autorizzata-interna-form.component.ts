@@ -13,11 +13,12 @@ export class PersonaAutorizzataInternaForm{
 
   formData = {
     persona: 0,
+    dataInizio: '',
     dataScadenza: ''
   };
 
   @Output()
-  salva = new EventEmitter<{ persona: number; dataScadenza: string }>();
+  salva = new EventEmitter<{ persona: number; dataInizio: string; dataScadenza: string }>();
 
   @Output()
   annulla = new EventEmitter<void>();
@@ -34,6 +35,7 @@ export class PersonaAutorizzataInternaForm{
 
       this.formData = {
         persona: this.personaAutorizzataInterna.idPersona,
+        dataInizio: this.personaAutorizzataInterna.dataInizio,
         dataScadenza: this.personaAutorizzataInterna.dataScadenza
       };
 

@@ -142,7 +142,7 @@ export class PersoneAutorizzateInterneComponent implements OnInit {
 
     } else {
 
-      this.personeAutorizzateInterneService.create(dati.persona, dati)
+      this.personeAutorizzateInterneService.create(dati.persona, this.idSede, dati)
       .subscribe({
         next: () => {
           this.loadPersoneAutorizzateInterne();
