@@ -1,4 +1,4 @@
-const service = require('../services/persone-autorizzate-interne.service');
+const service = require('../services/autorizzazioni.service');
 
 //qui gestisco requests HTTP e mando response HTTP
 
@@ -19,11 +19,12 @@ function findAll(req, res, next) {
 //POST 
 function create(req, res, next) {
 
+    const idSede = req.params.idS;
     const idPersona = req.params.idP;
     //recupera json
-    const personaAutorizzataInterna = req.body;
+    const autorizzazione = req.body;
 
-    service.create(idPersona, personaAutorizzataInterna, (err, results) => {
+    service.create(idPersona, idSede, autorizzazione, (err, results) => {
 
         if (err) {
             return next(err);
@@ -31,7 +32,7 @@ function create(req, res, next) {
 
         res.status(201).json({
             success: true,
-            message: 'Persona autorizzata interna creata con successo',
+            message: 'Autorizzazione creata con successo',
             id: results.insertId
         });
 
@@ -43,9 +44,9 @@ function create(req, res, next) {
 function update(req, res, next) {
 
     const id = req.params.id;
-    const personaAutorizzataInterna = req.body;
+    const autorizzazione = req.body;
 
-    service.update(id, personaAutorizzataInterna, (err, results) => {
+    service.update(id, autorizzazione, (err, results) => {
 
         if (err) {
             return next(err);
@@ -53,17 +54,17 @@ function update(req, res, next) {
 
         //se query ritorna 'affected 0 rows in total'
         if (results.affectedRows === 0) {
-            const error = new Error('Persona autorizzata interna non trovata');
+            const error = new Error('Autorizzazione non trovata');
 
             error.status = 404;
-            error.code = 'PERSONA_AUTORIZZATA_INTERNA_NOT_FOUND';
+            error.code = 'AUTORIZZAZIONE_NOT_FOUND';
 
             return next(error);
         }
 
         res.status(200).json({
             success: true,
-            message: 'Persona autorizzata interna aggiornata con successo'
+            message: 'Autorizzazione aggiornata con successo'
         });
 
     });
@@ -83,17 +84,17 @@ function remove(req, res, next) {
 
         //se query ritorna 'affected 0 rows in total'
         if (result.affectedRows === 0) {
-            const error = new Error('Persona autorizzata interna non trovata');
+            const error = new Error('Autorizzazione non trovata');
 
             error.status = 404;
-            error.code = 'PERSONA_AUTORIZZATA_INTERNA_NOT_FOUND';
+            error.code = 'AUTORIZZAZIONE_NOT_FOUND';
 
             return next(error);
         }
 
         res.status(200).json({
             success: true,
-            message: 'Persona autorizzata interna eliminata con successo'
+            message: 'Autorizzazione eliminata con successo'
         });
 
     });

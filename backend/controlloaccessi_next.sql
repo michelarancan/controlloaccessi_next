@@ -257,7 +257,7 @@ CREATE TABLE autorizzazioni (
 
     FOREIGN KEY (persona) REFERENCES persone(id),
     FOREIGN KEY (sede) REFERENCES sedi(id),
-    UNIQUE (persona)    -- una sola riga per persona
+    UNIQUE (persona, sede, data_inizio)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 

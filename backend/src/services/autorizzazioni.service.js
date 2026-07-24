@@ -1,4 +1,4 @@
-const repository = require('../repositories/persone-autorizzate-interne.repository');
+const repository = require('../repositories/autorizzazioni.repository');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
@@ -8,10 +8,10 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idPersona, data, callback) {
+function create(idPersona, idSede, data, callback) {
     //campi non nulli
-    if(!data.dataScadenza || data.dataScadenza.trim().length === 0) {
-        const error = new Error('Data di scadenza è obbligatoria');
+    if(!data.dataScadenza || data.dataScadenza.trim().length === 0 || !data.dataInizio || data.dataInizio.trim().length === 0) {
+        const error = new Error('Data di inizio e scadenza obbligatorie');
 
         error.status = 400;
         error.code = 'INVALID_PARAMS_FIELD';
@@ -19,7 +19,7 @@ function create(idPersona, data, callback) {
         return callback(error);
     }
 
-    repository.create(idPersona, data, callback);
+    repository.create(idPersona, idSede, data, callback);
 }
 
 //PUT

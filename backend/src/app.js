@@ -13,7 +13,7 @@ const sediRoutes = require('./routes/sedi.routes');
 const operatoriRoutes = require('./routes/operatori.routes');
 const personeRoutes = require('./routes/persone.routes');
 const divisioniRoutes = require('./routes/divisioni.routes');
-const personeAutorizzateInterneRoutes = require('./routes/persone-autorizzate-interne.routes');
+const autorizzazioniRoutes = require('./routes/autorizzazioni.routes');
 const ingressiStabilimentoRoutes = require('./routes/ingressi-stabilimento.routes');
 const badgeRoutes = require('./routes/badge.routes');
 const categorieRoutes = require('./routes/categorie.routes');
@@ -34,7 +34,7 @@ app.use('/api/sedi', sediRoutes);
 app.use('/api/operatori', operatoriRoutes);
 app.use('/api/persone', personeRoutes);
 app.use('/api/divisioni', divisioniRoutes);
-app.use('/api/persone-autorizzate-interne', personeAutorizzateInterneRoutes);
+app.use('/api/autorizzazioni', autorizzazioniRoutes);
 app.use('/api/ingressi-stabilimento', ingressiStabilimentoRoutes);
 app.use('/api/badge', badgeRoutes);
 app.use('/api/categorie', categorieRoutes);
@@ -45,8 +45,6 @@ app.use(errorHandler);
 
 //gestisce connessione al db
 testConnection();
-
-
 
 app.listen(3000, () => {
     console.log('[Server avviato sulla porta 3000]');
