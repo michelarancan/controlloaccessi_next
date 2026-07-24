@@ -101,4 +101,4 @@ function isNotOut(id, callback) {
     connection.query(query, [id], callback);
 }
 
-module.exports = { findAll, findAllByData, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsternaToSede };
+module.exports = { findAll, findAllByData, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsternaToSede, isNotOut };
