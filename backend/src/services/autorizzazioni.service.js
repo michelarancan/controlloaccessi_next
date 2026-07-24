@@ -18,6 +18,20 @@ function create(idPersona, idSede, data, callback) {
 
         return callback(error);
     }
+    
+    const dataInizio = new Date(data.dataInizio);
+    const dataScadenza = new Date(data.dataScadenza);
+
+    if (dataScadenza < dataInizio) {
+        const error = new Error(
+            'La data di scadenza non può essere precedente alla data di inizio'
+        );
+
+        error.status = 400;
+        error.code = 'INVALID_DATE_RANGE';
+
+        return callback(error);
+    }
 
     repository.create(idPersona, idSede, data, callback);
 }
@@ -30,6 +44,20 @@ function update(id, data, callback) {
 
         error.status = 400;
         error.code = 'INVALID_PARAMS_FIELD';
+
+        return callback(error);
+    }
+
+    const dataInizio = new Date(data.dataInizio);
+    const dataScadenza = new Date(data.dataScadenza);
+
+    if (dataScadenza < dataInizio) {
+        const error = new Error(
+            'La data di scadenza non può essere precedente alla data di inizio'
+        );
+
+        error.status = 400;
+        error.code = 'INVALID_DATE_RANGE';
 
         return callback(error);
     }

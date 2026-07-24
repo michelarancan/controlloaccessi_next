@@ -1,5 +1,6 @@
 const repository = require('../repositories/ingressi-stabilimento.repository');
 const divisioneRepository = require('../repositories/divisioni.repository');
+const autorizzazioneRepository = require('../repositories/autorizzazioni.repository');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
@@ -118,7 +119,26 @@ function create(idSede, data, callback) {
                         return callback(error);
                     }
 
-                    repository.create(data, callback);
+                    //deve avere autorizzazione non scaduta
+                    autorizzazioneRepository.isValid(data.persona, idSede, (err, autorizzazioneResults) => {
+
+                        if (err) {
+                            return callback(err);
+                        }
+
+                        if(autorizzazioneResults.length === 0) {
+                            const error = new Error(
+                                'Questa persona non ha l\'autorizzazione ad accedere a questa sede'
+                            );
+
+                            error.status = 400;
+                            error.code = 'INVALID_PARAMS_FIELD';
+
+                            return callback(error);
+                            }
+
+                        repository.create(data, callback);
+                    });
                 });
             });
         });

@@ -1,6 +1,6 @@
 <div class="form-container">
     <div class="popup-box">
-        <h2>{{ personaAutorizzataInterna ? 'Modifica persona autorizzata interna' : 'Nuova persona autorizzata interna' }}</h2>
+        <h2>{{ personaAutorizzataInterna ? 'Modifica autorizzazione interna' : 'Nuova autorizzazione interna' }}</h2>
         <form class="form">
         <label for="persona">Persona interna:</label><br><br>
         <select id="persona" name="persona" [(ngModel)]="formData.persona" [disabled]="personaAutorizzataInterna !== null">
@@ -11,7 +11,7 @@
             }
         </select><br><br>
         <label for="dataInizio">Data di inizio:</label><br><br>
-        <input type="date" id="dataInizio" name="dataInizio" [(ngModel)]="formData.dataInizio" required><br><br>
+        <input type="date" id="dataInizio" name="dataInizio" [(ngModel)]="formData.dataInizio" [disabled]="personaAutorizzataInterna !== null" required><br><br>
 
         <label for="dataScadenza">Data di scadenza:</label><br><br>
         <input type="date" id="dataScadenza" name="dataScadenza" [(ngModel)]="formData.dataScadenza" required><br><br>

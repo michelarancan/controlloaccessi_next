@@ -32,4 +32,10 @@ function search(idSede, campo, valore, callback) {
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 
-module.exports = { findAll, create, update, remove, search };
+//persona ha autorizzazione per sede
+function isValid(idPersona, idSede, callback) {
+    const query = `SELECT 1 FROM autorizzazioni WHERE persona = ? AND sede = ? AND data_inizio <= NOW() AND data_scadenza >= NOW() AND is_active = true`;
+    connection.query(query, [idPersona, idSede], callback);
+}
+
+module.exports = { findAll, create, update, remove, search, isValid };

@@ -1,9 +1,9 @@
-<h1>Visualizzazione persone autorizzate interne</h1>
+<h1>Visualizzazione autorizzazioni interne</h1>
 
 <div class="div-aggiungi">
     <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi persona autorizzata interna">
         <span class="plus-icon">+</span>
-        <span>Aggiungi una nuova persona autorizzata interna</span>
+        <span>Aggiungi una nuova autorizzazione interna</span>
     </button>
     <div class="sede-selector">
         <label>Sede:</label>
@@ -25,7 +25,7 @@
         <div class="popup-box">
             <h2>Conferma eliminazione</h2>
 
-            <p>Vuoi davvero eliminare questa persona autorizzata interna?</p>
+            <p>Vuoi davvero eliminare questa autorizzazione interna?</p>
 
             <div class="popup-buttons">
                 <button type="button" class="btn-conferma" (click)="confermaEliminazione()" title="Conferma">Sì</button>
@@ -74,7 +74,7 @@
         @if (personeAutorizzateInterne.length === 0) {
         <tr>
             <td colspan="5" class="no-results">
-            Nessuna persona autorizzata interna trovata
+            Nessuna autorizzazione interna trovata
             </td>
         </tr>
         }
