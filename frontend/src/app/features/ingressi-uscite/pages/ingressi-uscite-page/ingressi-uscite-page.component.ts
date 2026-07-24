@@ -38,8 +38,14 @@ export class IngressiUsciteComponent implements OnInit {
   //---------------------------- variabili -----------------
 
   ingressi: IngressoStabilimento[] = [];
+  ingressiInterni: IngressoStabilimento[] = [];
+  ingressiEsterni: IngressoStabilimento[] = []; 
+
   sedi: Sede[] = [];
   idSede = 1; //default
+
+  oggi = new Date().toISOString().split('T')[0];
+  showOggi = new Date().toLocaleDateString('it-IT');
 
   persone: Persona[] = [];
   badges:  Badge[] = [];
@@ -86,9 +92,15 @@ export class IngressiUsciteComponent implements OnInit {
   }
 
   loadIngressi(): void {
-    this.ingressiStabilimentoService.getAll(this.idSede).subscribe({
+    this.ingressiStabilimentoService.getAllByData(this.idSede, this.oggi, this.oggi).subscribe({
       next: (data) => {
         this.ingressi = data;
+
+        const presenti = data.filter(x => !x.dataUscita);
+
+        this.ingressiEsterni = presenti.filter(x => !!x.azienda);
+        this.ingressiInterni = presenti.filter(x => !x.azienda);
+
         this.cdr.detectChanges(); //applica changes
 
       },

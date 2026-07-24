@@ -224,6 +224,12 @@ button:disabled {
     gap:20px;
 }
 
+.table-container {
+    max-height: 350px;
+    overflow-y: auto;
+    
+}
+
 .popup-buttons {
     display: flex;
     justify-content: flex-end;

@@ -7,11 +7,13 @@ export interface IngressoStabilimento {
     badge: string;
     targa: string | null;
     dataIngresso: string;
+    oraIngresso: string;
     dataUscita: string | null;
     idCategoria: number;
     categoria: string;
     idPersonaRiferimento: number | null;
     personaRiferimento: string;
+    azienda: string;
     idDivisione: number;
     divisione: string;
 }
