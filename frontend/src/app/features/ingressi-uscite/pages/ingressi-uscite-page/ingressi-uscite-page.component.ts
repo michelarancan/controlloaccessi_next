@@ -60,15 +60,6 @@ export class IngressiUsciteComponent implements OnInit {
   //form
   showForm = false;
 
-  //periodo
-  mostraFiltroPeriodo = false;
-  inizioPeriodo = '';
-  finePeriodo = '';
-
-  //filtro
-  campoRicerca = 'nome';
-  testoRicerca = '';
-
   //toast
   toastMessage = '';
   toastType: 'success' | 'error' = 'success';
@@ -92,13 +83,6 @@ export class IngressiUsciteComponent implements OnInit {
     this.loadCategorie();
     this.loadPersoneInterne();
     this.loadDivisioni();
-
-    this.testoRicerca = '';
-
-    this.mostraFiltroPeriodo = false;
-
-    this.inizioPeriodo = '';
-    this.finePeriodo = '';
   }
 
   loadIngressi(): void {
@@ -196,51 +180,6 @@ export class IngressiUsciteComponent implements OnInit {
     this.showForm = false;
   }
 
-  applicaFiltroPeriodo() {
-    if (this.testoRicerca.trim()) {
-      //se sto cercando qualcosa
-      this.ingressiStabilimentoService.searchByData(
-        this.idSede,
-        this.campoRicerca,
-        this.testoRicerca,
-        this.inizioPeriodo,
-        this.finePeriodo
-      ).subscribe({
-        next: (data) => {
-          this.ingressi = data;
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      });
-    } else {
-
-      this.ingressiStabilimentoService.getAllByData(
-        this.idSede,
-        this.inizioPeriodo,
-        this.finePeriodo
-      ).subscribe({
-        next: (data) => {
-          this.ingressi = data;
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      });
-    }
-  }
-
-  onCambioFiltroPeriodo() {
-    if (!this.mostraFiltroPeriodo) {
-
-      this.inizioPeriodo = '';
-      this.finePeriodo = '';
-
-      this.loadIngressi();
-    }
-
-  }
-
   salvaIngresso(dati: any) {
     this.ingressiStabilimentoService.create(this.idSede, dati)
     .subscribe({
@@ -273,36 +212,6 @@ export class IngressiUsciteComponent implements OnInit {
         this.mostraToast(message, 'error');
       }
     });
-  }
-
-  cercaIngressi() {
-    if (this.mostraFiltroPeriodo) {
-      this.ingressiStabilimentoService.searchByData(
-        this.idSede,
-        this.campoRicerca,
-        this.testoRicerca,
-        this.inizioPeriodo,
-        this.finePeriodo
-      ).subscribe({
-        next: (data) => this.ingressi = data,
-        error: (error) => console.error(error)
-      });
-
-    } else {
-      this.ingressiStabilimentoService.search(
-        this.idSede,
-        this.campoRicerca,
-        this.testoRicerca
-      ).subscribe({
-        next: (data) => this.ingressi = data,
-        error: (error) => console.error(error)
-      });
-    }
-  }
-
-  resettaRicerca() {
-    this.testoRicerca = '';
-    this.loadIngressi();
   }
 
   mostraToast(messaggio: string, tipo: 'success' | 'error' = 'success') {

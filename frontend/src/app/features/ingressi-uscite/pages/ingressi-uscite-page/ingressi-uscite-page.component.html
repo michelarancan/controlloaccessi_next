@@ -1,4 +1,4 @@
-<h1>Elenco Ingressi/Uscite</h1>
+<h1>Gestione Ingressi/Uscite</h1>
 
 <div class="div-aggiungi">
     <button (click)="apriForm()" class="btn-aggiungi" title="Aggiungi ingresso">
@@ -13,44 +13,10 @@
             }
         </select>
     </div>
-</div><br>
+</div>
 
 @if (showForm) {
     <app-ingresso-uscite-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [persone]="persone" [badges]="badges" [categorie]="categorie" [personeInterne]="personeInterne" [divisioni]="divisioni"></app-ingresso-uscite-form>
-}
-
-<div class="search-container">
-
-    <select [(ngModel)]="campoRicerca">
-        <option value="nome">Nome</option>
-        <option value="cognome">Cognome</option>
-        <option value="badge">Badge</option>
-        <option value="targa">Targa</option>
-        <option value="categoria">Categoria</option>
-        <option value="personaRiferimento">Persona di riferimento</option>
-        <option value="azienda">Azienda</option>
-        <option value="divisione">Divisione</option>
-    </select>
-
-    <input type="text" [(ngModel)]="testoRicerca" (keyup.enter)="cercaIngressi()" placeholder="Cerca...">
-    <button type="button" (click)="cercaIngressi()" title="Cerca ingresso">Cerca</button>
-    <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
-</div>
-
-<label>Filtra per periodo di ingresso: </label>
-<input type="checkbox" [(ngModel)]="mostraFiltroPeriodo" (change)="onCambioFiltroPeriodo()"><br><br>
-
-@if (mostraFiltroPeriodo) {
-    <div class="periodo-container">
-        <label>Dal:</label>
-        <input type="date" [(ngModel)]="inizioPeriodo">
-
-        <label>Al:</label>
-        <input type="date" [(ngModel)]="finePeriodo">
-
-        <button (click)="applicaFiltroPeriodo()">Applica</button>
-    </div>
-
 }
 
 <table>
