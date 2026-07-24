@@ -1,6 +1,7 @@
 .filter-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     gap: 20px;
 }
@@ -8,4 +9,5 @@
 .sedi-select {
     display: flex;
     gap: 20px;
+    margin: 0px;
 }

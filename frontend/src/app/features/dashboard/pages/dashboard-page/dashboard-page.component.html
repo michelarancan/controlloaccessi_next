@@ -1,7 +1,7 @@
 <h1>Dashboard</h1>
 
 <div class="filter-container">
-    <p>Data:</p>
+    <h3>Data: {{ oggi }}</h3>
 
     <div class="sedi-select">
         <p>Sede:</p>
@@ -25,9 +25,22 @@
                 <th>Ora ingresso</th>
             </thead>
             <tbody>
-                <!-- TOGLI sta riga-->
-                <tr><td></td><td></td><td></td><td></td></tr>
-                <!-- for -->
+                @for (interno of presentiInterni; track interno.id) {
+                    <tr>
+                        <td>{{ interno.nome }}</td>
+                        <td>{{ interno.cognome }}</td>
+                        <td>{{ interno.divisione }}</td>
+                        <td>{{ interno.dataIngresso }}</td>
+                    </tr>
+                }
+
+                @if (presentiInterni.length === 0) {
+                <tr>
+                    <td colspan="4" class="no-results">
+                    Nessun presente trovato
+                    </td>
+                </tr>
+                }
             </tbody>
         </table>
 
@@ -44,9 +57,22 @@
                 <th>Ora ingresso</th>
             </thead>
             <tbody>
-                <!-- TOGLI sta riga-->
-                <tr><td></td><td></td><td></td><td></td></tr>
-                <!-- for -->
+                @for (esterno of presentiEsterni; track esterno.id) {
+                    <tr>
+                        <td>{{ esterno.nome }}</td>
+                        <td>{{ esterno.cognome }}</td>
+                        <td>{{ esterno.azienda }}</td>
+                        <td>{{ esterno.dataIngresso }}</td>
+                    </tr>
+                }
+
+                @if (presentiEsterni.length === 0) {
+                <tr>
+                    <td colspan="4" class="no-results">
+                    Nessun presente trovato
+                    </td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -61,9 +87,21 @@
                 <th>Nominativo prestito</th>
             </thead>
             <tbody>
-                <!-- TOGLI sta riga-->
-                <tr><td></td><td></td><td></td></tr>
-                <!-- for -->
+                @for (badge of badges; track badge.id) {
+                    <tr>
+                        <td>{{ badge.codice }}</td>
+                        <td>{{ badge.oraPrestito }}</td>
+                        <td>{{ badge.nominativoPrestito }}</td>
+                    </tr>
+                }
+
+                @if (badges.length === 0) {
+                <tr>
+                    <td colspan="3" class="no-results">
+                    Nessun badge trovato
+                    </td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -78,9 +116,21 @@
                 <th>Nominativo prestito</th>
             </thead>
             <tbody>
-                <!-- TOGLI sta riga-->
-                <tr><td></td><td></td><td></td></tr>
-                <!-- for -->
+                @for (chiave of chiavi; track chiave.id) {
+                    <tr>
+                        <td>{{ chiave.codice }}</td>
+                        <td>{{ chiave.oraPrestito }}</td>
+                        <td>{{ chiave.nominativoPrestito }}</td>
+                    </tr>
+                }
+
+                @if (chiavi.length === 0) {
+                <tr>
+                    <td colspan="3" class="no-results">
+                    Nessuna chiave trovata
+                    </td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -97,9 +147,23 @@
                 <th>Ora uscita</th>
             </thead>
             <tbody>
-                <!-- TOGLI sta riga-->
-                <tr><td></td><td></td><td></td><td></td><td></td></tr>
-                <!-- for -->
+                @for (accesso of accessi; track accesso.id) {
+                    <tr>
+                        <td>{{ accesso.nome }}</td>
+                        <td>{{ accesso.cognome }}</td>
+                        <td>{{ accesso.azienda }}</td>
+                        <td>{{ accesso.dataIngresso }}</td>
+                        <td>{{ accesso.dataUscita }}</td>
+                    </tr>
+                }
+
+                @if (accessi.length === 0) {
+                <tr>
+                    <td colspan="5" class="no-results">
+                    Nessun accesso trovato
+                    </td>
+                </tr>
+                }
             </tbody>
         </table>
     </div>
