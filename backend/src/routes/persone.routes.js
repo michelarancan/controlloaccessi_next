@@ -9,6 +9,21 @@ const controller = require('../controllers/persone.controller');
 
 /**
  * @swagger
+ * /api/persone:
+ *   get:
+ *     summary: Restituisce tutte le persone
+ *     tags:
+ *       - Persone
+ *     responses:
+ *       200:
+ *         description: Elenco persone
+ *       500:
+ *         description: Errore interno del server
+ */
+router.get('/', requirePermission(permissions.PERSONE_INTERNE_READ), controller.findAll);
+
+/**
+ * @swagger
  * /api/persone/interne/sedi/{idS}:
  *   get:
  *     summary: Restituisce tutte le persone interne di una certa sede

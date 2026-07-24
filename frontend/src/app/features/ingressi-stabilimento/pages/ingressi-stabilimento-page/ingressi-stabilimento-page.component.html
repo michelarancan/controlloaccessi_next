@@ -16,7 +16,7 @@
 </div><br>
 
 @if (showForm) {
-    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [badges]="badges" [aziende]="aziende" [categorie]="categorie" [personeInterne]="personeInterne" [divisioni]="divisioni"></app-ingresso-stabilimento-form>
+    <app-ingresso-stabilimento-form (salva)="salvaIngresso($event)" (annulla)="chiudiForm()" [persone]="persone" [badges]="badges" [categorie]="categorie" [personeInterne]="personeInterne" [divisioni]="divisioni"></app-ingresso-stabilimento-form>
 }
 
 <div class="search-container">
@@ -64,7 +64,6 @@
             <th>Data di uscita</th>
             <th>Categoria</th>
             <th>Persona di riferimento</th>
-            <th>Azienda</th>
             <th>Divisione di destinazione</th>
             <th>Azioni</th>
         </tr>
@@ -81,7 +80,6 @@
                 <td>{{ ingresso.dataUscita }}</td>
                 <td>{{ ingresso.categoria }}</td>
                 <td>{{ ingresso.personaRiferimento }}</td>
-                <td>{{ ingresso.azienda }}</td>
                 <td>{{ ingresso.divisione }}</td>
                 <td class="button-cell">
                     <button class="btn-modifica" (click)="registraUscita(ingresso.id)" title="Registra l'uscita" [disabled]="!!ingresso.dataUscita">Registra l'uscita</button> <!-- disabilitato se già uscito-->
@@ -91,7 +89,7 @@
          
         @if (ingressi.length === 0) {
         <tr>
-            <td colspan="11" class="no-results">
+            <td colspan="10" class="no-results">
             Nessun ingresso trovato
             </td>
         </tr>

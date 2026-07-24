@@ -177,11 +177,18 @@ router.get('/sedi/:idS/search/periodo', requirePermission(permissions.INGRESSI_R
 
 /**
  * @swagger
- * /api/ingressi-stabilimento:
+ * /api/ingressi-stabilimento/sedi/{idS}:
  *   post:
  *     summary: Aggiunge un nuovo ingresso
  *     tags:
  *       - Ingressi stabilimento
+ *     parameters:
+ *       - in: path
+ *         name: idS
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID della sede
  *     requestBody:
  *       required: true
  *       content:
@@ -220,7 +227,7 @@ router.get('/sedi/:idS/search/periodo', requirePermission(permissions.INGRESSI_R
  *       500:
  *         description: Errore interno del server
  */
-router.post('/', requirePermission(permissions.INGRESSI_WRITE), controller.create);
+router.post('/sedi/:idS', requirePermission(permissions.INGRESSI_WRITE), controller.create);
 
 /**
  * @swagger

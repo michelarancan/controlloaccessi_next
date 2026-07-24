@@ -2,6 +2,12 @@ const connection = require('../db/connection');
 
 //qui faccio le query al db
 
+//GET all
+function findAll(callback) {
+    const query = `SELECT id, nome, cognome FROM persone WHERE is_active = true`;
+    connection.query(query, callback);
+}
+
 //GET all interne di una sede
 function findAllInterne(idSede, callback) {
     const query = `SELECT per.id, per.nome, per.cognome, per.telefono, per.email, p.divisione, d.nome AS nomeDivisione FROM persone_interne p JOIN persone per ON p.persona = per.id JOIN divisioni d ON p.divisione = d.id WHERE per.is_active = true AND d.sede = ? ORDER BY per.cognome, per.nome`;
@@ -76,4 +82,4 @@ function searchInternaByDivisione(idDivisione, campo, valore, callback) {
     connection.query(query, [idDivisione, `%${valore}%`], callback);
 }
 
-module.exports = { findAllInterne, findAllInterneByDivisione, findInternaById, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };
+module.exports = { findAll, findAllInterne, findAllInterneByDivisione, findInternaById, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };

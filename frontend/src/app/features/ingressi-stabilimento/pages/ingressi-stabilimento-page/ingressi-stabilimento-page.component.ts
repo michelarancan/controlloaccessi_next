@@ -12,14 +12,13 @@ import { SediService } from '../../../sedi/services/sedi.service';
 import { Badge } from '../../../badge/models/badge.model';
 import { BadgeService } from '../../../badge/services/badge.service';
 
-import { Azienda } from '../../../aziende/models/azienda.model';
-import { AziendeService } from '../../../aziende/services/aziende.service';
-
 import { Categoria } from '../../../categorie/models/categoria.model';
 import { CategorieService } from '../../../categorie/services/categorie.service';
 
 import { PersonaInterna } from '../../../persone-interne/models/persona-interna.model';
 import { PersoneInterneService } from '../../../persone-interne/services/persone-interne.service';
+
+import { Persona } from '../../../persone/models/persona.model';
 
 import { Divisione } from '../../../divisioni/models/divisione.model';
 import { DivisioniService } from '../../../divisioni/services/divisioni.service';
@@ -41,8 +40,8 @@ export class IngressiStabilimentoComponent implements OnInit {
   sedi: Sede[] = [];
   idSede = 1; //default
 
+  persone: Persona[] = [];
   badges:  Badge[] = [];
-  aziende: Azienda[] = [];
   categorie: Categoria[] = [];
   personeInterne: PersonaInterna[] = [];
   divisioni: Divisione[] = [];
@@ -50,7 +49,6 @@ export class IngressiStabilimentoComponent implements OnInit {
   private ingressiStabilimentoService = inject(IngressiStabilimentoService);
   private sediService = inject(SediService);
   private badgeService = inject(BadgeService);
-  private aziendeService = inject(AziendeService);
   private categorieService = inject(CategorieService);
   private personeInterneService = inject(PersoneInterneService);
   private divisioniService = inject(DivisioniService);
@@ -79,8 +77,8 @@ export class IngressiStabilimentoComponent implements OnInit {
   ngOnInit(): void {
     this.loadIngressi();
     this.loadSedi();
+    this.loadPersone();
     this.loadBadges();
-    this.loadAziende();
     this.loadCategorie();
     this.loadPersoneInterne();
     this.loadDivisioni();
@@ -89,7 +87,6 @@ export class IngressiStabilimentoComponent implements OnInit {
   onSedeChange(): void {
     this.loadIngressi();
     this.loadBadges();
-    this.loadAziende();
     this.loadCategorie();
     this.loadPersoneInterne();
     this.loadDivisioni();
@@ -127,22 +124,14 @@ export class IngressiStabilimentoComponent implements OnInit {
     })
   }
 
+  loadPersone(): void {
+    
+  }
+
   loadBadges(): void {
     this.badgeService.getAll(this.idSede).subscribe({
       next: (data) => {
         this.badges = data;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
-  }
-
-  loadAziende(): void {
-    this.aziendeService.getAll().subscribe({
-      next: (data) => {
-        this.aziende = data;
         this.cdr.detectChanges();
       },
       error: (error) => {

@@ -89,9 +89,10 @@ function searchByData(idSede, data, campo, valore, callback) {
 }
 
 //controllo se persona è esterna
-function isEsterna(id, callback) {
-    const query = `SELECT 1 FROM persone_esterne WHERE persona = ?`;
-    connection.query(query, [id], callback);
+function isEsternaToSede(idSede, id, callback) {
+    const query = `SELECT 1 FROM persone_esterne WHERE persona = ? UNION
+                   SELECT 1 FROM persone_interne p JOIN divisioni d ON p.divisione = d.id WHERE p.persona = ? AND d.sede <> ?`;
+    connection.query(query, [id, id, idSede], callback);
 }
 
-module.exports = { findAll, findAllByData, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsterna };
+module.exports = { findAll, findAllByData, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsternaToSede };

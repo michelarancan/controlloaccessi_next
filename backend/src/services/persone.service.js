@@ -3,6 +3,11 @@ const divisioniRepository = require('../repositories/divisioni.repository');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
+//GET all
+function findAll(callback) {
+    repository.findAll(callback);
+}
+
 //GET all interne
 function findAllInterne(idSede, callback) {
     repository.findAllInterne(idSede, callback);
@@ -219,4 +224,4 @@ function searchInternaByDivisione(idDivisione, campo, valore, callback) {
     repository.searchInternaByDivisione(idDivisione, campoSql, valore, callback);
 }
 
-module.exports = { findAllInterne, findAllInterneByDivisione, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };
+module.exports = { findAll, findAllInterne, findAllInterneByDivisione, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };

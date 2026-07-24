@@ -2,10 +2,14 @@
     <div class="popup-box">
         <h2>Aggiungi ingresso</h2>
         <form class="form">
-        <label for="nome">Nome:</label><br><br>
-        <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required><br><br>
-        <label for="cognome">Cognome:</label><br><br>
-        <input type="text" id="cognome" name="cognome" [(ngModel)]="formData.cognome" required><br><br>
+        <label for="persona">Persona:</label><br><br>
+        <select id="persona" name="persona" [(ngModel)]="formData.persona">
+            @for (persona of persone; track persona.id) {
+                <option [ngValue]="persona.id">
+                    {{ persona.cognome }} {{ persona.nome }}
+                </option>
+            }
+        </select><br><br>
         <label for="badge">Badge:</label><br><br>
         <select id="badge" name="badge" [(ngModel)]="formData.badge">
             @for (badge of badges; track badge.id) {
@@ -26,17 +30,10 @@
         </select><br><br>
         <label for="personaRiferimento">Persona di riferimento:</label><br><br>
         <select id="personaRiferimento" name="personaRiferimento" [(ngModel)]="formData.personaRiferimento">
+            <option [ngValue]="null">-- Nessun riferimento --</option>
             @for (personaInterna of personeInterne; track personaInterna.id) {
                 <option [ngValue]="personaInterna.id">
                     {{ personaInterna.cognome }} {{ personaInterna.nome }}
-                </option>
-            }
-        </select><br><br>
-        <label for="azienda">Azienda:</label><br><br>
-        <select id="azienda" name="azienda" [(ngModel)]="formData.azienda">
-            @for (azienda of aziende; track azienda.id) {
-                <option [ngValue]="azienda.id">
-                    {{ azienda.ragioneSociale }}
                 </option>
             }
         </select><br><br>

@@ -38,10 +38,12 @@ function findAllByData(req, res, next) {
 
 //POST 
 function create(req, res, next) {
+
+    const idSede = req.params.idS;
     //recupera json
     const ingresso = req.body;
 
-    service.create(ingresso, (err, results) => {
+    service.create(idSede, ingresso, (err, results) => {
 
         if (err) {
             return next(err);

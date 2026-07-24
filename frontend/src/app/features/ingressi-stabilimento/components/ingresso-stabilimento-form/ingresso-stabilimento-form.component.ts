@@ -2,10 +2,10 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IngressoStabilimento } from '../../models/ingresso-stabilimento.model';
 import { Badge } from '../../../badge/models/badge.model';
-import { Azienda } from '../../../aziende/models/azienda.model';
 import { Categoria } from '../../../categorie/models/categoria.model';
 import { PersonaInterna } from '../../../persone-interne/models/persona-interna.model';
 import { Divisione } from '../../../divisioni/models/divisione.model';
+import { Persona } from '../../../persone/models/persona.model';
 
 @Component({
   selector: 'app-ingresso-stabilimento-form',
@@ -16,21 +16,19 @@ import { Divisione } from '../../../divisioni/models/divisione.model';
 export class IngressoStabilimentoForm {
 
   formData = {
-    nome: '',
-    cognome: '',
+    persona: 0,
     badge: 0,
     targa: '',
     categoria: 0,
-    personaRiferimento: 0,
-    azienda: 0,
+    personaRiferimento: null as number | null,
     divisione: 0
   };
 
   @Input()
-  badges: Badge[] = [];
+  persone: Persona[] = [];
 
   @Input()
-  aziende: Azienda[] = [];
+  badges: Badge[] = [];
 
   @Input()
   categorie: Categoria[] = [];
@@ -42,7 +40,7 @@ export class IngressoStabilimentoForm {
   divisioni: Divisione[] = [];
 
   @Output()
-  salva = new EventEmitter<{ nome: string; cognome: string, badge: number, targa: string, categoria: number, personaRiferimento: number, azienda: number, divisione: number }>();
+  salva = new EventEmitter<{persona: number, badge: number, targa: string, categoria: number,personaRiferimento: number | null, divisione: number}>();
 
   @Output()
   annulla = new EventEmitter<void>();
@@ -55,13 +53,11 @@ export class IngressoStabilimentoForm {
     if (this.ingresso) {
 
       this.formData = {
-        nome: this.ingresso.nome,
-        cognome: this.ingresso.cognome,
+        persona: this.ingresso.persona,
         badge: this.ingresso.idBadge,
         targa: this.ingresso.targa ?? '',
         categoria: this.ingresso.idCategoria,
-        personaRiferimento: this.ingresso.idPersonaRiferimento,
-        azienda: this.ingresso.idAzienda,
+        personaRiferimento: this.ingresso.idPersonaRiferimento ?? null,
         divisione: this.ingresso.idDivisione
       };
 

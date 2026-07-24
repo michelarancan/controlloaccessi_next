@@ -1,5 +1,6 @@
 export interface IngressoStabilimento {
     id: number;
+    persona: number;
     nome: string;
     cognome: string;
     idBadge: number;
@@ -9,10 +10,8 @@ export interface IngressoStabilimento {
     dataUscita: string | null;
     idCategoria: number;
     categoria: string;
-    idPersonaRiferimento: number;
+    idPersonaRiferimento: number | null;
     personaRiferimento: string;
-    idAzienda: number;
-    azienda: string;
     idDivisione: number;
     divisione: string;
 }

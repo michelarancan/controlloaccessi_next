@@ -14,7 +14,7 @@ function findAllByData(idSede, data, callback) {
 }
 
 //POST
-function create(data, callback) {
+function create(idSede, data, callback) {
     if(data.targa && data.targa.length > 30) {
         const error = new Error('La targa non può superare i 30 caratteri');
 
@@ -69,12 +69,13 @@ function create(data, callback) {
             }
 
             //controllo che se è esterna ha personaRiferimento
-            repository.isEsterna(data.persona, (err, esternaResults) => {
+            repository.isEsternaToSede(idSede, data.persona, (err, esternaResults) => {
 
                 if (err) {
                     return callback(err);
                 }
 
+                //esterna alla sede -> per forza persona di riferimento
                 if(esternaResults.length > 0 && !data.personaRiferimento) {
                     const error = new Error(
                         'La persona di riferimento è obbligatoria per gli ingressi esterni'
@@ -86,6 +87,7 @@ function create(data, callback) {
                     return callback(error);
                 }
 
+                //interna alla sede -> per forza SENZA persona di riferimento
                 if(esternaResults.length === 0 && data.personaRiferimento) {
                     const error = new Error(
                         'La persona di riferimento non deve esserci per gli ingressi interni'
