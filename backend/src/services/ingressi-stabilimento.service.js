@@ -99,7 +99,27 @@ function create(idSede, data, callback) {
                     return callback(error);
                 }
 
-                repository.create(data, callback);
+                //controllo che la persona non abbia un ingresso senza uscita da qualche parte
+                repository.isNotOut(data.persona, (err, outResults) => {
+
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    //se ha ingresso senza uscita
+                    if(outResults.length > 0) {
+                        const error = new Error(
+                            'Questa persona risulta ancora all\'interno di una sede'
+                        );
+
+                        error.status = 400;
+                        error.code = 'INVALID_PARAMS_FIELD';
+
+                        return callback(error);
+                    }
+
+                    repository.create(data, callback);
+                });
             });
         });
     });

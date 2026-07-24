@@ -95,4 +95,10 @@ function isEsternaToSede(idSede, id, callback) {
     connection.query(query, [id, id, idSede], callback);
 }
 
+//controllo se persona è ancora all'interno di qualche sede
+function isNotOut(id, callback) {
+    const query = `SELECT 1 FROM ingressi_stabilimento WHERE data_uscita IS NULL AND persona = ? AND is_active = true`;
+    connection.query(query, [id], callback);
+}
+
 module.exports = { findAll, findAllByData, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsternaToSede };

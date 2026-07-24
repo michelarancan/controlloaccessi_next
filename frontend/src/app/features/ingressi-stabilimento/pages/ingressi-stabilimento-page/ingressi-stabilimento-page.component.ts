@@ -19,6 +19,7 @@ import { PersonaInterna } from '../../../persone-interne/models/persona-interna.
 import { PersoneInterneService } from '../../../persone-interne/services/persone-interne.service';
 
 import { Persona } from '../../../persone/models/persona.model';
+import { PersoneService } from '../../../persone/services/persone.service';
 
 import { Divisione } from '../../../divisioni/models/divisione.model';
 import { DivisioniService } from '../../../divisioni/services/divisioni.service';
@@ -52,6 +53,7 @@ export class IngressiStabilimentoComponent implements OnInit {
   private categorieService = inject(CategorieService);
   private personeInterneService = inject(PersoneInterneService);
   private divisioniService = inject(DivisioniService);
+  private personeService = inject(PersoneService);
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -125,7 +127,15 @@ export class IngressiStabilimentoComponent implements OnInit {
   }
 
   loadPersone(): void {
-    
+    this.personeService.getAll().subscribe({
+      next: (data) => {
+        this.persone = data;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 
   loadBadges(): void {
@@ -232,7 +242,7 @@ export class IngressiStabilimentoComponent implements OnInit {
   }
 
   salvaIngresso(dati: any) {
-    this.ingressiStabilimentoService.create(dati)
+    this.ingressiStabilimentoService.create(this.idSede, dati)
     .subscribe({
       next: () => {
         this.loadIngressi();

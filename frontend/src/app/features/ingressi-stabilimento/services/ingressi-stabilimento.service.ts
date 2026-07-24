@@ -23,8 +23,8 @@ export class IngressiStabilimentoService {
   }
 
   //POST
-  create(ingresso: Omit<IngressoStabilimento, 'id'>): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, ingresso);
+  create(idS:number, ingresso: Omit<IngressoStabilimento, 'id'>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/sedi/${idS}`, ingresso);
   }
 
   //PUT
