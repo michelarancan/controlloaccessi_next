@@ -110,10 +110,16 @@ export class DashboardComponent implements OnInit {
   }
 
   generaReport(dati: {data: string}) {
-    this.reportService.getAccessiByData(this.idSede, dati.data).subscribe({
-      next: (accessi) => {
+    this.reportService.generatePDF(this.idSede, dati.data).subscribe({
+      next: (blob) => {
         //generazione report
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `report-${dati.data}.pdf`;
 
+        link.click();
+        window.URL.revokeObjectURL(url);
 
         this.chiudiForm();
         this.mostraToast('Report generato correttamente');

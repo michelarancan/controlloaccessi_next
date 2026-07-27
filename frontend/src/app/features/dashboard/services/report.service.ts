@@ -18,4 +18,9 @@ export class ReportService {
     return this.http.get<IngressoStabilimento[]>(`${this.apiUrl}/accessi-giornalieri/sedi/${idSede}?data=${data}`);
   }
 
+  //genera PDF
+  generatePDF(idSede: number, data: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/accessi-giornalieri/sedi/${idSede}/pdf?data=${data}`, { responseType: 'blob'});
+  }
+
 }
