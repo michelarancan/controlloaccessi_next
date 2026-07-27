@@ -13,6 +13,8 @@ import { IngressoStabilimento } from '../../../ingressi-stabilimento/models/ingr
 import { IngressiStabilimentoService } from '../../../ingressi-stabilimento/services/ingressi-stabilimento.service';
 
 import { ReportForm } from './components/report-form/report-form.component';
+import { ReportService } from '../../services/report.service';
+
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 
 @Component({
@@ -56,6 +58,7 @@ export class DashboardComponent implements OnInit {
   private sediService = inject(SediService);
   private ingressiService = inject(IngressiStabilimentoService);
   private badgeService = inject(BadgeService);
+  private reportService = inject(ReportService);
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -107,11 +110,19 @@ export class DashboardComponent implements OnInit {
   }
 
   generaReport(dati: {data: string}) {
-    
-    //generazione report
+    this.reportService.getAccessiByData(this.idSede, dati.data).subscribe({
+      next: (accessi) => {
+        //generazione report
 
-    this.chiudiForm();
-    this.mostraToast('Report generato correttamente');
+
+        this.chiudiForm();
+        this.mostraToast('Report generato correttamente');
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+    //generazione report
   }
 
   apriForm() {

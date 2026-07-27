@@ -18,6 +18,7 @@ const ingressiStabilimentoRoutes = require('./routes/ingressi-stabilimento.route
 const badgeRoutes = require('./routes/badge.routes');
 const categorieRoutes = require('./routes/categorie.routes');
 const aziendeRoutes = require('./routes/aziende.routes');
+const reportRoutes = require('./routes/report.routes');
 //altre rotte
 
 const app = express();
@@ -39,6 +40,7 @@ app.use('/api/ingressi-stabilimento', ingressiStabilimentoRoutes);
 app.use('/api/badge', badgeRoutes);
 app.use('/api/categorie', categorieRoutes);
 app.use('/api/aziende', aziendeRoutes);
+app.use('/api/report', reportRoutes);
 //altri
 
 app.use(errorHandler);

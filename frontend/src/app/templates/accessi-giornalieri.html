@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Report accessi</title>
+
+    {{ styles }}
+</head>
+
+<body>
+
+{{ logo }}
+
+<h1>Report Accessi Giornalieri</h1>
+
+<p>Data: {{ data }}</p>
+
+<h2>Accessi interni</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Divisione</th>
+            <th>Ora ingresso</th>
+            <th>Ora uscita</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{ righe_interni }}
+    </tbody>
+</table>
+
+<h2>Accessi esterni</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Azienda</th>
+            <th>Ora ingresso</th>
+            <th>Ora uscita</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{ righe_esterni }}
+    </tbody>
+</table>
+
+</body>
+</html>
