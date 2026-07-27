@@ -54,3 +54,4 @@ frontend/.claude
 frontend/.gemini
 frontend/.vscode
 frontend/dist
+backend/src/tmp
