@@ -7,4 +7,9 @@ function findAllBySede(idSede, callback) {
     repository.findAllBySede(idSede, callback);
 }
 
-module.exports = { findAllBySede };
+//GET all around
+function findAllAroundBySede(idSede, callback) {
+    repository.findAllAroundBySede(idSede, callback);
+}
+
+module.exports = { findAllBySede, findAllAroundBySede };

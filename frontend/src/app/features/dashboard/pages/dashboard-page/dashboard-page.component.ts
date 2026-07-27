@@ -3,14 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { SediService } from '../../../sedi/services/sedi.service';
-import { SedeForm } from '../../../sedi/components/sede-form/sede-form.component';
 import { Sede } from '../../../sedi/models/sede.model';
 
-import { DashboardPresentiInterni } from '../../models/dashboard.model';
-import { DashboardPresentiEsterni } from '../../models/dashboard.model';
-import { DashboardBadge } from '../../models/dashboard.model';
-import { DashboardChiavi } from '../../models/dashboard.model';
-import { DashboardAccessi } from '../../models/dashboard.model';
+import { Badge } from '../../../badge/models/badge.model';
+import { BadgeService } from '../../../badge/services/badge.service';
 
 import { IngressoStabilimento } from '../../../ingressi-stabilimento/models/ingresso-stabilimento.model';
 
@@ -19,7 +15,7 @@ import { IngressiStabilimentoService } from '../../../ingressi-stabilimento/serv
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, SedeForm],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard-page.component.html',
   styleUrls: ['./dashboard-page.component.css'],
 })
@@ -32,14 +28,16 @@ export class DashboardComponent implements OnInit {
 
   presentiInterni: IngressoStabilimento[] = [];
   presentiEsterni: IngressoStabilimento[] = [];
-  badges: DashboardBadge[] = [];
-  chiavi: DashboardChiavi[] = [];
+  badges: Badge[] = [];
+  chiavi: string[] = [];  //CAMBIA
   accessi: IngressoStabilimento[] = [];
 
-  oggi = new Date().toLocaleDateString('it-IT');
+  showOggi = new Date().toLocaleDateString('it-IT');
+  oggi = new Date().toISOString().split('T')[0];
 
   private sediService = inject(SediService);
   private ingressiService = inject(IngressiStabilimentoService);
+  private badgeService = inject(BadgeService);
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -51,8 +49,7 @@ export class DashboardComponent implements OnInit {
     this.loadAccessi();
     this.loadBadge();
     this.loadChiavi();
-    this.loadPresentiEsterni();
-    this.loadPresentiInterni();
+    this.loadPresenti();
   }
 
   loadSedi(): void {
@@ -72,11 +69,10 @@ export class DashboardComponent implements OnInit {
     this.loadAccessi();
     this.loadBadge();
     this.loadChiavi();
-    this.loadPresentiEsterni();
-    this.loadPresentiInterni();
+    this.loadPresenti();
   }
 
-  loadPresentiInterni(): void {
+  loadPresenti(): void {
     this.ingressiService.getAllByData(this.idSede, this.oggi, this.oggi).subscribe({
       next: (data) => {
         this.accessi = data;
@@ -95,12 +91,15 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  loadPresentiEsterni(): void {
-    
-  }
-
   loadBadge(): void {
-    
+    this.badgeService.getAllAround(this.idSede).subscribe({
+      next: (data) => {
+        this.badges = data;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   loadChiavi(): void {

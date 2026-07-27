@@ -1,5 +1,16 @@
 <h1>Registro Accessi</h1>
 
+<div class="div-aggiungi">
+    <div class="sede-selector">
+        <label>Sede:</label>
+        <select [(ngModel)]="idSede" (ngModelChange)="onSedeChange()">
+            @for (sede of sedi; track sede.id) {
+                <option [ngValue]="sede.id">{{ sede.sede }}</option>
+            }
+        </select>
+    </div>
+</div>
+
 <div class="search-container">
 
     <select [(ngModel)]="campoRicerca">

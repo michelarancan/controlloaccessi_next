@@ -16,4 +16,18 @@ function findAllBySede(req, res, next) {
     });
 }
 
-module.exports = { findAllBySede };
+//GET all around
+function findAllAroundBySede(req, res, next) {
+
+    const idSede = req.params.idS;
+
+    service.findAllAroundBySede(idSede, (err, results) => {
+        if(err) {
+            return next(err);
+        }
+
+        res.status(200).json(results);
+    });
+}
+
+module.exports = { findAllBySede, findAllAroundBySede };

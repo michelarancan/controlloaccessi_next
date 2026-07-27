@@ -9,6 +9,7 @@ export interface IngressoStabilimento {
     dataIngresso: string;
     oraIngresso: string;
     dataUscita: string | null;
+    oraUscita: string | null;
     idCategoria: number;
     categoria: string;
     idPersonaRiferimento: number | null;

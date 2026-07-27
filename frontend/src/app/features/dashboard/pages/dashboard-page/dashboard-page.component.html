@@ -1,7 +1,7 @@
 <h1>Dashboard</h1>
 
 <div class="filter-container">
-    <h3>Data: {{ oggi }}</h3>
+    <h3>Data: {{ showOggi }}</h3>
 
     <div class="sedi-select">
         <p>Sede:</p>
@@ -30,7 +30,7 @@
                         <td>{{ interno.nome }}</td>
                         <td>{{ interno.cognome }}</td>
                         <td>{{ interno.divisione }}</td>
-                        <td>{{ interno.dataIngresso }}</td>
+                        <td>{{ interno.oraIngresso }}</td>
                     </tr>
                 }
 
@@ -62,7 +62,7 @@
                         <td>{{ esterno.nome }}</td>
                         <td>{{ esterno.cognome }}</td>
                         <td>{{ esterno.azienda }}</td>
-                        <td>{{ esterno.dataIngresso }}</td>
+                        <td>{{ esterno.oraIngresso }}</td>
                     </tr>
                 }
 
@@ -115,14 +115,14 @@
                 <th>Ora prestito</th>
                 <th>Nominativo prestito</th>
             </thead>
-            <tbody>
+            <tbody><!--
                 @for (chiave of chiavi; track chiave.id) {
                     <tr>
                         <td>{{ chiave.codice }}</td>
                         <td>{{ chiave.oraPrestito }}</td>
                         <td>{{ chiave.nominativoPrestito }}</td>
                     </tr>
-                }
+                }-->
 
                 @if (chiavi.length === 0) {
                 <tr>
@@ -151,9 +151,9 @@
                     <tr>
                         <td>{{ accesso.nome }}</td>
                         <td>{{ accesso.cognome }}</td>
-                        <td>{{ accesso.azienda }}</td>
-                        <td>{{ accesso.dataIngresso }}</td>
-                        <td>{{ accesso.dataUscita }}</td>
+                        <td>{{ accesso.azienda ?? accesso.divisione }}</td>
+                        <td>{{ accesso.oraIngresso }}</td>
+                        <td>{{ accesso.oraUscita }}</td>
                     </tr>
                 }
 

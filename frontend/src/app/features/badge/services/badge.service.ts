@@ -17,4 +17,9 @@ export class BadgeService {
     return this.http.get<Badge[]>(`${this.apiUrl}/sedi/${idS}`);
   }
 
+  //GET all around by sede
+  getAllAround(idS: number): Observable<Badge[]> {
+    return this.http.get<Badge[]>(`${this.apiUrl}/sedi/${idS}/non-consegnati`);
+  }
+
 }
