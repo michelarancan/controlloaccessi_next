@@ -171,6 +171,14 @@ input[type=date] {
   cursor: pointer;
 }
 
+input[type=time] {
+  width: 17%;
+  padding: 8px;
+  margin: 0px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
