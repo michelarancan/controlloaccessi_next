@@ -10,9 +10,11 @@
     display: flex;
     gap: 20px;
     margin: 0px;
+
+    align-items: center;
 }
 
-p {
+.dashboard p {
     font-style: italic;
     font-weight: bold;
 }

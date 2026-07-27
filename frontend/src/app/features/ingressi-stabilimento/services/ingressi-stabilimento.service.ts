@@ -22,6 +22,11 @@ export class IngressiStabilimentoService {
     return this.http.get<IngressoStabilimento[]>(`${this.apiUrl}/sedi/${idS}/periodo?inizioPeriodo=${inizioPeriodo}&finePeriodo=${finePeriodo}`);
   }
 
+  //GET all by ora
+  getAllByOra(idS: number, inizioPeriodo: string, finePeriodo: string): Observable<IngressoStabilimento[]> {
+    return this.http.get<IngressoStabilimento[]>(`${this.apiUrl}/sedi/${idS}/ora?oraInizio=${inizioPeriodo}&oraFine=${finePeriodo}`);
+  }
+
   //POST
   create(idS:number, ingresso: Omit<IngressoStabilimento, 'id'>): Observable<any> {
     return this.http.post(`${this.apiUrl}/sedi/${idS}`, ingresso);

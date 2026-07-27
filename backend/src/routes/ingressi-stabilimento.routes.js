@@ -63,6 +63,40 @@ router.get('/sedi/:idS/periodo', requirePermission(permissions.INGRESSI_READ), c
 
 /**
  * @swagger
+ * /api/ingressi-stabilimento/sedi/{idS}/ora:
+ *   get:
+ *     summary: Restituisce tutti gli ingressi in una certa sede in una certa ora di oggi
+ *     tags:
+ *       - Ingressi stabilimento
+ *     parameters:
+ *       - in: path
+ *         name: idS
+ *         required: true
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: oraInizio
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: oraFine
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: Elenco ingressi in una certa sede in una certa ora di oggi
+ *       500:
+ *         description: Errore interno del server
+ */
+router.get('/sedi/:idS/ora', requirePermission(permissions.INGRESSI_READ), controller.findAllByOra);
+
+
+/**
+ * @swagger
  * /api/ingressi-stabilimento/sedi/{idS}/search:
  *   get:
  *     summary: Cerca ingresso

@@ -136,7 +136,14 @@
     </div>
 
     <div>
-        <p>Accessi in stabilimento (per fascia oraria)</p>
+        <div class="sedi-select">
+            <p>Accessi in stabilimento (per fascia oraria)</p>
+            <label>Da:</label>
+            <input type="time" [(ngModel)]="oraInizio" (ngModelChange)="onOrarioChange()">
+
+            <label>A:</label>
+            <input type="time" [(ngModel)]="oraFine" (ngModelChange)="onOrarioChange()">
+        </div>
 
         <table>
             <thead>

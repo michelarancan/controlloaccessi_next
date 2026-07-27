@@ -35,6 +35,9 @@ export class DashboardComponent implements OnInit {
   showOggi = new Date().toLocaleDateString('it-IT');
   oggi = new Date().toISOString().split('T')[0];
 
+  oraInizio: string = '';
+  oraFine: string = '';
+
   private sediService = inject(SediService);
   private ingressiService = inject(IngressiStabilimentoService);
   private badgeService = inject(BadgeService);
@@ -44,6 +47,9 @@ export class DashboardComponent implements OnInit {
   //---------------------------- funzioni --------------------
 
   ngOnInit(): void {
+    this.oraInizio = '08:00:00';
+    this.oraFine = '18:00:00';
+
     this.loadSedi();
 
     this.loadAccessi();
@@ -66,17 +72,22 @@ export class DashboardComponent implements OnInit {
   }
 
   onSedeChange() {
+    this.oraInizio = '08:00:00';
+    this.oraFine = '18:00:00';
+
     this.loadAccessi();
     this.loadBadge();
     this.loadChiavi();
     this.loadPresenti();
   }
 
+  onOrarioChange() {
+    this.loadAccessi();
+  }
+
   loadPresenti(): void {
     this.ingressiService.getAllByData(this.idSede, this.oggi, this.oggi).subscribe({
       next: (data) => {
-        this.accessi = data;
-
         const presenti = data.filter(x => !x.dataUscita);
 
         this.presentiEsterni = presenti.filter(x => !!x.azienda);
@@ -107,6 +118,13 @@ export class DashboardComponent implements OnInit {
   }
 
   loadAccessi(): void {
-    
+    this.ingressiService.getAllByOra(this.idSede, this.oraInizio, this.oraFine).subscribe({
+      next: (data) => {
+        this.accessi = data;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 }

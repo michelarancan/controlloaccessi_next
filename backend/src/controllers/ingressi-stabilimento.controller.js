@@ -36,6 +36,26 @@ function findAllByData(req, res, next) {
     });
 }
 
+//GET all by ora
+function findAllByOra(req, res, next) {
+
+    const idSede = req.params.idS;
+    
+    const periodo = {
+        oraInizio: req.query.oraInizio,
+        oraFine: req.query.oraFine
+    };
+
+
+    service.findAllByOra(idSede, periodo, (err, results) => {
+        if(err) {
+            return next(err);
+        }
+
+        res.status(200).json(results);
+    });
+}
+
 //POST 
 function create(req, res, next) {
 
@@ -119,4 +139,4 @@ function searchByData(req, res, next) {
     );
 }
 
-module.exports = { findAll, findAllByData, create, registerExit, search, searchByData };
+module.exports = { findAll, findAllByData, findAllByOra, create, registerExit, search, searchByData };

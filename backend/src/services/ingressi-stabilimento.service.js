@@ -14,6 +14,11 @@ function findAllByData(idSede, data, callback) {
     repository.findAllByData(idSede, data, callback);
 }
 
+//GET all by ora
+function findAllByOra(idSede, data, callback) {
+    repository.findAllByOra(idSede, data, callback);
+}
+
 //POST
 function create(idSede, data, callback) {
     if(data.targa && data.targa.length > 30) {
@@ -226,4 +231,4 @@ function searchByData(idSede, data, campo, valore, callback) {
     repository.searchByData(idSede, data, campoSql, valore, callback);
 }
 
-module.exports = { findAll, findAllByData, create, registerExit, search, searchByData };
+module.exports = { findAll, findAllByData, findAllByOra, create, registerExit, search, searchByData };
