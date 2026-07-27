@@ -1,0 +1,15 @@
+<div class="form-container">
+    <div class="popup-box">
+        <h2>Genera un report</h2>
+        <form class="form">
+
+        <label for="data">Data:</label><br><br>
+        <input type="date" id="dat" name="data" [(ngModel)]="formData.data" required><br><br>
+
+        <div class="popup-buttons">
+            <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>
+            <button type="button" class="btn-annulla" (click)="onAnnulla()">Annulla</button>
+        </div>
+        </form>
+    </div>
+</div>

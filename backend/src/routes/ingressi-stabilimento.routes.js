@@ -46,13 +46,13 @@ router.get('/sedi/:idS', requirePermission(permissions.INGRESSI_READ), controlle
  *         required: true
  *         schema:
  *           type: string
- *           format: date
+ *           format: time
  *       - in: query
  *         name: finePeriodo
  *         required: true
  *         schema:
  *           type: string
- *           format: date
+ *           format: time
  *     responses:
  *       200:
  *         description: Elenco ingressi in una certa sede in un certo periodo
@@ -65,7 +65,7 @@ router.get('/sedi/:idS/periodo', requirePermission(permissions.INGRESSI_READ), c
  * @swagger
  * /api/ingressi-stabilimento/sedi/{idS}/ora:
  *   get:
- *     summary: Restituisce tutti gli ingressi in una certa sede in una certa ora di oggi
+ *     summary: Restituisce tutti gli ingressi in una certa sede in una certa ora di un giorno
  *     tags:
  *       - Ingressi stabilimento
  *     parameters:
@@ -79,16 +79,22 @@ router.get('/sedi/:idS/periodo', requirePermission(permissions.INGRESSI_READ), c
  *         required: true
  *         schema:
  *           type: string
- *           format: date
+ *           format: time
  *       - in: query
  *         name: oraFine
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: time
+ *       - in: query
+ *         name: data
  *         required: true
  *         schema:
  *           type: string
  *           format: date
  *     responses:
  *       200:
- *         description: Elenco ingressi in una certa sede in una certa ora di oggi
+ *         description: Elenco ingressi in una certa sede in una certa ora di un giorno
  *       500:
  *         description: Errore interno del server
  */
@@ -186,13 +192,13 @@ router.get('/sedi/:idS/search', requirePermission(permissions.INGRESSI_READ), co
  *         required: true
  *         schema:
  *           type: string
- *           format: date
+ *           format: time
  *       - in: query
  *         name: finePeriodo
  *         required: true
  *         schema:
  *           type: string
- *           format: date
+ *           format: time
  *     responses:
  *       200:
  *         description: Elenco ingressi che corrispondono ai parametri

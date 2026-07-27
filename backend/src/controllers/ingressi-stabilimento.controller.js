@@ -43,10 +43,9 @@ function findAllByOra(req, res, next) {
     
     const periodo = {
         oraInizio: req.query.oraInizio,
-        oraFine: req.query.oraFine
+        oraFine: req.query.oraFine,
+        data: req.query.data
     };
-
-
     service.findAllByOra(idSede, periodo, (err, results) => {
         if(err) {
             return next(err);

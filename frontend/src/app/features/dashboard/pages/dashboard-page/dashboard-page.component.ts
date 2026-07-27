@@ -12,10 +12,13 @@ import { IngressoStabilimento } from '../../../ingressi-stabilimento/models/ingr
 
 import { IngressiStabilimentoService } from '../../../ingressi-stabilimento/services/ingressi-stabilimento.service';
 
+import { ReportForm } from './components/report-form/report-form.component';
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReportForm, ToastComponent],
   templateUrl: './dashboard-page.component.html',
   styleUrls: ['./dashboard-page.component.css'],
 })
@@ -26,17 +29,29 @@ export class DashboardComponent implements OnInit {
   sedi: Sede[] = [];
   idSede = 1; //default
 
+  //form
+  showForm = false;
+
+  //toast
+  toastMessage = '';
+  toastType: 'success' | 'error' = 'success';
+  showToast = false;
+
   presentiInterni: IngressoStabilimento[] = [];
   presentiEsterni: IngressoStabilimento[] = [];
   badges: Badge[] = [];
   chiavi: string[] = [];  //CAMBIA
-  accessi: IngressoStabilimento[] = [];
+  accessiInterni: IngressoStabilimento[] = [];
+  accessiEsterni: IngressoStabilimento[] = [];
 
   showOggi = new Date().toLocaleDateString('it-IT');
-  oggi = new Date().toISOString().split('T')[0];
+  oggi = new Date().toLocaleDateString('sv-SE');
 
-  oraInizio: string = '';
-  oraFine: string = '';
+  oraInizioInterni: string = '';
+  oraFineInterni: string = '';
+
+  oraInizioEsterni: string = '';
+  oraFineEsterni: string = '';
 
   private sediService = inject(SediService);
   private ingressiService = inject(IngressiStabilimentoService);
@@ -47,8 +62,11 @@ export class DashboardComponent implements OnInit {
   //---------------------------- funzioni --------------------
 
   ngOnInit(): void {
-    this.oraInizio = '08:00:00';
-    this.oraFine = '18:00:00';
+    this.oraInizioInterni = '08:00:00';
+    this.oraFineInterni = '18:00:00';
+
+    this.oraInizioEsterni = '08:00:00';
+    this.oraFineEsterni = '18:00:00';
 
     this.loadSedi();
 
@@ -72,8 +90,11 @@ export class DashboardComponent implements OnInit {
   }
 
   onSedeChange() {
-    this.oraInizio = '08:00:00';
-    this.oraFine = '18:00:00';
+    this.oraInizioInterni = '08:00:00';
+    this.oraFineInterni = '18:00:00';
+
+    this.oraInizioEsterni = '08:00:00';
+    this.oraFineEsterni = '18:00:00';
 
     this.loadAccessi();
     this.loadBadge();
@@ -83,6 +104,24 @@ export class DashboardComponent implements OnInit {
 
   onOrarioChange() {
     this.loadAccessi();
+  }
+
+  generaReport(dati: {data: string}) {
+    
+    //generazione report
+
+    this.chiudiForm();
+    this.mostraToast('Report generato correttamente');
+  }
+
+  apriForm() {
+    //rendi form visibile
+    this.showForm = true;
+  }
+
+  chiudiForm() {
+    //rendi form invisibile
+    this.showForm = false;
   }
 
   loadPresenti(): void {
@@ -118,13 +157,51 @@ export class DashboardComponent implements OnInit {
   }
 
   loadAccessi(): void {
-    this.ingressiService.getAllByOra(this.idSede, this.oraInizio, this.oraFine).subscribe({
+    this.loadAccessiEsterni();
+    this.loadAccessiInterni();
+  }
+
+  loadAccessiInterni(): void {
+    this.ingressiService.getAllByOra(this.idSede, this.oraInizioInterni, this.oraFineInterni, this.oggi).subscribe({
       next: (data) => {
-        this.accessi = data;
+        const accessi = data;
+
+        this.accessiInterni = accessi.filter(x => !x.azienda);
+
+        this.cdr.detectChanges(); //applica changes
       },
       error: (error) => {
         console.error(error);
       }
     });
+  }
+
+  loadAccessiEsterni(): void {
+    this.ingressiService.getAllByOra(this.idSede, this.oraInizioEsterni, this.oraFineEsterni, this.oggi).subscribe({
+      next: (data) => {
+        const accessi = data;
+
+        this.accessiEsterni = accessi.filter(x => !!x.azienda);
+
+        this.cdr.detectChanges(); //applica changes
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  mostraToast(messaggio: string, tipo: 'success' | 'error' = 'success') {
+    this.toastMessage = messaggio;
+    this.toastType = tipo;
+    this.showToast = true;
+
+    this.cdr.detectChanges();
+
+    //si chiude dopo 3 secondi
+    setTimeout(() => {
+      this.showToast = false;
+      this.cdr.detectChanges();
+    }, 3000);
   }
 }

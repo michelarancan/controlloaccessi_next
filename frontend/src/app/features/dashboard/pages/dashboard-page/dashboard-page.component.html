@@ -1,6 +1,7 @@
 <h1>Dashboard</h1>
 
 <div class="filter-container">
+    <button (click)="apriForm()" class="btn-aggiungi">Genera report</button>
     <h3>Data: {{ showOggi }}</h3>
 
     <div class="sedi-select">
@@ -12,6 +13,10 @@
         </select>
     </div>
 </div>
+
+@if (showForm) {
+    <app-report-form (salva)="generaReport($event)" (annulla)="chiudiForm()"></app-report-form>
+}
 
 <div class="dashboard">
     <div>
@@ -137,34 +142,74 @@
 
     <div>
         <div class="sedi-select">
-            <p>Accessi in stabilimento (per fascia oraria)</p>
+            <p>Accessi interni in stabilimento (per fascia oraria)</p>
             <label>Da:</label>
-            <input type="time" [(ngModel)]="oraInizio" (ngModelChange)="onOrarioChange()">
+            <input type="time" [(ngModel)]="oraInizioInterni" (ngModelChange)="onOrarioChange()">
 
             <label>A:</label>
-            <input type="time" [(ngModel)]="oraFine" (ngModelChange)="onOrarioChange()">
+            <input type="time" [(ngModel)]="oraFineInterni" (ngModelChange)="onOrarioChange()">
         </div>
 
         <table>
             <thead>
                 <th>Nome</th>
                 <th>Cognome</th>
-                <th>Azienda/Divisione</th>
+                <th>Divisione</th>
                 <th>Ora ingresso</th>
                 <th>Ora uscita</th>
             </thead>
             <tbody>
-                @for (accesso of accessi; track accesso.id) {
+                @for (accesso of accessiInterni; track accesso.id) {
                     <tr>
                         <td>{{ accesso.nome }}</td>
                         <td>{{ accesso.cognome }}</td>
-                        <td>{{ accesso.azienda ?? accesso.divisione }}</td>
+                        <td>{{ accesso.divisione }}</td>
                         <td>{{ accesso.oraIngresso }}</td>
                         <td>{{ accesso.oraUscita }}</td>
                     </tr>
                 }
 
-                @if (accessi.length === 0) {
+                @if (accessiInterni.length === 0) {
+                <tr>
+                    <td colspan="5" class="no-results">
+                    Nessun accesso trovato
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <div class="sedi-select">
+            <p>Accessi esterni in stabilimento (per fascia oraria)</p>
+            <label>Da:</label>
+            <input type="time" [(ngModel)]="oraInizioEsterni" (ngModelChange)="onOrarioChange()">
+
+            <label>A:</label>
+            <input type="time" [(ngModel)]="oraFineEsterni" (ngModelChange)="onOrarioChange()">
+        </div>
+
+        <table>
+            <thead>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Azienda</th>
+                <th>Ora ingresso</th>
+                <th>Ora uscita</th>
+            </thead>
+            <tbody>
+                @for (accesso of accessiEsterni; track accesso.id) {
+                    <tr>
+                        <td>{{ accesso.nome }}</td>
+                        <td>{{ accesso.cognome }}</td>
+                        <td>{{ accesso.azienda }}</td>
+                        <td>{{ accesso.oraIngresso }}</td>
+                        <td>{{ accesso.oraUscita }}</td>
+                    </tr>
+                }
+
+                @if (accessiEsterni.length === 0) {
                 <tr>
                     <td colspan="5" class="no-results">
                     Nessun accesso trovato
@@ -176,3 +221,7 @@
     </div>
 
 </div>
+
+@if(showToast) {
+    <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
+}

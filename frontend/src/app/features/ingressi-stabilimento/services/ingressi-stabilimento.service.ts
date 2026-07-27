@@ -23,8 +23,8 @@ export class IngressiStabilimentoService {
   }
 
   //GET all by ora
-  getAllByOra(idS: number, inizioPeriodo: string, finePeriodo: string): Observable<IngressoStabilimento[]> {
-    return this.http.get<IngressoStabilimento[]>(`${this.apiUrl}/sedi/${idS}/ora?oraInizio=${inizioPeriodo}&oraFine=${finePeriodo}`);
+  getAllByOra(idS: number, inizioPeriodo: string, finePeriodo: string, data: string): Observable<IngressoStabilimento[]> {
+    return this.http.get<IngressoStabilimento[]>(`${this.apiUrl}/sedi/${idS}/ora?oraInizio=${inizioPeriodo}&oraFine=${finePeriodo}&data=${data}`);
   }
 
   //POST

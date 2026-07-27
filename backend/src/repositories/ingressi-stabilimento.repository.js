@@ -49,8 +49,8 @@ function findAllByOra(idSede, data, callback) {
     LEFT JOIN aziende a ON pe.azienda = a.id 
     JOIN divisioni d ON i.divisione_destinazione = d.id 
 
-    WHERE d.sede = ? AND TIME(data_ingresso) BETWEEN ? AND ? AND DATE(i.data_ingresso) = CURDATE() AND i.is_active = true ORDER BY i.data_ingresso DESC`;
-    connection.query(query, [idSede, data.oraInizio, data.oraFine], callback);
+    WHERE d.sede = ? AND TIME(data_ingresso) BETWEEN ? AND ? AND DATE(i.data_ingresso) = ? AND i.is_active = true ORDER BY i.data_ingresso DESC`;
+    connection.query(query, [idSede, data.oraInizio, data.oraFine, data.data], callback);
 }
 
 //badge già usato
