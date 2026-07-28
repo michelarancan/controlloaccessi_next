@@ -19,6 +19,7 @@ const badgeRoutes = require('./routes/badge.routes');
 const categorieRoutes = require('./routes/categorie.routes');
 const aziendeRoutes = require('./routes/aziende.routes');
 const reportRoutes = require('./routes/report.routes');
+const chiaviRoutes = require('./routes/chiavi.routes');
 //altre rotte
 
 const app = express();
@@ -41,6 +42,7 @@ app.use('/api/badge', badgeRoutes);
 app.use('/api/categorie', categorieRoutes);
 app.use('/api/aziende', aziendeRoutes);
 app.use('/api/report', reportRoutes);
+app.use('/api/chiavi', chiaviRoutes);
 //altri
 
 app.use(errorHandler);

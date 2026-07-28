@@ -322,3 +322,51 @@ CREATE TABLE ingressi_stabilimento (
     FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(persona),
     FOREIGN KEY (divisione_destinazione) REFERENCES divisioni(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- CHIAVI
+
+DROP TABLE IF EXISTS chiavi;
+CREATE TABLE chiavi (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    codice varchar(30) NOT NULL,
+    sede int unsigned NOT NULL,
+    descrizione varchar(100) NOT NULL,
+    pezzi_mazzo int unsigned NOT NULL,
+    responsabile int unsigned NOT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    UNIQUE (codice, sede),
+    FOREIGN KEY (sede) REFERENCES sedi(id),
+    FOREIGN KEY (responsabile) REFERENCES persone_interne(persona),
+    CONSTRAINT chk_pezzi_mazzo CHECK (pezzi_mazzo > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- MOVIMENTI_CHIAVI
+
+DROP TABLE IF EXISTS movimenti_chiavi;
+CREATE TABLE movimenti_chiavi (
+    id int unsigned PRIMARY KEY AUTO_INCREMENT,
+    chiave int unsigned NOT NULL,
+    data_prelievo datetime NOT NULL,
+    nominativo_prelievo int unsigned NOT NULL,
+    data_restituzione datetime DEFAULT NULL,
+    nominativo_restituzione int unsigned DEFAULT NULL,
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_by int unsigned NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by int unsigned NOT NULL,
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (chiave) REFERENCES chiavi(id),
+    FOREIGN KEY (nominativo_prelievo) REFERENCES persone(id),
+    FOREIGN KEY (nominativo_restituzione) REFERENCES persone(id),
+    CONSTRAINT chk_data_ora CHECK (data_restituzione IS NULL OR data_restituzione >= data_prelievo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
