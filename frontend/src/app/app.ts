@@ -11,18 +11,4 @@ import { AuthService } from './features/auth/services/auth.service';
 })
 export class App {
   protected readonly title = signal('frontend');
-
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.authService.getCurrentUser().subscribe({
-      next: (res) => {
-        const username = res.user.split('\\')[1];
-        sessionStorage.setItem('username', username);
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
-  }
 }
