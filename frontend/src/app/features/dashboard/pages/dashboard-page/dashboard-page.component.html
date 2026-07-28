@@ -120,14 +120,14 @@
                 <th>Ora prestito</th>
                 <th>Nominativo prestito</th>
             </thead>
-            <tbody><!--
+            <tbody>
                 @for (chiave of chiavi; track chiave.id) {
                     <tr>
                         <td>{{ chiave.codice }}</td>
                         <td>{{ chiave.oraPrestito }}</td>
                         <td>{{ chiave.nominativoPrestito }}</td>
                     </tr>
-                }-->
+                }
 
                 @if (chiavi.length === 0) {
                 <tr>

@@ -8,8 +8,10 @@ import { Sede } from '../../../sedi/models/sede.model';
 import { Badge } from '../../../badge/models/badge.model';
 import { BadgeService } from '../../../badge/services/badge.service';
 
-import { IngressoStabilimento } from '../../../ingressi-stabilimento/models/ingresso-stabilimento.model';
+import { Chiave } from '../../../chiavi/models/chiave.model';
+import { ChiaveService } from '../../../chiavi/services/chiavi.service';
 
+import { IngressoStabilimento } from '../../../ingressi-stabilimento/models/ingresso-stabilimento.model';
 import { IngressiStabilimentoService } from '../../../ingressi-stabilimento/services/ingressi-stabilimento.service';
 
 import { ReportForm } from './components/report-form/report-form.component';
@@ -42,7 +44,7 @@ export class DashboardComponent implements OnInit {
   presentiInterni: IngressoStabilimento[] = [];
   presentiEsterni: IngressoStabilimento[] = [];
   badges: Badge[] = [];
-  chiavi: string[] = [];  //CAMBIA
+  chiavi: Chiave[] = [];
   accessiInterni: IngressoStabilimento[] = [];
   accessiEsterni: IngressoStabilimento[] = [];
 
@@ -58,6 +60,7 @@ export class DashboardComponent implements OnInit {
   private sediService = inject(SediService);
   private ingressiService = inject(IngressiStabilimentoService);
   private badgeService = inject(BadgeService);
+  private chiaviService = inject(ChiaveService);
   private reportService = inject(ReportService);
 
   private cdr = inject(ChangeDetectorRef);
@@ -128,7 +131,6 @@ export class DashboardComponent implements OnInit {
         console.error(error);
       }
     });
-    //generazione report
   }
 
   apriForm() {
@@ -170,7 +172,14 @@ export class DashboardComponent implements OnInit {
   }
 
   loadChiavi(): void {
-    
+    this.chiaviService.getAllAround(this.idSede).subscribe({
+      next: (data) => {
+        this.chiavi = data;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   loadAccessi(): void {
