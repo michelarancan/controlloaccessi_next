@@ -16,7 +16,7 @@
 </div><br>
 
 @if (showForm) {
-    <app-persona-autorizzata-interna-form [personaAutorizzataInterna]="personaAutorizzataInternaInModifica" [personeInterne]="personeInterne" (salva)="salvaPersonaAutorizzataInterna($event)" (annulla)="chiudiForm()"></app-persona-autorizzata-interna-form>
+    <app-persona-autorizzata-interna-form [personaAutorizzataInterna]="personaAutorizzataInternaInModifica" [personeInterne]="personeInterne" [divisioni]="divisioni" (salva)="salvaPersonaAutorizzataInterna($event)" (annulla)="chiudiForm()"></app-persona-autorizzata-interna-form>
 }
 
 
@@ -53,6 +53,7 @@
             <th>Nome</th>
             <th>Data di inizio</th>
             <th>Data di scadenza</th>
+            <th>Divisione</th>
             <th>Azioni</th>
         </tr>
     </thead>
@@ -64,6 +65,7 @@
                 <td>{{ personaAutorizzataInterna.nome }}</td>
                 <td>{{ personaAutorizzataInterna.dataInizio | date:'dd/MM/yyyy' }}</td>
                 <td>{{ personaAutorizzataInterna.dataScadenza | date:'dd/MM/yyyy' }}</td>
+                <td>{{ personaAutorizzataInterna.divisione }}</td>
                 <td class="button-cell">
                     <button class="btn-modifica" (click)="modificaPersonaAutorizzataInterna(personaAutorizzataInterna)" title="Modifica persona autorizzata interna">Modifica</button>
                     <button class="btn-elimina" (click)="apriPopupElimina(personaAutorizzataInterna.id)" title="Elimina persona autorizzata interna">Elimina</button>

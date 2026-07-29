@@ -16,6 +16,15 @@
         <label for="dataScadenza">Data di scadenza:</label><br><br>
         <input type="date" id="dataScadenza" name="dataScadenza" [(ngModel)]="formData.dataScadenza" required><br><br>
 
+        <label for="divisione">Divisione:</label><br><br>
+        <select id="divisione" name="divisione" [(ngModel)]="formData.divisione">
+            @for (divisione of divisioni; track divisione.id) {
+                <option [ngValue]="divisione.id">
+                    {{ divisione.nome }}
+                </option>
+            }
+        </select><br><br>
+
         <div class="popup-buttons">
             <button type="button" (click)="onSalva()" class="btn-conferma">Conferma</button>
             <button type="button" class="btn-annulla" (click)="onAnnulla()">Annulla</button>

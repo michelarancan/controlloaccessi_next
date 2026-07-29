@@ -18,8 +18,8 @@ export class PersoneAutorizzateInterneService {
   }
 
   //POST
-  create(idP: number, idS: number, personaAutorizzataInterna: Omit<PersonaAutorizzataInterna, 'id'>): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${idP}/sedi/${idS}`, personaAutorizzataInterna);
+  create(idP: number, personaAutorizzataInterna: Omit<PersonaAutorizzataInterna, 'id'>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${idP}`, personaAutorizzataInterna);
   }
 
   //PUT

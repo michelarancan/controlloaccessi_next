@@ -2,13 +2,18 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { PersoneAutorizzateInterneService } from '../../services/persone-autorizzate-interne.service';
 import { SediService } from '../../../sedi/services/sedi.service';
+import { Sede } from '../../../sedi/models/sede.model';
+
+import { PersoneAutorizzateInterneService } from '../../services/persone-autorizzate-interne.service';
 import { PersonaAutorizzataInternaForm } from '../../components/persona-autorizzata-interna-form/persona-autorizzata-interna-form.component';
 import { PersonaAutorizzataInterna } from '../../models/persona-autorizzata-interna.model';
-import { Sede } from '../../../sedi/models/sede.model';
+
 import { PersonaInterna } from '../../../persone-interne/models/persona-interna.model';
 import { PersoneInterneService } from '../../../persone-interne/services/persone-interne.service';
+
+import { Divisione } from '../../../divisioni/models/divisione.model';
+import { DivisioniService } from '../../../divisioni/services/divisioni.service';
 
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 
@@ -25,12 +30,15 @@ export class PersoneAutorizzateInterneComponent implements OnInit {
 
   personeAutorizzateInterne: PersonaAutorizzataInterna[] = [];
   personeInterne: PersonaInterna[] = [];
+  divisioni: Divisione[] = [];
   sedi: Sede[] = [];
   idSede = 1; //default
+  idDivisione = 0;
 
   private personeAutorizzateInterneService = inject(PersoneAutorizzateInterneService);
   private personeInterneService = inject(PersoneInterneService);
   private sediService = inject(SediService);
+  private divisioniService = inject(DivisioniService);
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -56,6 +64,7 @@ export class PersoneAutorizzateInterneComponent implements OnInit {
   ngOnInit(): void {
     this.loadPersoneAutorizzateInterne();
     this.loadSedi();
+    this.loadDivisioni();
     this.loadPersoneInterne();
   }
 
@@ -100,6 +109,20 @@ export class PersoneAutorizzateInterneComponent implements OnInit {
   onSedeChanged(): void {
     this.loadPersoneAutorizzateInterne();
     this.loadPersoneInterne();
+    this.loadDivisioni();
+  }
+
+  loadDivisioni(): void {
+    this.divisioniService.getAll(this.idSede).subscribe({
+      next: (data) => {
+        this.divisioni = data;
+        this.idDivisione = 0;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 
   apriForm() {
@@ -142,7 +165,7 @@ export class PersoneAutorizzateInterneComponent implements OnInit {
 
     } else {
 
-      this.personeAutorizzateInterneService.create(dati.persona, this.idSede, dati)
+      this.personeAutorizzateInterneService.create(dati.persona, dati)
       .subscribe({
         next: () => {
           this.loadPersoneAutorizzateInterne();
