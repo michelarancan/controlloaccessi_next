@@ -3,15 +3,33 @@
 DROP TABLE IF EXISTS utenti;
 CREATE TABLE utenti (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
-    account_dominio varchar(100) NOT NULL UNIQUE,
+    username varchar(100) NOT NULL UNIQUE,
     nome varchar(100) NOT NULL,
-    cognome varchar(100) NOT NULL DEFAULT '',
+    cognome varchar(100) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+
+-- AUDIT_LOG
+
+DROP TABLE IF EXISTS audit_log;
+CREATE TABLE audit_log (
+    id bigint unsigned PRIMARY KEY AUTO_INCREMENT,
+    data_ora datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    utente int unsigned NOT NULL,
+    username varchar(100) NOT NULL,     -- se utente viene eliminato nome utente resta nei log
+    indirizzo_ip varchar(50),
+    modulo varchar(100) NOT NULL,
+    operazione enum('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+    record_id int unsigned NOT NULL,    -- id riga modificata
+    valore_precedente JSON,
+    valore_nuovo JSON,
+
+    FOREIGN KEY (utente) REFERENCES utenti(id),
+
+    -- indici per ricerca veloce dato che potrebbe diventare molto grande
+    INDEX idx_audit_modulo (modulo),
+    INDEX idx_audit_data (data_ora),
+    INDEX idx_audit_utente (utente)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -21,13 +39,7 @@ DROP TABLE IF EXISTS ruoli;
 CREATE TABLE ruoli (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     codice varchar(100) NOT NULL UNIQUE,
-    descrizione varchar(100) NOT NULL DEFAULT '',
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    descrizione varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -37,13 +49,7 @@ DROP TABLE IF EXISTS permessi;
 CREATE TABLE permessi (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     codice varchar(100) NOT NULL UNIQUE,
-    descrizione varchar(100) NOT NULL DEFAULT '',
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    descrizione varchar(100) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -53,13 +59,7 @@ DROP TABLE IF EXISTS utenti_ruoli;
 CREATE TABLE utenti_ruoli (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     utente_id int unsigned NOT NULL,
-    ruolo_id int unsigned NOT NULL,
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE,
+    ruolo_id int unsigned NOT NULL
 
     FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE CASCADE,
     FOREIGN KEY (ruolo_id) REFERENCES ruoli(id),
@@ -73,13 +73,7 @@ DROP TABLE IF EXISTS ruoli_permessi;
 CREATE TABLE ruoli_permessi (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     ruolo_id int unsigned NOT NULL,
-    permesso_id int unsigned NOT NULL,
-
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    created_by int unsigned NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE,
+    permesso_id int unsigned NOT NULL
 
     FOREIGN KEY (ruolo_id) REFERENCES ruoli(id),
     FOREIGN KEY (permesso_id) REFERENCES permessi(id),
@@ -101,7 +95,7 @@ CREATE TABLE sedi (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (created_by) REFERENCES utenti(id),
@@ -121,7 +115,7 @@ CREATE TABLE operatori (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (nome,cognome),
@@ -142,7 +136,7 @@ CREATE TABLE divisioni (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (sede,nome),
@@ -164,7 +158,7 @@ CREATE TABLE aziende (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (created_by) REFERENCES utenti(id),
@@ -183,7 +177,7 @@ CREATE TABLE tipi_azienda (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (created_by) REFERENCES utenti(id),
@@ -201,7 +195,7 @@ CREATE TABLE aziende_tipi (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     PRIMARY KEY (id_azienda, id_tipo_azienda),
@@ -225,7 +219,7 @@ CREATE TABLE persone (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (created_by) REFERENCES utenti(id),
@@ -270,7 +264,7 @@ CREATE TABLE autorizzazioni (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (persona) REFERENCES persone(id),
@@ -291,7 +285,7 @@ CREATE TABLE categorie (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (created_by) REFERENCES utenti(id),
@@ -310,7 +304,7 @@ CREATE TABLE badge (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (sede,codice),
@@ -337,7 +331,7 @@ CREATE TABLE ingressi_stabilimento (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (persona,data_ingresso),
@@ -365,7 +359,7 @@ CREATE TABLE chiavi (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (codice, sede),
@@ -391,7 +385,7 @@ CREATE TABLE movimenti_chiavi (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    updated_by int unsigned NOT NULL,
+    updated_by int unsigned DEFAULT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (chiave) REFERENCES chiavi(id),

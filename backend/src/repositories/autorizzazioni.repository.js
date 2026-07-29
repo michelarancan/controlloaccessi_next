@@ -8,6 +8,12 @@ function findAll(idSede, callback) {
     connection.query(query, [idSede], callback);
 }
 
+//GET by id
+function findById(id, callback) {
+    const query = `SELECT persona, sede, data_inizio, data_scadenza FROM autorizzazioni WHERE id = ?`;
+    connection.query(query, [id], callback);
+}
+
 //POST
 function create(idPersona, idSede, userId, data, callback) {
     const query = `INSERT INTO autorizzazioni(persona, sede, data_inizio, data_scadenza, created_by) VALUES (?, ?, ?, ?, ?)`;
@@ -38,4 +44,4 @@ function isValid(idPersona, idSede, callback) {
     connection.query(query, [idPersona, idSede], callback);
 }
 
-module.exports = { findAll, create, update, remove, search, isValid };
+module.exports = { findAll, findById, create, update, remove, search, isValid };

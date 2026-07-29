@@ -1,6 +1,7 @@
 const repository = require('../repositories/ingressi-stabilimento.repository');
 const divisioneRepository = require('../repositories/divisioni.repository');
 const autorizzazioneRepository = require('../repositories/autorizzazioni.repository');
+const auditService = require('./audit.service');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
@@ -20,7 +21,7 @@ function findAllByOra(idSede, data, callback) {
 }
 
 //POST
-function create(idSede, userId, data, callback) {
+function create(idSede, auditInfo, data, callback) {
     if(data.targa && data.targa.length > 30) {
         const error = new Error('La targa non può superare i 30 caratteri');
 
@@ -140,9 +141,35 @@ function create(idSede, userId, data, callback) {
                             error.code = 'INVALID_PARAMS_FIELD';
 
                             return callback(error);
-                            }
+                        }
 
-                        repository.create(data, userId, callback);
+                        repository.create(data, auditInfo.userId, (err, result) => {
+                            if (err) {
+                                return callback(err);
+                            }
+                            if (result.affectedRows > 0) {
+                                auditService.log({
+                                    utente: auditInfo.userId,
+                                    username: auditInfo.username,
+                                    indirizzoIp: auditInfo.ip,
+                                    modulo: 'ingressi',
+                                    operazione: 'INSERT',
+                                    recordId: result.insertId,
+                                    valorePrecedente: null,
+                                    valoreNuovo: {
+                                        id: result.insertId,
+                                        persona: data.persona,
+                                        badge: data.badge,
+                                        targa: data.targa,
+                                        dataIngresso: 'NOW()',
+                                        categoria: data.categoria,
+                                        personaRiferimento: data.personaRiferimento,
+                                        divisione: data.divisione
+                                    }
+                                }, () => {});
+                            }
+                            callback(null, result);
+                        });
                     });
                 });
             });
@@ -151,25 +178,54 @@ function create(idSede, userId, data, callback) {
 }
 
 //PUT
-function registerExit(id, userId, callback) {
+function registerExit(id, auditInfo, callback) {
 
-    repository.registerExit(id, userId, (err, results) => {
+    repository.findById(id, (err, oldRecord) => {
 
-        if (err) {
+        if(err) {
             return callback(err);
         }
 
-        if (results.affectedRows === 0) {
+        repository.registerExit(id, auditInfo.userId, (err, result) => {
 
-            const error = new Error('L\'accesso risulta già chiuso oppure non esiste');
+            if (err) {
+                return callback(err);
+            }
 
-            error.status = 400;
-            error.code = 'ACCESS_ALREADY_CLOSED';
+            if (result.affectedRows === 0) {
 
-            return callback(error);
-        }
+                const error = new Error('L\'accesso risulta già chiuso oppure non esiste');
 
-        callback(null, results);
+                error.status = 400;
+                error.code = 'ACCESS_ALREADY_CLOSED';
+
+                return callback(error);
+            }
+
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'ingressi',
+                    operazione: 'UPDATE',
+                    recordId: id,
+                    valorePrecedente: oldRecord[0],
+                    valoreNuovo: {
+                        id,
+                        persona: oldRecord[0].persona,
+                        badge: oldRecord[0].badge,
+                        targa: oldRecord[0].targa,
+                        dataIngresso: oldRecord[0].data_ingresso,
+                        dataUscita: 'NOW()',
+                        categoria: oldRecord[0].categoria,
+                        personaRiferimento: oldRecord[0].persona_riferimento,
+                        divisioneDestinazione: oldRecord[0].divisione_destinazione
+                    }
+                }, () => {});
+            }
+            callback(null, result);
+        });
     });
 }
 

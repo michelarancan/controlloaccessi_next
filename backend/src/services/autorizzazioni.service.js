@@ -1,4 +1,5 @@
 const repository = require('../repositories/autorizzazioni.repository');
+const auditService = require('./audit.service');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
@@ -8,7 +9,7 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idPersona, idSede, userId, data, callback) {
+function create(idPersona, idSede, auditInfo, data, callback) {
     //campi non nulli
     if(!data.dataScadenza || data.dataScadenza.trim().length === 0 || !data.dataInizio || data.dataInizio.trim().length === 0) {
         const error = new Error('Data di inizio e scadenza obbligatorie');
@@ -33,11 +34,35 @@ function create(idPersona, idSede, userId, data, callback) {
         return callback(error);
     }
 
-    repository.create(idPersona, idSede, userId, data, callback);
+    repository.create(idPersona, idSede, auditInfo.userId, data, (err, result) => {
+        if (err) {
+            return callback(err);
+        }
+    
+        if (result.affectedRows > 0) {
+            auditService.log({
+                utente: auditInfo.userId,
+                username: auditInfo.username,
+                indirizzoIp: auditInfo.ip,
+                modulo: 'autorizzazioni',
+                operazione: 'INSERT',
+                recordId: result.insertId,
+                valorePrecedente: null,
+                valoreNuovo: {
+                    persona: idPersona,
+                    sede: idSede,
+                    dataInizio: data.dataInizio,
+                    dataScadenza: data.dataScadenza
+                }
+            }, () => {});
+        }
+
+        callback(null, result);
+    });
 }
 
 //PUT
-function update(id, userId, data, callback) {
+function update(id, auditInfo, data, callback) {
     //campi non nulli
     if(!data.dataScadenza || data.dataScadenza.trim().length === 0) {
         const error = new Error('Data di scadenza è obbligatoria');
@@ -62,12 +87,70 @@ function update(id, userId, data, callback) {
         return callback(error);
     }
 
-    repository.update(id, userId, data, callback);
+    repository.findById(id, (err, oldRecord) => {
+
+        if(err) {
+            return callback(err);
+        }
+
+        repository.update(id, auditInfo.userId, data, (err, result) => {
+
+            if(err) {
+                return callback(err);
+            }
+
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'autorizzazioni',
+                    operazione: 'UPDATE',
+                    recordId: id,
+                    valorePrecedente: oldRecord[0],
+                    valoreNuovo: {
+                        id,
+                        dataInizio: data.dataInizio,
+                        dataScadenza: data.dataScadenza
+                    }
+                }, () => {});
+            }
+
+            callback(null, result);
+        });
+    });
 }
 
 //DELETE
-function remove(id, userId, callback) {
-    repository.remove(id, userId, callback);
+function remove(id, auditInfo, callback) {
+    repository.findById(id, (err, oldRecord) => {
+
+        if(err) {
+            return callback(err);
+        }
+
+        repository.remove(id, auditInfo.userId, (err, result) => {
+
+            if(err) {
+                return callback(err);
+            }
+
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'autorizzazioni',
+                    operazione: 'DELETE',
+                    recordId: id,
+                    valorePrecedente: oldRecord[0],
+                    valoreNuovo: null
+                }, () => {});
+            }
+            
+            callback(null, result);
+        });
+    }); 
 }
 
 //SEARCH

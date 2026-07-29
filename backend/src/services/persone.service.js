@@ -1,5 +1,6 @@
 const repository = require('../repositories/persone.repository');
 const divisioniRepository = require('../repositories/divisioni.repository');
+const auditService = require('./audit.service');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
@@ -19,7 +20,7 @@ function findAllInterneByDivisione(idDivisione, callback) {
 }
 
 //POST
-function createInterna(idSede, userId, data, callback) {
+function createInterna(idSede, auditInfo, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -90,12 +91,36 @@ function createInterna(idSede, userId, data, callback) {
             return callback(error);
         }
 
-        repository.createInterna(data, userId, callback);
+        repository.createInterna(data, auditInfo.userId, (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'persone_interne',
+                    operazione: 'INSERT',
+                    recordId: result.insertId,
+                    valorePrecedente: null,
+                    valoreNuovo: {
+                        id: result.insertId,
+                        nome: data.nome,
+                        cognome: data.cognome,
+                        telefono: data.telefono,
+                        email: data.email,
+                        divisione: data.divisione
+                    }
+                }, () => {});
+            }
+            callback(null, result);
+        });
     });
 }
 
 //PUT
-function updateInterna(id, idSede, userId, data, callback) {
+function updateInterna(id, idSede, auditInfo, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -166,13 +191,71 @@ function updateInterna(id, idSede, userId, data, callback) {
             return callback(error);
         }
 
-        repository.updateInterna(id, data, userId, callback);
-    });    
+        repository.findById(id, (err, oldRecord) => {
+
+            if(err) {
+                return callback(err);
+            }
+
+            repository.updateInterna(id, data, auditInfo.userId, (err, result) => {
+
+                if(err) {
+                    return callback(err);
+                }
+                if (result.affectedRows > 0) {
+                    auditService.log({
+                        utente: auditInfo.userId,
+                        username: auditInfo.username,
+                        indirizzoIp: auditInfo.ip,
+                        modulo: 'persone_interne',
+                        operazione: 'UPDATE',
+                        recordId: id,
+                        valorePrecedente: oldRecord[0],
+                        valoreNuovo: {
+                            id,
+                            nome: data.nome,
+                            cognome: data.cognome,
+                            telefono: data.telefono,
+                            email: data.email,
+                            divisione: data.divisione
+                        }
+                    }, () => {});
+                }
+                callback(null, result);
+            });
+        });
+    });
 }
 
 //DELETE
-function remove(id, userId, callback) {
-    repository.remove(id, userId, callback);
+function remove(id, auditInfo, callback) {
+    repository.findById(id, (err, oldRecord) => {
+
+        if(err) {
+            return callback(err);
+        }
+
+        repository.remove(id, auditInfo.userId, (err, result) => {
+
+            if(err) {
+                return callback(err);
+            }
+
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'persone_interne',
+                    operazione: 'DELETE',
+                    recordId: id,
+                    valorePrecedente: oldRecord[0],
+                    valoreNuovo: null
+                }, () => {});
+            }
+            callback(null, result);
+        });
+    });
 }
 
 //SEARCH

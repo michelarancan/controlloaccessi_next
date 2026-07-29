@@ -8,6 +8,12 @@ function findAll(callback) {
     connection.query(query, callback);
 }
 
+//GET interna by id 
+function findInternaById(id, callback) {
+    const query = `SELECT p.id, p.nome, p.cognome, p.telefono, p.email, pi.divisione FROM persone p LEFT JOIN persone_interne pi ON p.id = pi.persona WHERE p.id = ?`;
+    connection.query(query, [id], callback);
+}
+
 //GET all interne di una sede
 function findAllInterne(idSede, callback) {
     const query = `SELECT per.id, per.nome, per.cognome, per.telefono, per.email, p.divisione, d.nome AS nomeDivisione FROM persone_interne p JOIN persone per ON p.persona = per.id JOIN divisioni d ON p.divisione = d.id WHERE per.is_active = true AND d.sede = ? ORDER BY per.cognome, per.nome`;
@@ -82,4 +88,4 @@ function searchInternaByDivisione(idDivisione, campo, valore, callback) {
     connection.query(query, [idDivisione, `%${valore}%`], callback);
 }
 
-module.exports = { findAll, findAllInterne, findAllInterneByDivisione, findInternaById, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };
+module.exports = { findAll, findInternaById, findAllInterne, findAllInterneByDivisione, findInternaById, createInterna, updateInterna, remove, searchInterna, searchInternaByDivisione };

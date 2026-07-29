@@ -19,6 +19,12 @@ function findAll(idSede, callback) {
     connection.query(query, [idSede], callback);
 }
 
+//GET by id
+function findById(id, callback) {
+    const query = `SELECT persona, badge, targa, data_ingresso, data_uscita, categoria, persona_riferimento, divisione_destinazione FROM ingressi_stabilimento WHERE id = ?`;
+    connection.query(query, [id], callback);
+}
+
 //GET by data
 function findAllByData(idSede, data, callback) {
     const query = `SELECT i.id, per.nome, per.cognome, i.badge AS idBadge, b.codice AS badge, i.targa, DATE_FORMAT(i.data_ingresso, '%H:%i:%s %d/%m/%Y') AS dataIngresso, DATE_FORMAT(i.data_uscita, '%H:%i:%s %d/%m/%Y') AS dataUscita, DATE_FORMAT(i.data_ingresso, '%H:%i:%s') as oraIngresso, DATE_FORMAT(i.data_uscita, '%H:%i:%s') as oraUscita, i.categoria AS idCategoria, c.codice AS categoria, i.persona_riferimento AS idPersonaRiferimento, CONCAT(pr.cognome, ' ', pr.nome) AS personaRiferimento, pe.azienda AS idAzienda, a.ragione_sociale as azienda, i.divisione_destinazione AS idDivisione, d.nome as divisione 
@@ -118,4 +124,4 @@ function isNotOut(id, callback) {
     connection.query(query, [id], callback);
 }
 
-module.exports = { findAll, findAllByData, findAllByOra, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsternaToSede, isNotOut };
+module.exports = { findAll, findById, findAllByData, findAllByOra, create, registerExit, search, searchByData, badgeAlreadyTaken, isEsternaToSede, isNotOut };

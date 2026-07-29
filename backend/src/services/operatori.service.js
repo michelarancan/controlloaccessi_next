@@ -1,4 +1,5 @@
 const repository = require('../repositories/operatori.repository');
+const auditService = require('./audit.service');
 
 //qui controllo business logic (tipo campo non nullo, autorizzazioni)
 
@@ -8,7 +9,7 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idSede, userId, data, callback) {
+function create(idSede, auditInfo, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -37,11 +38,33 @@ function create(idSede, userId, data, callback) {
         return callback(error);
     }
 
-    repository.create(idSede, data, userId, callback);
+    repository.create(idSede, data, auditInfo.userId, (err, result) => {
+        if (err) {
+            return callback(err);
+        }
+        if (result.affectedRows > 0) {
+            auditService.log({
+                utente: auditInfo.userId,
+                username: auditInfo.username,
+                indirizzoIp: auditInfo.ip,
+                modulo: 'operatori',
+                operazione: 'INSERT',
+                recordId: result.insertId,
+                valorePrecedente: null,
+                valoreNuovo: {
+                        id: result.insertId, 
+                        nome: data.nome,
+                        cognome: data.cognome,
+                        sede: idSede
+                    }
+            }, () => {});
+        }
+        callback(null, result);
+    });
 }
 
 //PUT
-function update(id, userId, data, callback) {
+function update(id, auditInfo, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -70,12 +93,66 @@ function update(id, userId, data, callback) {
         return callback(error);
     }
 
-    repository.update(id, data, userId, callback);
+    repository.findById(id, (err, oldRecord) => {
+
+        if(err) {
+            return callback(err);
+        }
+
+        repository.update(id, data, auditInfo.userId, (err, result) => {
+
+            if(err) {
+                return callback(err);
+            }
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'operatori',
+                    operazione: 'UPDATE',
+                    recordId: id,
+                    valorePrecedente: oldRecord[0],
+                    valoreNuovo: {
+                        id, 
+                        nome: data.nome,
+                        cognome: data.cognome
+                    }
+                }, () => {});
+            }
+            callback(null, result);
+        });
+    });
 }
 
 //DELETE
-function remove(id, userId, callback) {
-    repository.remove(id, userId, callback);
+function remove(id, auditInfo, callback) {
+    repository.findById(id, (err, oldRecord) => {
+
+        if(err) {
+            return callback(err);
+        }
+
+        repository.remove(id, auditInfo.userId, (err, result) => {
+
+            if(err) {
+                return callback(err);
+            }
+            if (result.affectedRows > 0) {
+                auditService.log({
+                    utente: auditInfo.userId,
+                    username: auditInfo.username,
+                    indirizzoIp: auditInfo.ip,
+                    modulo: 'operatori',
+                    operazione: 'DELETE',
+                    recordId: id,
+                    valorePrecedente: oldRecord[0],
+                    valoreNuovo: null
+                }, () => {});
+            }
+            callback(null, result);
+        });
+    });
 }
 
 //SEARCH
