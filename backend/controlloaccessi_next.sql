@@ -257,7 +257,7 @@ DROP TABLE IF EXISTS autorizzazioni;
 CREATE TABLE autorizzazioni (
     id int unsigned PRIMARY KEY AUTO_INCREMENT,
     persona int unsigned NOT NULL,
-    sede int unsigned NOT NULL,
+    divisione int unsigned NOT NULL,
     data_inizio date NOT NULL DEFAULT CURRENT_DATE,
     data_scadenza date DEFAULT NULL,
 
@@ -268,8 +268,8 @@ CREATE TABLE autorizzazioni (
     is_active boolean NOT NULL DEFAULT TRUE,
 
     FOREIGN KEY (persona) REFERENCES persone(id),
-    FOREIGN KEY (sede) REFERENCES sedi(id),
-    UNIQUE (persona, sede, data_inizio),
+    FOREIGN KEY (divisione) REFERENCES divisioni(id),
+    UNIQUE (persona, divisione, data_inizio),
     FOREIGN KEY (created_by) REFERENCES utenti(id),
     FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

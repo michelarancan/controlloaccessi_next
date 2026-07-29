@@ -9,7 +9,7 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idPersona, idSede, auditInfo, data, callback) {
+function create(idPersona, auditInfo, data, callback) {
     //campi non nulli
     if(!data.dataScadenza || data.dataScadenza.trim().length === 0 || !data.dataInizio || data.dataInizio.trim().length === 0) {
         const error = new Error('Data di inizio e scadenza obbligatorie');
@@ -34,7 +34,7 @@ function create(idPersona, idSede, auditInfo, data, callback) {
         return callback(error);
     }
 
-    repository.create(idPersona, idSede, auditInfo.userId, data, (err, result) => {
+    repository.create(idPersona, auditInfo.userId, data, (err, result) => {
         if (err) {
             return callback(err);
         }
@@ -50,7 +50,7 @@ function create(idPersona, idSede, auditInfo, data, callback) {
                 valorePrecedente: null,
                 valoreNuovo: {
                     persona: idPersona,
-                    sede: idSede,
+                    divisione: data.divisione,
                     dataInizio: data.dataInizio,
                     dataScadenza: data.dataScadenza
                 }
@@ -73,24 +73,24 @@ function update(id, auditInfo, data, callback) {
         return callback(error);
     }
 
-    const dataInizio = new Date(data.dataInizio);
-    const dataScadenza = new Date(data.dataScadenza);
-
-    if (dataScadenza < dataInizio) {
-        const error = new Error(
-            'La data di scadenza non può essere precedente alla data di inizio'
-        );
-
-        error.status = 400;
-        error.code = 'INVALID_DATE_RANGE';
-
-        return callback(error);
-    }
-
     repository.findById(id, (err, oldRecord) => {
 
         if(err) {
             return callback(err);
+        }
+
+        const dataInizio = new Date(oldRecord[0].data_inizio);
+        const dataScadenza = new Date(data.dataScadenza);
+
+        if (dataScadenza < dataInizio) {
+            const error = new Error(
+                'La data di scadenza non può essere precedente alla data di inizio'
+            );
+
+            error.status = 400;
+            error.code = 'INVALID_DATE_RANGE';
+
+            return callback(error);
         }
 
         repository.update(id, auditInfo.userId, data, (err, result) => {

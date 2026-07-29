@@ -75,7 +75,7 @@ router.get('/interne/sedi/:idS/search', requirePermission(permissions.AUTORIZZAZ
 
 /**
  * @swagger
- * /api/autorizzazioni/interne/{idP}/sedi/{idS}:
+ * /api/autorizzazioni/interne/{idP}:
  *   post:
  *     summary: Crea una nuova autorizzazione
  *     tags:
@@ -83,9 +83,6 @@ router.get('/interne/sedi/:idS/search', requirePermission(permissions.AUTORIZZAZ
  *     parameters:
  *       - in: path
  *         name: idP
- *         required: true
- *       - in: path
- *         name: idS
  *         required: true
  *     requestBody:
  *       required: true
@@ -100,20 +97,23 @@ router.get('/interne/sedi/:idS/search', requirePermission(permissions.AUTORIZZAZ
  *               dataScadenza:
  *                 type: string
  *                 format: date
+ *               divisione:
+ *                 type: integer
  *             required:
  *               - dataScadenza
  *               - dataInizio
+ *               - divisione
  *     responses:
  *       201:
  *         description: Autorizzazione creata correttamente
  *       400:
- *         description: Data inizio e scadenza obbligatorie
+ *         description: Divisione, data inizio e scadenza obbligatorie
  *         content:
  *           application/json:
  *             example:
  *              error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Data inizio e scadenza obbligatorie
+ *                message: Divisione, data inizio e scadenza obbligatorie
  *       404:
  *         description: Persona interna non trovata
  *         content:
@@ -125,7 +125,7 @@ router.get('/interne/sedi/:idS/search', requirePermission(permissions.AUTORIZZAZ
  *       500:
  *         description: Errore interno del server
  */
-router.post('/interne/:idP/sedi/:idS', requirePermission(permissions.AUTORIZZAZIONI_WRITE), controller.create);
+router.post('/interne/:idP', requirePermission(permissions.AUTORIZZAZIONI_WRITE), controller.create);
 
 /**
  * @swagger

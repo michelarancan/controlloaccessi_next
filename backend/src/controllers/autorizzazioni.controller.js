@@ -19,12 +19,11 @@ function findAll(req, res, next) {
 //POST 
 function create(req, res, next) {
 
-    const idSede = req.params.idS;
     const idPersona = req.params.idP;
     //recupera json
     const autorizzazione = req.body;
 
-    service.create(idPersona, idSede, { userId: req.user.id, username: req.user.username, ip: req.ip }, autorizzazione, (err, results) => {
+    service.create(idPersona, { userId: req.user.id, username: req.user.username, ip: req.ip }, autorizzazione, (err, results) => {
 
         if (err) {
             return next(err);

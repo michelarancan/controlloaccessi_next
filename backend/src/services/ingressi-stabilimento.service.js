@@ -126,7 +126,7 @@ function create(idSede, auditInfo, data, callback) {
                     }
 
                     //deve avere autorizzazione non scaduta
-                    autorizzazioneRepository.isValid(data.persona, idSede, (err, autorizzazioneResults) => {
+                    autorizzazioneRepository.isValid(data.persona, data.divisione, (err, autorizzazioneResults) => {
 
                         if (err) {
                             return callback(err);
