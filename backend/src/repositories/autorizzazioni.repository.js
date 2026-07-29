@@ -22,8 +22,8 @@ function create(idPersona, userId, data, callback) {
 
 //PUT
 function update(id, userId, data, callback) {
-    const query = `UPDATE autorizzazioni SET data_scadenza = ?, updated_by = ? WHERE id = ?`;
-    connection.query(query, [data.dataScadenza, userId, id], callback);
+    const query = `UPDATE autorizzazioni SET data_scadenza = ?, divisione = ?, updated_by = ? WHERE id = ?`;
+    connection.query(query, [data.dataScadenza, data.divisione, userId, id], callback);
 }
 
 //DELETE

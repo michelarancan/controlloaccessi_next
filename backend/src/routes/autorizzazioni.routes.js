@@ -148,19 +148,22 @@ router.post('/interne/:idP', requirePermission(permissions.AUTORIZZAZIONI_WRITE)
  *               dataScadenza:
  *                 type: string
  *                 format: date
+ *               divisione:
+ *                 type: integer
  *             required:
  *               - dataScadenza
+ *               - divisione
  *     responses:
  *       200:
  *         description: Autorizzazione modificata correttamente
  *       400:
- *         description: Data scadenza è obbligatoria
+ *         description: Data scadenza e divisione sono obbligatorie
  *         content:
  *           application/json:
  *             example:
  *              error:
  *                code: INVALID_PARAMS_FIELD
- *                message: Data scadenza è obbligatoria
+ *                message: Data scadenza e divisione sono obbligatorie
  *       404:
  *         description: Autorizzazione non trovata
  *         content:

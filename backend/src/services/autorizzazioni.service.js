@@ -110,8 +110,9 @@ function update(id, auditInfo, data, callback) {
                     valorePrecedente: oldRecord[0],
                     valoreNuovo: {
                         id,
+                        divisione: data.divisione,
                         dataInizio: data.dataInizio,
-                        dataScadenza: data.dataScadenza
+                        dataScadenza: data.dataScadenza,
                     }
                 }, () => {});
             }

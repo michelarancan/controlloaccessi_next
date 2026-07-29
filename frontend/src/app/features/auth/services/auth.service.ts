@@ -12,7 +12,7 @@ export class AuthService {
 
   getCurrentUser() {
     //TEMP
-    return of<AuthUser>({user: 'MARZOTTO\\STITV'});
-    //return this.http.get<AuthUser>('/whoami.aspx');
+    //return of<AuthUser>({user: 'MARZOTTO\\STITV'});
+    return this.http.get<AuthUser>('/whoami.aspx');
   }
 }
