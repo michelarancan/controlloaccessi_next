@@ -8,7 +8,7 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idSede, data, callback) {
+function create(idSede, userId, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -37,11 +37,11 @@ function create(idSede, data, callback) {
         return callback(error);
     }
 
-    repository.create(idSede, data, callback);
+    repository.create(idSede, data, userId, callback);
 }
 
 //PUT
-function update(id, data, callback) {
+function update(id, userId, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -70,12 +70,12 @@ function update(id, data, callback) {
         return callback(error);
     }
 
-    repository.update(id, data, callback);
+    repository.update(id, data, userId, callback);
 }
 
 //DELETE
-function remove(id, callback) {
-    repository.remove(id, callback);
+function remove(id, userId, callback) {
+    repository.remove(id, userId, callback);
 }
 
 //SEARCH

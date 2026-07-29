@@ -19,7 +19,7 @@ function create(req, res, next) {
     //recupera json
     const sede = req.body;
 
-    service.create(sede, (err, results) => {
+    service.create(sede, req.user.id, (err, results) => {
 
         if (err) {
             return next(err);
@@ -41,7 +41,7 @@ function update(req, res, next) {
     const id = req.params.id;
     const sede = req.body;
 
-    service.update(id, sede, (err, results) => {
+    service.update(id, req.user.id, sede, (err, results) => {
 
         if (err) {
             return next(err);
@@ -71,7 +71,7 @@ function remove(req, res, next) {
 
     const id = req.params.id;
 
-    service.remove(id, (err, result) => {
+    service.remove(id, req.user.id, (err, result) => {
 
         if (err) {
             return next(err);

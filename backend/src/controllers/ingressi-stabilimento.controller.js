@@ -62,7 +62,7 @@ function create(req, res, next) {
     //recupera json
     const ingresso = req.body;
 
-    service.create(idSede, ingresso, (err, results) => {
+    service.create(idSede, req.user.id, ingresso, (err, results) => {
 
         if (err) {
             return next(err);
@@ -83,7 +83,7 @@ function registerExit(req, res, next) {
 
     const id = req.params.id;
 
-    service.registerExit(id, (err, results) => {
+    service.registerExit(id, req.user.id, (err, results) => {
 
         if (err) {
             return next(err);

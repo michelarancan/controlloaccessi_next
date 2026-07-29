@@ -9,26 +9,26 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idPersona, idSede, data, callback) {
-    const query = `INSERT INTO autorizzazioni(persona, sede, data_inizio, data_scadenza) VALUES (?, ?, ?, ?)`;
-    connection.query(query, [idPersona, idSede, data.dataInizio, data.dataScadenza], callback);
+function create(idPersona, idSede, userId, data, callback) {
+    const query = `INSERT INTO autorizzazioni(persona, sede, data_inizio, data_scadenza, created_by) VALUES (?, ?, ?, ?, ?)`;
+    connection.query(query, [idPersona, idSede, data.dataInizio, data.dataScadenza, userId], callback);
 }
 
 //PUT
-function update(id, data, callback) {
-    const query = `UPDATE autorizzazioni SET data_scadenza = ? WHERE id = ?`;
-    connection.query(query, [data.dataScadenza, id], callback);
+function update(id, userId, data, callback) {
+    const query = `UPDATE autorizzazioni SET data_scadenza = ?, updated_by = ? WHERE id = ?`;
+    connection.query(query, [data.dataScadenza, userId, id], callback);
 }
 
 //DELETE
-function remove(id, callback) {
-    const query = `UPDATE autorizzazioni SET is_active = false WHERE id = ?`;
-    connection.query(query, [id], callback);
+function remove(id, userId, callback) {
+    const query = `UPDATE autorizzazioni SET is_active = false, updated_by = ? WHERE id = ?`;
+    connection.query(query, [userId, id], callback);
 }
 
 //SEARCH
 function search(idSede, campo, valore, callback) {
-    const query = `SELECT a.id, pe.id AS idPersona, pe.nome, pe.cognome, DATE_FORMAT(a.data_inizio, '%Y-%m-%d') AS dataInizio, DATE_FORMAT(a.data_scadenza, '%Y-%m-%d') AS dataScadenza FROM persone_interne pi JOIN persone pe ON pi.persona = pe.id JOIN autorizzazioni a ON pi.persona = a.persona JOIN divisioni d ON pi.divisione = d.id WHERE d.sede = ? AND a.is_active = true ORDER BY pe.cognome, pe.nome AND pe.${campo} LIKE ?`;
+    const query = `SELECT a.id, pe.id AS idPersona, pe.nome, pe.cognome, DATE_FORMAT(a.data_inizio, '%Y-%m-%d') AS dataInizio, DATE_FORMAT(a.data_scadenza, '%Y-%m-%d') AS dataScadenza FROM persone_interne pi JOIN persone pe ON pi.persona = pe.id JOIN autorizzazioni a ON pi.persona = a.persona JOIN divisioni d ON pi.divisione = d.id WHERE d.sede = ? AND a.is_active = true AND pe.${campo} LIKE ? ORDER BY pe.cognome, pe.nome`;
     connection.query(query, [idSede, `%${valore}%`], callback);
 }
 

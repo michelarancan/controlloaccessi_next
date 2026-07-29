@@ -49,7 +49,7 @@ function createInterna(req, res, next) {
     //recupera json
     const personaInterna = req.body;
 
-    service.createInterna(idSede, personaInterna, (err, results) => {
+    service.createInterna(idSede, req.user.id, personaInterna, (err, results) => {
 
         if (err) {
             return next(err);
@@ -72,7 +72,7 @@ function updateInterna(req, res, next) {
     const idSede = req.params.idS;
     const personaInterna = req.body;
 
-    service.updateInterna(id, idSede, personaInterna, (err, results) => {
+    service.updateInterna(id, idSede, req.user.id, personaInterna, (err, results) => {
 
         if (err) {
             return next(err);
@@ -102,7 +102,7 @@ function remove(req, res, next) {
 
     const id = req.params.id;
 
-    service.remove(id, (err, result) => {
+    service.remove(id, req.user.id, (err, result) => {
 
         if (err) {
             return next(err);

@@ -27,9 +27,9 @@ function findInternaById(id, callback) {
 }
 
 //POST
-function createInterna(data, callback) {
-    const query1 = `INSERT INTO persone(nome, cognome, telefono , email) VALUES (?, ?, ?, ?)`;
-    connection.query(query1, [data.nome, data.cognome, data.telefono, data.email],
+function createInterna(data, userId, callback) {
+    const query1 = `INSERT INTO persone(nome, cognome, telefono , email, created_by) VALUES (?, ?, ?, ?, ?)`;
+    connection.query(query1, [data.nome, data.cognome, data.telefono, data.email, userId],
         (err, results) => {
             if(err) {
                 return callback(err);
@@ -52,9 +52,9 @@ function createInterna(data, callback) {
 }
 
 //PUT
-function updateInterna(id, data, callback) {
-    const query1 = `UPDATE persone SET nome = ?, cognome = ?, telefono = ?, email = ? WHERE id = ?`;
-    connection.query(query1,[data.nome, data.cognome, data.telefono, data.email, id], (err) => {
+function updateInterna(id, data, userId, callback) {
+    const query1 = `UPDATE persone SET nome = ?, cognome = ?, telefono = ?, email = ?, updated_by = ? WHERE id = ?`;
+    connection.query(query1,[data.nome, data.cognome, data.telefono, data.email, userId, id], (err) => {
         if (err) {
             return callback(err);
         }
@@ -65,9 +65,9 @@ function updateInterna(id, data, callback) {
 }
 
 //DELETE
-function remove(id, callback) {
-    const query = `UPDATE persone SET is_active = false WHERE id = ?`;
-    connection.query(query, [id], callback);
+function remove(id, userId, callback) {
+    const query = `UPDATE persone SET is_active = false, updated_by = ? WHERE id = ?`;
+    connection.query(query, [userId, id], callback);
 }
 
 //SEARCH

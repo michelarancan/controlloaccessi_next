@@ -9,21 +9,21 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idSede, data, callback) {
-    const query = `INSERT INTO operatori(nome, cognome, sede) VALUES (?, ?, ?)`;
-    connection.query(query, [data.nome, data.cognome, idSede], callback);
+function create(idSede, data, userId, callback) {
+    const query = `INSERT INTO operatori(nome, cognome, sede, created_by) VALUES (?, ?, ?, ?)`;
+    connection.query(query, [data.nome, data.cognome, idSede, userId], callback);
 }
 
 //PUT
-function update(id, data, callback) {
-    const query = `UPDATE operatori SET nome = ?, cognome = ? WHERE id = ?`;
-    connection.query(query, [data.nome, data.cognome, id], callback);
+function update(id, data, userId, callback) {
+    const query = `UPDATE operatori SET nome = ?, cognome = ?, updated_by = ? WHERE id = ?`;
+    connection.query(query, [data.nome, data.cognome, userId, id], callback);
 }
 
 //DELETE
-function remove(id, callback) {
-    const query = `UPDATE operatori SET is_active = false WHERE id = ?`;
-    connection.query(query, [id], callback);
+function remove(id, userId, callback) {
+    const query = `UPDATE operatori SET is_active = false, updated_by = ? WHERE id = ?`;
+    connection.query(query, [userId, id], callback);
 }
 
 //SEARCH

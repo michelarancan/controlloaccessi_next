@@ -20,7 +20,7 @@ function findAllByOra(idSede, data, callback) {
 }
 
 //POST
-function create(idSede, data, callback) {
+function create(idSede, userId, data, callback) {
     if(data.targa && data.targa.length > 30) {
         const error = new Error('La targa non può superare i 30 caratteri');
 
@@ -142,7 +142,7 @@ function create(idSede, data, callback) {
                             return callback(error);
                             }
 
-                        repository.create(data, callback);
+                        repository.create(data, userId, callback);
                     });
                 });
             });
@@ -151,9 +151,9 @@ function create(idSede, data, callback) {
 }
 
 //PUT
-function registerExit(id, callback) {
+function registerExit(id, userId, callback) {
 
-    repository.registerExit(id, (err, results) => {
+    repository.registerExit(id, userId, (err, results) => {
 
         if (err) {
             return callback(err);

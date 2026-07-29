@@ -8,7 +8,7 @@ function findAll(idSede, callback) {
 }
 
 //POST
-function create(idPersona, idSede, data, callback) {
+function create(idPersona, idSede, userId, data, callback) {
     //campi non nulli
     if(!data.dataScadenza || data.dataScadenza.trim().length === 0 || !data.dataInizio || data.dataInizio.trim().length === 0) {
         const error = new Error('Data di inizio e scadenza obbligatorie');
@@ -33,11 +33,11 @@ function create(idPersona, idSede, data, callback) {
         return callback(error);
     }
 
-    repository.create(idPersona, idSede, data, callback);
+    repository.create(idPersona, idSede, userId, data, callback);
 }
 
 //PUT
-function update(id, data, callback) {
+function update(id, userId, data, callback) {
     //campi non nulli
     if(!data.dataScadenza || data.dataScadenza.trim().length === 0) {
         const error = new Error('Data di scadenza è obbligatoria');
@@ -62,12 +62,12 @@ function update(id, data, callback) {
         return callback(error);
     }
 
-    repository.update(id, data, callback);
+    repository.update(id, userId, data, callback);
 }
 
 //DELETE
-function remove(id, callback) {
-    repository.remove(id, callback);
+function remove(id, userId, callback) {
+    repository.remove(id, userId, callback);
 }
 
 //SEARCH

@@ -9,21 +9,21 @@ function findAll(callback) {
 }
 
 //POST
-function create(data, callback) {
-    const query = `INSERT INTO sedi(sede, ufficio) VALUES (?, ?)`;
-    connection.query(query, [data.sede, data.ufficio], callback);
+function create(data, userId, callback) {
+    const query = `INSERT INTO sedi(sede, ufficio, created_by) VALUES (?, ?, ?)`;
+    connection.query(query, [data.sede, data.ufficio, userId], callback);
 }
 
 //PUT
-function update(id, data, callback) {
-    const query = `UPDATE sedi SET sede = ?, ufficio = ? WHERE ID = ?`;
-    connection.query(query, [data.sede, data.ufficio, id], callback);
+function update(id, data, userId, callback) {
+    const query = `UPDATE sedi SET sede = ?, ufficio = ?, updated_by = ? WHERE ID = ?`;
+    connection.query(query, [data.sede, data.ufficio, userId, id], callback);
 }
 
 //DELETE
-function remove(id, callback) {
-    const query = `UPDATE sedi SET is_active = false WHERE id = ?`;
-    connection.query(query, [id], callback);
+function remove(id, userId, callback) {
+    const query = `UPDATE sedi SET is_active = false, updated_by = ? WHERE id = ?`;
+    connection.query(query, [userId, id], callback);
 }
 
 //SEARCH

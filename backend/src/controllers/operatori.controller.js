@@ -23,7 +23,7 @@ function create(req, res, next) {
     //recupera json
     const operatore = req.body;
 
-    service.create(idSede, operatore, (err, results) => {
+    service.create(idSede, req.user.id, operatore, (err, results) => {
 
         if (err) {
             return next(err);
@@ -45,7 +45,7 @@ function update(req, res, next) {
     const id = req.params.id;
     const operatore = req.body;
 
-    service.update(id, operatore, (err, results) => {
+    service.update(id, req.user.id, operatore, (err, results) => {
 
         if (err) {
             return next(err);
@@ -75,7 +75,7 @@ function remove(req, res, next) {
 
     const id = req.params.id;
 
-    service.remove(id, (err, result) => {
+    service.remove(id, req.user.id, (err, result) => {
 
         if (err) {
             return next(err);

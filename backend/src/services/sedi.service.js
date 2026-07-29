@@ -8,7 +8,7 @@ function findAll(callback) {
 }
 
 //POST
-function create(data, callback) {
+function create(data, userId, callback) {
     //campi non nulli
     if(!data.sede || data.sede.trim().length === 0 || !data.ufficio || data.ufficio.trim().length === 0) {
         const error = new Error('Sede e ufficio sono obbligatori');
@@ -37,11 +37,11 @@ function create(data, callback) {
         return callback(error);
     }
 
-    repository.create(data, callback);
+    repository.create(data, userId, callback);
 }
 
 //PUT
-function update(id, data, callback) {
+function update(id, userId, data, callback) {
     //campi non nulli
     if(!data.sede || data.sede.trim().length === 0 || !data.ufficio || data.ufficio.trim().length === 0) {
         const error = new Error('Sede e ufficio sono obbligatori');
@@ -70,12 +70,12 @@ function update(id, data, callback) {
         return callback(error);
     }
 
-    repository.update(id, data, callback);
+    repository.update(id, data, userId, callback);
 }
 
 //DELETE
-function remove(id, callback) {
-    repository.remove(id, callback);
+function remove(id, userId, callback) {
+    repository.remove(id, userId, callback);
 }
 
 //SEARCH

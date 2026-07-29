@@ -19,7 +19,7 @@ function findAllInterneByDivisione(idDivisione, callback) {
 }
 
 //POST
-function createInterna(idSede, data, callback) {
+function createInterna(idSede, userId, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -90,12 +90,12 @@ function createInterna(idSede, data, callback) {
             return callback(error);
         }
 
-        repository.createInterna(data, callback);
+        repository.createInterna(data, userId, callback);
     });
 }
 
 //PUT
-function updateInterna(id, idSede, data, callback) {
+function updateInterna(id, idSede, userId, data, callback) {
     //campi non nulli
     if(!data.nome || data.nome.trim().length === 0 || !data.cognome || data.cognome.trim().length === 0) {
         const error = new Error('Nome e cognome sono obbligatori');
@@ -166,13 +166,13 @@ function updateInterna(id, idSede, data, callback) {
             return callback(error);
         }
 
-        repository.updateInterna(id, data, callback);
+        repository.updateInterna(id, data, userId, callback);
     });    
 }
 
 //DELETE
-function remove(id, callback) {
-    repository.remove(id, callback);
+function remove(id, userId, callback) {
+    repository.remove(id, userId, callback);
 }
 
 //SEARCH

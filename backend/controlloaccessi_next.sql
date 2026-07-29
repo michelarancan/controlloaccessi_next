@@ -102,7 +102,10 @@ CREATE TABLE sedi (
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -122,7 +125,9 @@ CREATE TABLE operatori (
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (nome,cognome),
-    FOREIGN KEY (sede) REFERENCES sedi(id)
+    FOREIGN KEY (sede) REFERENCES sedi(id),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -141,7 +146,9 @@ CREATE TABLE divisioni (
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (sede,nome),
-    FOREIGN KEY (sede) REFERENCES sedi(id)
+    FOREIGN KEY (sede) REFERENCES sedi(id),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -158,7 +165,10 @@ CREATE TABLE aziende (
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -174,7 +184,10 @@ CREATE TABLE tipi_azienda (
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -193,7 +206,9 @@ CREATE TABLE aziende_tipi (
 
     PRIMARY KEY (id_azienda, id_tipo_azienda),
     FOREIGN KEY (id_azienda) REFERENCES aziende(id),
-    FOREIGN KEY (id_tipo_azienda) REFERENCES tipi_azienda(id)
+    FOREIGN KEY (id_tipo_azienda) REFERENCES tipi_azienda(id),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -211,7 +226,10 @@ CREATE TABLE persone (
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -257,7 +275,9 @@ CREATE TABLE autorizzazioni (
 
     FOREIGN KEY (persona) REFERENCES persone(id),
     FOREIGN KEY (sede) REFERENCES sedi(id),
-    UNIQUE (persona, sede, data_inizio)
+    UNIQUE (persona, sede, data_inizio),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -272,7 +292,10 @@ CREATE TABLE categorie (
     created_by int unsigned NOT NULL,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by int unsigned NOT NULL,
-    is_active boolean NOT NULL DEFAULT TRUE
+    is_active boolean NOT NULL DEFAULT TRUE,
+
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -291,7 +314,9 @@ CREATE TABLE badge (
     is_active boolean NOT NULL DEFAULT TRUE,
 
     UNIQUE (sede,codice),
-    FOREIGN KEY (sede) REFERENCES sedi(id)
+    FOREIGN KEY (sede) REFERENCES sedi(id),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -320,7 +345,9 @@ CREATE TABLE ingressi_stabilimento (
     FOREIGN KEY (badge) REFERENCES badge(id),
     FOREIGN KEY (categoria) REFERENCES categorie(id),
     FOREIGN KEY (persona_riferimento) REFERENCES persone_interne(persona),
-    FOREIGN KEY (divisione_destinazione) REFERENCES divisioni(id)
+    FOREIGN KEY (divisione_destinazione) REFERENCES divisioni(id),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -344,7 +371,9 @@ CREATE TABLE chiavi (
     UNIQUE (codice, sede),
     FOREIGN KEY (sede) REFERENCES sedi(id),
     FOREIGN KEY (responsabile) REFERENCES persone_interne(persona),
-    CONSTRAINT chk_pezzi_mazzo CHECK (pezzi_mazzo > 0)
+    CONSTRAINT chk_pezzi_mazzo CHECK (pezzi_mazzo > 0),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -368,5 +397,7 @@ CREATE TABLE movimenti_chiavi (
     FOREIGN KEY (chiave) REFERENCES chiavi(id),
     FOREIGN KEY (nominativo_prelievo) REFERENCES persone(id),
     FOREIGN KEY (nominativo_restituzione) REFERENCES persone(id),
-    CONSTRAINT chk_data_ora CHECK (data_restituzione IS NULL OR data_restituzione >= data_prelievo)
+    CONSTRAINT chk_data_ora CHECK (data_restituzione IS NULL OR data_restituzione >= data_prelievo),
+    FOREIGN KEY (created_by) REFERENCES utenti(id),
+    FOREIGN KEY (updated_by) REFERENCES utenti(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

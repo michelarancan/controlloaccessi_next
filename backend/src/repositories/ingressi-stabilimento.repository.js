@@ -60,15 +60,15 @@ function badgeAlreadyTaken(badge, callback) {
 }
 
 //POST
-function create(data, callback) {
-    const query = `INSERT INTO ingressi_stabilimento(persona, badge, targa, data_ingresso, categoria, persona_riferimento, divisione_destinazione) VALUES (?, ?, ?, NOW(), ?, ?, ?)`;
-    connection.query(query, [data.persona, data.badge, data.targa, data.categoria, data.personaRiferimento, data.divisione], callback);
+function create(data, userId, callback) {
+    const query = `INSERT INTO ingressi_stabilimento(persona, badge, targa, data_ingresso, categoria, persona_riferimento, divisione_destinazione, created_by) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?)`;
+    connection.query(query, [data.persona, data.badge, data.targa, data.categoria, data.personaRiferimento, data.divisione, userId], callback);
 }
 
 //PUT
-function registerExit(id, callback) {
-    const query = `UPDATE ingressi_stabilimento SET data_uscita = NOW() WHERE id = ? AND data_uscita IS NULL`;
-    connection.query(query, [id], callback);
+function registerExit(id, userId, callback) {
+    const query = `UPDATE ingressi_stabilimento SET data_uscita = NOW(), updated_by = ? WHERE id = ? AND data_uscita IS NULL`;
+    connection.query(query, [userId, id], callback);
 }
 
 //SEARCH
