@@ -45,48 +45,50 @@
 
 }
 
-<table>
-    <thead>
-        <tr>
-            <th>Cognome</th>
-            <th>Nome</th>
-            <th>Badge</th>
-            <th>Targa</th>
-            <th>Data di ingresso</th>
-            <th>Data di uscita</th>
-            <th>Categoria</th>
-            <th>Persona di riferimento</th>
-            <th>Azienda (se esterno)</th>
-            <th>Divisione di destinazione</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- riga per ogni entry della tabella -->
-         @for (ingresso of ingressi; track ingresso.id) {
+<div class="table-container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ ingresso.cognome }}</td>
-                <td>{{ ingresso.nome }}</td>
-                <td>{{ ingresso.badge }}</td>
-                <td>{{ ingresso.targa }}</td>
-                <td>{{ ingresso.dataIngresso }}</td>
-                <td>{{ ingresso.dataUscita }}</td>
-                <td>{{ ingresso.categoria }}</td>
-                <td>{{ ingresso.personaRiferimento }}</td>
-                <td>{{ ingresso.azienda }}</td>
-                <td>{{ ingresso.divisione }}</td>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Badge</th>
+                <th>Targa</th>
+                <th>Data di ingresso</th>
+                <th>Data di uscita</th>
+                <th>Categoria</th>
+                <th>Persona di riferimento</th>
+                <th>Azienda (se esterno)</th>
+                <th>Divisione di destinazione</th>
             </tr>
-         }
-         
-        @if (ingressi.length === 0) {
-        <tr>
-            <td colspan="10" class="no-results">
-            Nessun ingresso trovato
-            </td>
-        </tr>
-        }
+        </thead>
+        <tbody>
+            <!-- riga per ogni entry della tabella -->
+            @for (ingresso of ingressi; track ingresso.id) {
+                <tr>
+                    <td>{{ ingresso.cognome }}</td>
+                    <td>{{ ingresso.nome }}</td>
+                    <td>{{ ingresso.badge }}</td>
+                    <td>{{ ingresso.targa }}</td>
+                    <td>{{ ingresso.dataIngresso }}</td>
+                    <td>{{ ingresso.dataUscita }}</td>
+                    <td>{{ ingresso.categoria }}</td>
+                    <td>{{ ingresso.personaRiferimento }}</td>
+                    <td>{{ ingresso.azienda }}</td>
+                    <td>{{ ingresso.divisione }}</td>
+                </tr>
+            }
+            
+            @if (ingressi.length === 0) {
+            <tr>
+                <td colspan="10" class="no-results">
+                Nessun ingresso trovato
+                </td>
+            </tr>
+            }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @if(showToast) {
     <app-toast [message]="toastMessage" [type]="toastType"></app-toast>

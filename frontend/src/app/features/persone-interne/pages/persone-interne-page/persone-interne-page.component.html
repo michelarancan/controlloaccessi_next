@@ -56,45 +56,47 @@
     <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Cognome</th>
-            <th>Nome</th>
-            <th>Numero di telefono</th>
-            <th>Email</th>
-            <th>Divisione</th>
-            <th>Azioni</th>
-        </tr>
-    
-    </thead>
-    <tbody>
-        <!-- riga per ogni entry della tabella -->
-         @for (personaInterna of personeInterne; track personaInterna.id) {
+<div class="table-container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ personaInterna.cognome }}</td>
-                <td>{{ personaInterna.nome }}</td>
-                <td>{{ personaInterna.telefono }}</td>
-                <td>{{ personaInterna.email }}</td>
-                <td>{{ personaInterna.nomeDivisione }}</td>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Numero di telefono</th>
+                <th>Email</th>
+                <th>Divisione</th>
+                <th>Azioni</th>
+            </tr>
+        
+        </thead>
+        <tbody>
+            <!-- riga per ogni entry della tabella -->
+            @for (personaInterna of personeInterne; track personaInterna.id) {
+                <tr>
+                    <td>{{ personaInterna.cognome }}</td>
+                    <td>{{ personaInterna.nome }}</td>
+                    <td>{{ personaInterna.telefono }}</td>
+                    <td>{{ personaInterna.email }}</td>
+                    <td>{{ personaInterna.nomeDivisione }}</td>
 
-                <td class="button-cell">
-                    <button class="btn-modifica" (click)="modificaPersonaInterna(personaInterna)" title="Modifica persona interna">Modifica</button>
-                    <button class="btn-elimina" (click)="apriPopupElimina(personaInterna.id)" title="Elimina persona interna">Elimina</button>
+                    <td class="button-cell">
+                        <button class="btn-modifica" (click)="modificaPersonaInterna(personaInterna)" title="Modifica persona interna">Modifica</button>
+                        <button class="btn-elimina" (click)="apriPopupElimina(personaInterna.id)" title="Elimina persona interna">Elimina</button>
+                    </td>
+                </tr>
+            }
+            
+            @if (personeInterne.length === 0) {
+            <tr>
+                <td colspan="6" class="no-results">
+                Nessuna persona interna trovata
                 </td>
             </tr>
-         }
-         
-        @if (personeInterne.length === 0) {
-        <tr>
-            <td colspan="6" class="no-results">
-            Nessuna persona interna trovata
-            </td>
-        </tr>
-        }
+            }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @if(showToast) {
     <app-toast [message]="toastMessage" [type]="toastType"></app-toast>

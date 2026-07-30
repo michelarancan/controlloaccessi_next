@@ -46,37 +46,39 @@
     <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Cognome</th>
-            <th>Nome</th>
-            <th>Azioni</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- riga per ogni entry della tabella -->
-         @for (operatore of operatori; track operatore.id) {
+<div class="table-container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ operatore.cognome }}</td>
-                <td>{{ operatore.nome }}</td>
-                <td class="button-cell">
-                    <button class="btn-modifica" (click)="modificaOperatore(operatore)" title="Modifica operatore">Modifica</button>
-                    <button class="btn-elimina" (click)="apriPopupElimina(operatore.id)" title="Elimina operatore">Elimina</button>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- riga per ogni entry della tabella -->
+            @for (operatore of operatori; track operatore.id) {
+                <tr>
+                    <td>{{ operatore.cognome }}</td>
+                    <td>{{ operatore.nome }}</td>
+                    <td class="button-cell">
+                        <button class="btn-modifica" (click)="modificaOperatore(operatore)" title="Modifica operatore">Modifica</button>
+                        <button class="btn-elimina" (click)="apriPopupElimina(operatore.id)" title="Elimina operatore">Elimina</button>
+                    </td>
+                </tr>
+            }
+            
+            @if (operatori.length === 0) {
+            <tr>
+                <td colspan="3" class="no-results">
+                Nessun operatore trovato
                 </td>
             </tr>
-         }
-         
-        @if (operatori.length === 0) {
-        <tr>
-            <td colspan="3" class="no-results">
-            Nessun operatore trovato
-            </td>
-        </tr>
-        }
+            }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @if(showToast) {
     <app-toast [message]="toastMessage" [type]="toastType"></app-toast>

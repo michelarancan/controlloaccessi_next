@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 html {
     font-family: 'Arial', sans-serif;
 }
@@ -56,6 +57,7 @@ img {
     top: 100%;
     left: 0;
     background-color: #555;
+    z-index: 9999;
 }
 
 .menu ul li .submenu li {
@@ -189,7 +191,20 @@ button:disabled {
     cursor: not-allowed;
 }
 
+.form {
+    width: 100%;
+}
+
+.form label {
+    display: block;
+}
+
+.form input, .form select {
+    width: 100%;
+}
+
 .form-container {
+    box-sizing: border-box;
     border: 1px solid #d6d9e6;
     border-radius: 8px;
     padding: 20px;
@@ -313,4 +328,67 @@ button:disabled {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+/*per mobiley*/
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .search-container,
+    .div-aggiungi,
+    .periodo-container,
+    .filter-container,
+    .sedi-select,
+    .popup-buttons {
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+
+    .sede-selector {
+        margin-left: 0;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .sede-selector select {
+        width: 100%;
+    }
+
+    .popup-box {
+        width: 95%;
+        max-width: none;
+        padding: 1rem;
+        min-width: unset;
+    }
+
+    .popup-buttons button {
+        width: 100%;
+    }
+
+    input[type=time] {
+        width: 100%;
+    }
+
+    .button-cell {
+        flex-direction: column;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .menu ul li {
+        display: block;
+    }
 }

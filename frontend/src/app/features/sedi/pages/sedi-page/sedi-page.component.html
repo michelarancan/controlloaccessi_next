@@ -37,37 +37,39 @@
     <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Sede</th>
-            <th>Ufficio</th>
-            <th>Azioni</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- riga per ogni entry della tabella -->
-         @for (sede of sedi; track sede.id) {
+<div class="table-container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ sede.sede }}</td>
-                <td>{{ sede.ufficio }}</td>
-                <td class="button-cell">
-                    <button class="btn-modifica" (click)="modificaSede(sede)" title="Modifica sede">Modifica</button>
-                    <button class="btn-elimina" (click)="apriPopupElimina(sede.id)" title="Elimina sede">Elimina</button>
+                <th>Sede</th>
+                <th>Ufficio</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- riga per ogni entry della tabella -->
+            @for (sede of sedi; track sede.id) {
+                <tr>
+                    <td>{{ sede.sede }}</td>
+                    <td>{{ sede.ufficio }}</td>
+                    <td class="button-cell">
+                        <button class="btn-modifica" (click)="modificaSede(sede)" title="Modifica sede">Modifica</button>
+                        <button class="btn-elimina" (click)="apriPopupElimina(sede.id)" title="Elimina sede">Elimina</button>
+                    </td>
+                </tr>
+            }
+            
+            @if (sedi.length === 0) {
+            <tr>
+                <td colspan="3" class="no-results">
+                Nessuna sede trovata
                 </td>
             </tr>
-         }
-         
-        @if (sedi.length === 0) {
-        <tr>
-            <td colspan="3" class="no-results">
-            Nessuna sede trovata
-            </td>
-        </tr>
-        }
+            }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @if(showToast) {
     <app-toast [message]="toastMessage" [type]="toastType"></app-toast>

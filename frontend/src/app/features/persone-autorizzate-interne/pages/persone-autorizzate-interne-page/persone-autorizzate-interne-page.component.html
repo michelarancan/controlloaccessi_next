@@ -46,43 +46,45 @@
     <button type="button" (click)="resettaRicerca()" title="Reset">Reset</button>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Cognome</th>
-            <th>Nome</th>
-            <th>Data di inizio</th>
-            <th>Data di scadenza</th>
-            <th>Divisione</th>
-            <th>Azioni</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- riga per ogni entry della tabella -->
-         @for (personaAutorizzataInterna of personeAutorizzateInterne; track personaAutorizzataInterna.id) {
+<div class="table-container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ personaAutorizzataInterna.cognome }}</td>
-                <td>{{ personaAutorizzataInterna.nome }}</td>
-                <td>{{ personaAutorizzataInterna.dataInizio | date:'dd/MM/yyyy' }}</td>
-                <td>{{ personaAutorizzataInterna.dataScadenza | date:'dd/MM/yyyy' }}</td>
-                <td>{{ personaAutorizzataInterna.divisione }}</td>
-                <td class="button-cell">
-                    <button class="btn-modifica" (click)="modificaPersonaAutorizzataInterna(personaAutorizzataInterna)" title="Modifica persona autorizzata interna">Modifica</button>
-                    <button class="btn-elimina" (click)="apriPopupElimina(personaAutorizzataInterna.id)" title="Elimina persona autorizzata interna">Elimina</button>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Data di inizio</th>
+                <th>Data di scadenza</th>
+                <th>Divisione</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- riga per ogni entry della tabella -->
+            @for (personaAutorizzataInterna of personeAutorizzateInterne; track personaAutorizzataInterna.id) {
+                <tr>
+                    <td>{{ personaAutorizzataInterna.cognome }}</td>
+                    <td>{{ personaAutorizzataInterna.nome }}</td>
+                    <td>{{ personaAutorizzataInterna.dataInizio | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ personaAutorizzataInterna.dataScadenza | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ personaAutorizzataInterna.divisione }}</td>
+                    <td class="button-cell">
+                        <button class="btn-modifica" (click)="modificaPersonaAutorizzataInterna(personaAutorizzataInterna)" title="Modifica persona autorizzata interna">Modifica</button>
+                        <button class="btn-elimina" (click)="apriPopupElimina(personaAutorizzataInterna.id)" title="Elimina persona autorizzata interna">Elimina</button>
+                    </td>
+                </tr>
+            }
+            
+            @if (personeAutorizzateInterne.length === 0) {
+            <tr>
+                <td colspan="5" class="no-results">
+                Nessuna autorizzazione interna trovata
                 </td>
             </tr>
-         }
-         
-        @if (personeAutorizzateInterne.length === 0) {
-        <tr>
-            <td colspan="5" class="no-results">
-            Nessuna autorizzazione interna trovata
-            </td>
-        </tr>
-        }
+            }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 @if(showToast) {
     <app-toast [message]="toastMessage" [type]="toastType"></app-toast>
